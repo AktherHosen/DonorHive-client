@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [districs, setDistrict] = useState([]);
   const [upozilas, setUpozilas] = useState([]);
+  const navigate = useNavigate();
   const { user, setUser, loading, setLoading, createUser, updateUserProfile } =
     useAuth();
 
@@ -36,6 +38,9 @@ const Register = () => {
     const bloodGroup = form.bloodGroup.value;
     const password1 = form.password1.value;
     const password2 = form.password2.value;
+    if (password1 !== password2) {
+      return toast.error("Your password does not matched");
+    }
     const role = "donor";
     const userInfo = {
       name,
@@ -55,6 +60,7 @@ const Register = () => {
       setUser({ ...result?.user, photoURL: photo, displayName: name });
       e.target.reset();
       toast.success("Registration successful.");
+      navigate("/");
     } catch (err) {
       toast.error(err?.message);
     }
