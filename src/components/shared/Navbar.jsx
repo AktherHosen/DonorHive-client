@@ -1,14 +1,21 @@
 import { useState } from "react";
+import { CiLogout } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logOut } = useAuth();
 
   return (
     <div className="navbar bg-base-100 px-0">
       <div className="navbar-start">
-        <NavLink to="/" className="text-xl font-bebas font-bold uppercase">
+        <NavLink
+          to="/"
+          className="text-xl text-primary font-bebas font-bold uppercase"
+        >
           Donor Hive
         </NavLink>
       </div>
@@ -25,53 +32,69 @@ const Navbar = () => {
           <li>
             <NavLink to="/blog">Blog</NavLink>
           </li>
+          {user && (
+            <li>
+              <NavLink to="/funding">Funding Request</NavLink>
+            </li>
+          )}
         </ul>
       </div>
 
       <div className="navbar-end space-x-2">
-        <NavLink
-          to="/login"
-          className="px-4 py-2 rounded-md border text-black cursor-pointer"
-        >
-          Login
-        </NavLink>
+        {!user && (
+          <NavLink
+            to="/login"
+            className="px-4 py-2 hidden lg:flex rounded-md border bg-primary text-white cursor-pointer "
+          >
+            Login
+          </NavLink>
+        )}
 
-        <div className="w-10 rounded-full lg:hidden">
-          <img
-            alt="Tailwind CSS Navbar component"
-            className="rounded-full"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-          />
-        </div>
-        {/* Profile Dropdown for larger screens */}
-        <div className="dropdown dropdown-left dropdown-bottom hidden lg:flex">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              />
-            </div>
+        {user && (
+          <div className="w-10 rounded-full lg:hidden">
+            <img
+              alt="User Profile"
+              className="rounded-full"
+              src={user?.photoURL}
+            />
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow space-y-2 -mr-10"
-          >
-            <li>
-              <NavLink className="justify-between">Profile</NavLink>
-            </li>
-            <li>
-              <NavLink>Dashboard</NavLink>
-            </li>
-            <li>
-              <button>Logout</button>
-            </li>
-          </ul>
-        </div>
+        )}
+        {/* Profile Dropdown for larger screens */}
+        {user && (
+          <div className="dropdown dropdown-left dropdown-bottom hidden lg:flex">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img alt="User Profile" src={user?.photoURL} />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow space-y-2 -mr-10"
+            >
+              <li>
+                <NavLink to="/profile" className="justify-between">
+                  Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard">Dashboard</NavLink>
+              </li>
+
+              <li>
+                <button
+                  onClick={() => logOut()}
+                  className="bg-primary shadow-lg hover:bg-white hover:text-primary border-2 text-white font-semibold w-full px-4 py-2 rounded-md"
+                >
+                  Log Out <CiLogout size={16} className="font-bold" />
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
 
         {/* Dropdown toggle for mobile */}
         <div className="lg:hidden">
@@ -92,7 +115,7 @@ const Navbar = () => {
           {isMenuOpen && (
             <ul
               tabIndex={0}
-              className="menu bg-base-100 w-full p-4 space-y-2 absolute left-0 top-16 z-50 "
+              className="menu bg-base-100 w-full p-4 space-y-2 absolute left-0 top-16 z-50"
             >
               <li>
                 <NavLink to="/">Home</NavLink>
@@ -101,21 +124,36 @@ const Navbar = () => {
                 <NavLink to="/donation">Donation Request</NavLink>
               </li>
               <li>
-                <NavLink>Donation Request</NavLink>
-              </li>
-              <li>
-                <NavLink>Blog</NavLink>
+                <NavLink to="/blog">Blog</NavLink>
               </li>
 
-              <li>
-                <NavLink>Profile</NavLink>
-              </li>
-              <li>
-                <NavLink>Dashboard</NavLink>
-              </li>
-              <li>
-                <button>Logout</button>
-              </li>
+              {user ? (
+                <>
+                  <li>
+                    <NavLink to="/funding">Funding Request</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/profile">Profile</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
+                  </li>
+                  <li>
+                    <button className="bg-primary shadow-lg hover:bg-white hover:text-primary border-2 text-white font-semibold w-fit px-4 py-2 rounded-md">
+                      Log Out <CiLogout size={16} className="font-bold" />
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <NavLink
+                    to="/login"
+                    className="px-4 py-2 rounded-md border-2 bg-primary text-white cursor-pointer hover:bg-white hover:text-primary font-bold w-fit"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              )}
             </ul>
           )}
         </div>
