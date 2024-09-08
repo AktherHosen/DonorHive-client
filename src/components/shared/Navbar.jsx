@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-
+import logo from "../../assets/logo.png";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logOut } = useAuth();
@@ -12,12 +12,14 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100 px-0">
       <div className="navbar-start">
+        <img src={logo} className="h-12" alt="" />
         <NavLink
           to="/"
           className="text-xl text-primary font-bebas font-bold uppercase"
         >
-          Donor Hive
+          Donor <br />
         </NavLink>
+        <span className="text-xs -mt-1 uppercase ms-1 font-bold"> Hive</span>
       </div>
 
       {/* Centered menu for larger screens */}
