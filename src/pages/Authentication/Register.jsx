@@ -7,6 +7,7 @@ const Register = () => {
   const [upozilas, setUpozilas] = useState([]);
   const { user, setUser, loading, setLoading, createUser, updateUserProfile } =
     useAuth();
+
   useEffect(() => {
     fetch("/districts.json")
       .then((res) => res.json())
@@ -23,6 +24,7 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => setUpozilas(data));
   }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -46,35 +48,33 @@ const Register = () => {
       password2,
       role,
     };
+
     try {
       const result = await createUser(email, password1);
       await updateUserProfile(name, photo);
       setUser({ ...result?.user, photoURL: photo, displayName: name });
-      // const { data } = await axiosSecure.post(`/jwt`, {
-      //   email: result?.user?.email,
-      // });
-
       e.target.reset();
       toast.success("Registration successful.");
     } catch (err) {
       toast.error(err?.message);
     }
   };
+
   return (
-    <div>
-      <div className="space-y-2 col-span-full lg:col-span-1">
-        <p className="font-medium text-xl">Please Register</p>
-        <p className="text-xs">
-          You have to register to access to this website.
-        </p>
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className="min-h-[500px] flex flex-col lg:items-center lg:justify-center p-4 rounded-md"
-      >
-        <div className="px-2 py-2">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full">
-            <div className="">
+    <div className="min-h-[600px] flex items-center justify-center">
+      <div className=" w-full lg:w-[800px] max-w-lg flex flex-col items-center justify-center px-4">
+        <div className="space-y-2 mb-6">
+          <div className="flex flex-col items-center">
+            <p className="font-medium text-xl">Please Register</p>
+            <p className="text-xs">
+              You have to register to access this website.
+            </p>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit} className="w-full lg:w-[800px]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+            {/* Name Field */}
+            <div>
               <label htmlFor="name" className="text-sm">
                 Name
               </label>
@@ -82,11 +82,13 @@ const Register = () => {
                 id="name"
                 type="text"
                 name="name"
-                placeholder="First your first name"
+                placeholder="Enter your first name"
                 className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
               />
             </div>
-            <div className="">
+
+            {/* Email Field */}
+            <div>
               <label htmlFor="email" className="text-sm">
                 Email
               </label>
@@ -98,7 +100,9 @@ const Register = () => {
                 className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
               />
             </div>
-            <div className="">
+
+            {/* District Field */}
+            <div>
               <label htmlFor="district" className="text-sm">
                 Choose District
               </label>
@@ -114,9 +118,11 @@ const Register = () => {
                 ))}
               </select>
             </div>
-            <div className="">
+
+            {/* Upazilla Field */}
+            <div>
               <label htmlFor="upozila" className="text-sm">
-                Upazilla
+                Upazila
               </label>
               <select
                 name="upozila"
@@ -131,19 +137,22 @@ const Register = () => {
               </select>
             </div>
 
-            <div className="">
+            {/* Photo Field */}
+            <div>
               <label htmlFor="photo" className="text-sm">
-                Photo
+                Photo URL
               </label>
               <input
                 id="photo"
                 type="text"
                 name="photo"
-                placeholder="Enter your photo url"
+                placeholder="Enter your photo URL"
                 className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
               />
             </div>
-            <div className="">
+
+            {/* Blood Group Field */}
+            <div>
               <label htmlFor="blood" className="text-sm">
                 Blood Group
               </label>
@@ -163,7 +172,8 @@ const Register = () => {
               </select>
             </div>
 
-            <div className="">
+            {/* Password Fields */}
+            <div>
               <label htmlFor="password1" className="text-sm">
                 Enter Password
               </label>
@@ -175,7 +185,8 @@ const Register = () => {
                 className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
               />
             </div>
-            <div className="">
+
+            <div>
               <label htmlFor="password2" className="text-sm">
                 Confirm Password
               </label>
@@ -188,13 +199,15 @@ const Register = () => {
               />
             </div>
           </div>
+
+          {/* Submit Button */}
           <div className="w-full flex justify-end my-4">
-            <button className="px-4 py-2 rounded-md bg-primary text-white">
+            <button className="px-4 w-full py-2 rounded-md bg-primary text-white">
               Register
             </button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
