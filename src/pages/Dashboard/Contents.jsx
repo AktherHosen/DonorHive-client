@@ -52,62 +52,85 @@ const Contents = () => {
         </Link>
       </div>
       <div>
-        <div className="overflow-x-auto">
-          <table className="table table-xs">
-            <thead>
-              <tr>
-                <th>Thumbnail</th>
-                <th>Blog Title</th>
-                <th>Content</th>
+        {blogs.length > 0 ? (
+          <>
+            <div className="overflow-x-auto">
+              <table className="table table-xs">
+                <thead>
+                  <tr>
+                    <th>Thumbnail</th>
+                    <th>Blog Title</th>
+                    <th>Content</th>
 
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {blogs.map((blog) => (
-                <tr key={blog._id}>
-                  <th>{blog.thumb}</th>
-                  <td>{blog.title}</td>
-                  <td
-                    dangerouslySetInnerHTML={{
-                      __html:
-                        blog.descriptionContent.length > 60
-                          ? `${blog.descriptionContent.substring(0, 70)}...`
-                          : blog.descriptionContent,
-                    }}
-                  />
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {blogs.map((blog) => (
+                    <tr key={blog._id}>
+                      <th>
+                        <img
+                          src={blog.thumb}
+                          className="h-12 w-20 rounded-md"
+                          alt=""
+                        />
+                      </th>
+                      <td>{blog.title}</td>
+                      <td
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            blog.descriptionContent.length > 60
+                              ? `${blog.descriptionContent.substring(0, 70)}...`
+                              : blog.descriptionContent,
+                        }}
+                      />
 
-                  <td>
-                    {blog.status === "draft" ? (
-                      <button
-                        onClick={() => handleStatus(blog._id, blog.status)}
-                        className="px-4 py-1 rounded-full text-xs bg-slate-50 text-primary font-semibold"
-                      >
-                        publish
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleStatus(blog._id, blog.status)}
-                        className="px-4 py-1 rounded-full text-xs bg-slate-50 text-primary font-semibold"
-                      >
-                        unpublish
-                      </button>
-                    )}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleDelete(blog._id)}
-                      className="px-2 py-1 rounded-md  bg-slate-100 text-primary text-xl"
-                    >
-                      <MdDelete />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                      <td>
+                        <div className="flex items-center space-x-2">
+                          {blog.status === "draft" ? (
+                            <button
+                              onClick={() =>
+                                handleStatus(blog._id, blog.status)
+                              }
+                              className="flex items-center gap-2 px-3 py-1 rounded-full text-xs bg-slate-50 text-primary font-semibold"
+                            >
+                              <div className="w-1 h-1 bg-primary rounded-full"></div>{" "}
+                              publish
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() =>
+                                handleStatus(blog._id, blog.status)
+                              }
+                              className="flex items-center gap-2 px-3 py-1 rounded-full text-xs bg-slate-50 text-primary font-semibold"
+                            >
+                              <div className="w-1 h-1 bg-primary rounded-full"></div>{" "}
+                              unpublish
+                            </button>
+                          )}
+                        </div>
+                      </td>
+
+                      <td>
+                        <button
+                          onClick={() => handleDelete(blog._id)}
+                          className="px-2 py-1 rounded-md  bg-slate-100 text-primary text-xl"
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>{" "}
+          </>
+        ) : (
+          <p className="text-gray-500 font-semibold text-start mt-4 text-sm">
+            No Blogs Found!
+          </p>
+        )}
       </div>
     </div>
   );
