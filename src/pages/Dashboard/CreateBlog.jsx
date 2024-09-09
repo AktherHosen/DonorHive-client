@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import JoditEditor from "jodit-react";
+import axios from "axios";
 
 const CreateBlog = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
-  const handleCreateContent = (e) => {
+  const handleCreateContent = async (e) => {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
@@ -19,9 +20,16 @@ const CreateBlog = () => {
       thumb,
       status,
     };
-    console.log(blogInfo);
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_API_URL}/blog`,
+        blogInfo
+      );
+      console.log(result.data);
+    } catch (err) {
+      console.log(err?.message);
+    }
 
-    // Reset content and form fields
     setContent("");
     form.reset();
   };
