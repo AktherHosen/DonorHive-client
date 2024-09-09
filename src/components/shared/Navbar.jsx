@@ -32,7 +32,7 @@ const Navbar = () => {
             <NavLink to="/donation">Donation Request</NavLink>
           </li>
           <li>
-            <NavLink to="/blog">Blog</NavLink>
+            <NavLink to="/blogs">Blog</NavLink>
           </li>
           {user && (
             <li>
@@ -126,7 +126,7 @@ const Navbar = () => {
                 <NavLink to="/donation">Donation Request</NavLink>
               </li>
               <li>
-                <NavLink to="/blog">Blog</NavLink>
+                <NavLink to="/blogs">Blog</NavLink>
               </li>
 
               {user ? (
