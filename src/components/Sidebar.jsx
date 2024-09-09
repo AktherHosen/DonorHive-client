@@ -57,7 +57,7 @@ const Sidebar = () => {
               <IoHome size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 Home
@@ -79,7 +79,7 @@ const Sidebar = () => {
               <MdDashboardCustomize size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 Dashboard
@@ -101,7 +101,7 @@ const Sidebar = () => {
               <IoCreateSharp size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 Create Donation Request
@@ -123,7 +123,7 @@ const Sidebar = () => {
               <BiSolidUser size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 My Donation Requests
@@ -145,7 +145,7 @@ const Sidebar = () => {
               <PiUsersThreeFill size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 Users
@@ -167,7 +167,7 @@ const Sidebar = () => {
               <VscGitPullRequestNewChanges size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 Donation Requests
@@ -189,7 +189,7 @@ const Sidebar = () => {
               <MdContentCopy size={20} />
               <span
                 className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block"
+                  expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
                 Content
@@ -202,7 +202,7 @@ const Sidebar = () => {
           <img src={logo} className="w-10 h-10 bg-white rounded-md" alt="" />
           <div
             className={`flex justify-between items-center overflow-hidden transition-all ${
-              expanded ? "w-52 ml-3" : "hidden lg:flex ml-3"
+              expanded ? "w-52 ml-3" : "hidden lg:block ml-2"
             }`}
           >
             <div className="leading-4">
