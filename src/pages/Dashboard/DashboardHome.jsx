@@ -30,23 +30,24 @@ const DashboardHome = () => {
         <title>Profile</title>
       </Helmet>
       <SectionTitle title={"Welcome"} subTitle={user?.displayName} />
-      <div className="overflow-x-auto">
+
+      <SectionTitle title={"Recent Donation requests"} />
+      <div className="overflow-x-auto mt-2">
         <table className="table table-xs">
           <thead>
             <tr>
               <th>Recipient Name</th>
               <th>Recipient Location</th>
-              <th>Job</th>
-              <th>company</th>
-              <th>location</th>
-              <th>Last Login</th>
-              <th>Favorite Color</th>
+              <th>Dontation Date</th>
+              <th>Donation Time</th>
+              <th>Stats</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {myDonationRequests.slice(0, 3).map((dn) => (
               <tr className="py-2">
-                <th>{dn.recipientName}</th>
+                <td>{dn.recipientName}</td>
                 <td>
                   {dn.district} - {dn.upozila}
                 </td>
