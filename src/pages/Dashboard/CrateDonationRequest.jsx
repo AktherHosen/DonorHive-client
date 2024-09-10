@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import DatePicker from "react-datepicker";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const CrateDonationRequest = () => {
   const [districs, setDistrict] = useState([]);
@@ -31,7 +33,7 @@ const CrateDonationRequest = () => {
     setTime(selectedTime);
   };
 
-  const handleRequestSubmit = (e) => {
+  const handleRequestSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const requesterName = form.requesterName.value;
@@ -58,7 +60,17 @@ const CrateDonationRequest = () => {
       donationTime,
       status,
     };
-    console.log(requestInfo);
+    // console.log(requestInfo);
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_API_URL}/donation-request`,
+        requestInfo
+      );
+      toast.success("Donation request submitted.");
+      e.target.reset();
+    } catch (err) {
+      toast.error(err?.message);
+    }
   };
 
   return (
@@ -119,7 +131,7 @@ const CrateDonationRequest = () => {
               />
             </div>
 
-            <div className="row-span-1 lg:row-span-2">
+            <div className="row-span-1 lg:row-span-3  mb-2">
               <label htmlFor="message" className="block text-sm">
                 Request Message
               </label>
@@ -146,7 +158,7 @@ const CrateDonationRequest = () => {
             </div>
 
             {/* Full Address input */}
-            <div className="cols-span-1 lg:col-span-2">
+            <div className="cols-span-1">
               <label htmlFor="full-address" className="block text-sm">
                 Full Address
               </label>
