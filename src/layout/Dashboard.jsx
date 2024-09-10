@@ -10,11 +10,11 @@ const Dashboard = () => {
         <title>Dashboard</title>
       </Helmet>
 
-      <div className="flex  lg:px-0">
+      <div className="flex lg:px-0">
         <div>
           <Sidebar />
         </div>
-        <main className="flex-1 px-20 py-10 lg:px-4">
+        <main className="flex-1 px-20 py-10 lg:px-4 min-h-screen">
           <Outlet />
         </main>
       </div>

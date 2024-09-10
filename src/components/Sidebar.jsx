@@ -18,9 +18,9 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`h-screen ${
+      className={`min-h-[800px] bg-primary ${
         expanded ? "w-64" : "w-16"
-      } lg:w-64 lg:relative fixed top-0 left-0 bg-primary border-r shadow-sm transition-all`}
+      } lg:w-64 lg:relative fixed top-0 left-0  border-r shadow-sm transition-all`}
     >
       <nav className="h-full flex flex-col">
         <div className="p-4 mt-4 h-[60px] pb-2 flex justify-between items-center">
@@ -89,7 +89,7 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
-              to="/dashboard/create-donation-request"
+              to="/dashboard/create-donation-reqeust"
               className={({ isActive }) =>
                 `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
                   isActive ? "bg-white text-primary" : "bg-primary text-white"
@@ -104,7 +104,7 @@ const Sidebar = () => {
                   expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
-                Create Donation Request
+                Post Donation Request
               </span>
             </NavLink>
             {!expanded && <Tooltip id="tooltip-create" />}
