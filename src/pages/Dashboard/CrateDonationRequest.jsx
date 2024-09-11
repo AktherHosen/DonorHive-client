@@ -5,20 +5,16 @@ import DatePicker from "react-datepicker";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
-import TimePicker from "react-time-picker";
 
 const CrateDonationRequest = () => {
   const { user } = useAuth();
-  const [upozlias, setUpozilas] = useState([]);
+  const [upozilas, setUpozilas] = useState([]);
   const [donateDate, setDonateDate] = useState(new Date());
-  const [donateTime, setDonateTime] = useState("10:00");
 
   useEffect(() => {
     fetch("/upazilas.json")
       .then((res) => res.json())
-      .then((data) => {
-        setUpozilas(data);
-      });
+      .then((data) => setUpozilas(data));
   }, []);
 
   const handleRequestSubmit = async (e) => {
@@ -32,21 +28,18 @@ const CrateDonationRequest = () => {
     const requestMessage = form.requestMessage.value;
     const district = form.district.value;
     const upozila = form.upozila.value;
+    const donationTime = form.donationTime.value;
 
-    // Format date and time
-    const formattedDonationDate = donateDate.toISOString().split("T")[0]; // e.g., "2024-09-11"
+    // Format date
+    const formattedDonationDate = donateDate.toISOString().split("T")[0];
 
-    // Convert donateTime string to Date object for formatting
-    const timeParts = donateTime.split(":");
-    const timeDate = new Date();
-    timeDate.setHours(parseInt(timeParts[0], 10));
-    timeDate.setMinutes(parseInt(timeParts[1], 10));
-
-    const formattedDonationTime = timeDate.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    }); // e.g., "10:00 AM"
+    // Format time with AM/PM
+    const timeParts = donationTime.split(":");
+    let hours = parseInt(timeParts[0], 10);
+    const minutes = timeParts[1];
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
+    const formattedDonationTime = `${hours}:${minutes} ${ampm}`;
 
     const status = "pending";
 
@@ -55,8 +48,8 @@ const CrateDonationRequest = () => {
       requesterEmail,
       recipientName,
       fullAddress,
-      requestMessage,
       hospitalName,
+      requestMessage,
       district,
       upozila,
       donationDate: formattedDonationDate,
@@ -221,7 +214,7 @@ const CrateDonationRequest = () => {
                   id="upozila"
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
-                  {upozlias.map((up) => (
+                  {upozilas.map((up) => (
                     <option key={up.id} value={up.name}>
                       {up.name}
                     </option>
@@ -235,7 +228,7 @@ const CrateDonationRequest = () => {
                 <DatePicker
                   selected={donateDate}
                   name="donationDate"
-                  onChange={(date) => setDonateDate(date)} // Use setDonateDate instead of setStartDate
+                  onChange={(date) => setDonateDate(date)}
                   dateFormat="yyyy-MM-dd"
                   className="border-2 w-full px-2 py-3 rounded-md"
                 />
@@ -244,10 +237,10 @@ const CrateDonationRequest = () => {
                 <label htmlFor="donation-time" className="block text-sm">
                   Donation Time
                 </label>
-                <TimePicker
+                <input
+                  type="time"
+                  name="donationTime"
                   className="border-2 w-full px-2 py-3 rounded-md"
-                  onChange={setDonateTime}
-                  value={donateTime}
                 />
               </div>
             </div>

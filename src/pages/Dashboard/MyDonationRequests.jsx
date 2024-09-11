@@ -29,7 +29,7 @@ const MyDonationRequests = () => {
 
   const handleDelete = async (id) => {
     try {
-      const result = await axios.delete(
+      await axios.delete(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`
       );
       getData();
@@ -37,22 +37,23 @@ const MyDonationRequests = () => {
       console.log(err?.message);
     }
   };
+
   return (
     <>
       <Helmet>
-        <title>My Donation Request</title>
+        <title>My Donation Requests</title>
       </Helmet>
 
-      <SectionTitle title={"My Donation requests"} />
+      <SectionTitle title={"My Donation Requests"} />
       <div className="overflow-x-auto mt-2">
         <table className="table table-xs">
           <thead>
             <tr>
               <th>Recipient Name</th>
               <th>Recipient Location</th>
-              <th>Dontation Date</th>
+              <th>Donation Date</th>
               <th>Donation Time</th>
-              <th>Stats</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -70,8 +71,7 @@ const MyDonationRequests = () => {
                     day: "2-digit",
                   })}
                 </td>
-
-                <td>{dn.donationTime}</td>
+                <td>{dn.donationTime ? dn.donationTime : "N/A"}</td>
 
                 <td className="py-2">
                   <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5  rounded-full">

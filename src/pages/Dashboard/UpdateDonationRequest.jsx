@@ -5,18 +5,19 @@ import DatePicker from "react-datepicker";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import TimePicker from "react-time-picker";
+import { useNavigate, useParams } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css"; // Import datepicker CSS
 
 const UpdateDonationRequest = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [donateDate, setDonateDate] = useState(new Date());
-  const [donateTime, setDonateTime] = useState("00:00"); // Default time
   const [donationRequest, setDonationRequest] = useState({});
   const [district, setDistrict] = useState("");
   const [upozila, setUpozila] = useState("");
   const [upozilas, setUpozilas] = useState([]);
+  const [donationTime, setDonationTime] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,11 +33,14 @@ const UpdateDonationRequest = () => {
       const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`
       );
-      setDonationRequest(result.data);
-      setDistrict(result.data.district || ""); // Default to empty string if undefined
-      setUpozila(result.data.upozila || ""); // Default to empty string if undefined
-      setDonateDate(new Date(result.data.donationDate) || new Date()); // Default to current date if undefined
-      setDonateTime(result.data.donationTime || "00:00"); // Default to "00:00" if undefined
+      const requestData = result.data;
+      setDonationRequest(requestData);
+      setDistrict(requestData.district || "");
+      setUpozila(requestData.upozila || "");
+      setDonateDate(new Date(requestData.donationDate) || new Date());
+
+      // Ensure donationTime is in "HH:MM AM/PM" format
+      setDonationTime(requestData.donationTime || "");
     } catch (err) {
       console.log(err?.message);
     }
@@ -46,13 +50,8 @@ const UpdateDonationRequest = () => {
     getData(id);
   }, [id]);
 
-  const handleTimeChange = (selectedTime) => {
-    setDonateTime(selectedTime);
-  };
-
   const handleUpdateRequest = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
+    e.preventDefault();
     const form = e.target;
     const requesterName = form.requesterName.value;
     const requesterEmail = form.requesterEmail.value;
@@ -62,26 +61,23 @@ const UpdateDonationRequest = () => {
     const requestMessage = form.requestMessage.value;
     const district = form.district.value;
     const upozila = form.upozila.value;
+    const donationTime = form.donationTime.value;
 
+    // Format date
     const formattedDonationDate = donateDate.toISOString().split("T")[0];
 
-    let formattedDonationTime = "00:00"; // Default time
-
-    if (donateTime) {
-      const timeParts = donateTime.split(":");
-      if (timeParts.length === 2) {
-        formattedDonationTime = donateTime; // No transformation needed, use as-is
-      }
-    }
+    // Use donationTime directly in 12-hour format as required
+    const formattedDonationTime = donationTime;
 
     const status = "pending";
+
     const requestInfo = {
       requesterName,
       requesterEmail,
       recipientName,
       fullAddress,
-      requestMessage,
       hospitalName,
+      requestMessage,
       district,
       upozila,
       donationDate: formattedDonationDate,
@@ -227,7 +223,6 @@ const UpdateDonationRequest = () => {
                   onChange={(e) => setDistrict(e.target.value)}
                   className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 >
-                  <option value="">Choose Option</option>
                   <option value="Comilla">Comilla</option>
                   <option value="Feni">Feni</option>
                   <option value="Brahmanbaria">Brahmanbaria</option>
@@ -238,26 +233,14 @@ const UpdateDonationRequest = () => {
                   <option value="Coxsbazar">Coxsbazar</option>
                   <option value="Bandarban">Bandarban</option>
                   <option value="Sirajganj">Sirajganj</option>
-                  <option value="Pabna">Pabna</option>
-                  <option value="Bogura">Bogura</option>
-                  <option value="Rajshahi">Rajshahi</option>
-                  <option value="Jamalpur">Jamalpur</option>
-                  <option value="Mymensingh">Mymensingh</option>
-                  <option value="Kishoreganj">Kishoreganj</option>
-                  <option value="Sylhet">Sylhet</option>
-                  <option value="Habiganj">Habiganj</option>
-                  <option value="Moulvibazar">Moulvibazar</option>
-                  <option value="Sunamganj">Sunamganj</option>
                   <option value="Dhaka">Dhaka</option>
-                  <option value="Narsingdi">Narsingdi</option>
-                  <option value="Tangail">Tangail</option>
-                  <option value="Brahmanbaria">Brahmanbaria</option>
-                  <option value="Khulna">Khulna</option>
+                  <option value="Gazipur">Gazipur</option>
+                  <option value="Narayanganj">Narayanganj</option>
                 </select>
               </div>
 
               <div className="flex-grow">
-                <label htmlFor="upozila" className="text-sm">
+                <label htmlFor="upozila" className="block text-sm">
                   Choose Upozila
                 </label>
                 <select
@@ -275,9 +258,8 @@ const UpdateDonationRequest = () => {
                   ))}
                 </select>
               </div>
-
-              <div className="row-span-1 ">
-                <label htmlFor="donation-date" className="block text-sm">
+              <div className="col-span-1">
+                <label htmlFor="date" className="block text-sm">
                   Donation Date
                 </label>
                 <DatePicker
@@ -285,30 +267,33 @@ const UpdateDonationRequest = () => {
                   onChange={(date) => setDonateDate(date)}
                   dateFormat="yyyy-MM-dd"
                   className="border-2 w-full px-2 py-3 rounded-md outline-none"
+                  placeholderText="Select a date"
                 />
               </div>
-
-              <div className="row-span-1">
+              <div className="col-span-1">
                 <label htmlFor="donation-time" className="block text-sm">
                   Donation Time
                 </label>
-                <TimePicker
-                  onChange={handleTimeChange}
-                  value={donateTime}
-                  format="HH:mm"
+                <input
+                  type="text"
+                  id="donation-time"
+                  name="donationTime"
+                  value={donationTime}
+                  onChange={(e) => setDonationTime(e.target.value)}
+                  placeholder="Enter donation time (e.g., 12:41 AM)"
                   className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 />
               </div>
             </div>
-          </div>
 
-          <div className="text-center mt-4">
-            <button
-              type="submit"
-              className="bg-primary text-white px-6 py-2 rounded-md transition"
-            >
-              Update Request
-            </button>
+            <div className="col-span-1 lg:col-span-2">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              >
+                Update Request
+              </button>
+            </div>
           </div>
         </form>
       </div>
