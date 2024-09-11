@@ -5,18 +5,20 @@ import DatePicker from "react-datepicker";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TimePicker from "react-time-picker";
+
 const UpdateDonationRequest = () => {
   const { id } = useParams();
-  const [donateDate, setDonateDate] = useState(new Date());
-  const [donateTime, setDonateTime] = useState();
   const { user } = useAuth();
+  const [donateDate, setDonateDate] = useState(new Date());
+  const [donateTime, setDonateTime] = useState("00:00"); // Default time
   const [donationRequest, setDonationRequest] = useState({});
   const [district, setDistrict] = useState("");
   const [upozila, setUpozila] = useState("");
+  const [upozilas, setUpozilas] = useState([]);
+  const navigate = useNavigate();
 
-  const [upozlias, setUpozilas] = useState([]);
   useEffect(() => {
     fetch("/upazilas.json")
       .then((res) => res.json())
@@ -24,14 +26,17 @@ const UpdateDonationRequest = () => {
         setUpozilas(data);
       });
   }, []);
+
   const getData = async (id) => {
     try {
       const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`
       );
       setDonationRequest(result.data);
-      setDistrict(result.data.district);
-      setUpozila(result.data.upozila);
+      setDistrict(result.data.district || ""); // Default to empty string if undefined
+      setUpozila(result.data.upozila || ""); // Default to empty string if undefined
+      setDonateDate(new Date(result.data.donationDate) || new Date()); // Default to current date if undefined
+      setDonateTime(result.data.donationTime || "00:00"); // Default to "00:00" if undefined
     } catch (err) {
       console.log(err?.message);
     }
@@ -42,20 +47,33 @@ const UpdateDonationRequest = () => {
   }, [id]);
 
   const handleTimeChange = (selectedTime) => {
-    setTime(selectedTime);
+    setDonateTime(selectedTime);
   };
 
   const handleUpdateRequest = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+
     const form = e.target;
     const requesterName = form.requesterName.value;
     const requesterEmail = form.requesterEmail.value;
     const recipientName = form.recipientName.value;
     const fullAddress = form.fullAddress.value;
     const hospitalName = form.hospitalName.value;
-    const district = form.district.value;
     const requestMessage = form.requestMessage.value;
+    const district = form.district.value;
     const upozila = form.upozila.value;
+
+    const formattedDonationDate = donateDate.toISOString().split("T")[0];
+
+    let formattedDonationTime = "00:00"; // Default time
+
+    if (donateTime) {
+      const timeParts = donateTime.split(":");
+      if (timeParts.length === 2) {
+        formattedDonationTime = donateTime; // No transformation needed, use as-is
+      }
+    }
+
     const status = "pending";
     const requestInfo = {
       requesterName,
@@ -66,18 +84,19 @@ const UpdateDonationRequest = () => {
       hospitalName,
       district,
       upozila,
-      donationDate,
-      donationTime,
+      donationDate: formattedDonationDate,
+      donationTime: formattedDonationTime,
       status,
     };
 
     try {
-      const result = await axios.put(
+      await axios.put(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`,
         requestInfo
       );
       toast.success("Donation request updated.");
       e.target.reset();
+      navigate("/dashboard/my-donation-requests");
     } catch (err) {
       toast.error(err?.message);
     }
@@ -90,8 +109,6 @@ const UpdateDonationRequest = () => {
     requesterName,
     hospitalName,
     recipientName,
-    donationDate,
-    donationTime,
   } = donationRequest;
 
   return (
@@ -106,7 +123,7 @@ const UpdateDonationRequest = () => {
 
       <div className="mt-2">
         <form onSubmit={handleUpdateRequest}>
-          <div className="w-full grid grid-row-6 grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Name input */}
             <div className="row-span-1">
               <label htmlFor="requester-name" className="block text-sm">
@@ -198,10 +215,9 @@ const UpdateDonationRequest = () => {
               />
             </div>
 
-            {/* District (controlled select element) */}
             <div className="col-span-1 lg:col-span-2 flex flex-wrap items-center gap-2">
               <div className="flex-grow">
-                <label htmlFor="district" className="text-sm">
+                <label htmlFor="district" className="block text-sm">
                   Choose District
                 </label>
                 <select
@@ -209,7 +225,7 @@ const UpdateDonationRequest = () => {
                   id="district"
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
-                  className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
+                  className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 >
                   <option value="">Choose Option</option>
                   <option value="Comilla">Comilla</option>
@@ -225,34 +241,21 @@ const UpdateDonationRequest = () => {
                   <option value="Pabna">Pabna</option>
                   <option value="Bogura">Bogura</option>
                   <option value="Rajshahi">Rajshahi</option>
-                  <option value="Natore">Natore</option>
-                  <option value="Joypurhat">Joypurhat</option>
-                  <option value="Chapainawabganj">Chapainawabganj</option>
-                  <option value="Naogaon">Naogaon</option>
-                  <option value="Jashore">Jashore</option>
-                  <option value="Satkhira">Satkhira</option>
-                  <option value="Meherpur">Meherpur</option>
-                  <option value="Narail">Narail</option>
-                  <option value="Chuadanga">Chuadanga</option>
-                  <option value="Kushtia">Kushtia</option>
-                  <option value="Magura">Magura</option>
-                  <option value="Khulna">Khulna</option>
-                  <option value="Bagerhat">Bagerhat</option>
-                  <option value="Jhenaidah">Jhenaidah</option>
-                  <option value="Patuakhali">Patuakhali</option>
-                  <option value="Pirojpur">Pirojpur</option>
-                  <option value="Barisal">Barisal</option>
-                  <option value="Bhola">Bhola</option>
-                  <option value="Barguna">Barguna</option>
+                  <option value="Jamalpur">Jamalpur</option>
+                  <option value="Mymensingh">Mymensingh</option>
+                  <option value="Kishoreganj">Kishoreganj</option>
                   <option value="Sylhet">Sylhet</option>
-                  <option value="Moulvibazar">Moulvibazar</option>
                   <option value="Habiganj">Habiganj</option>
-                  <option value="Gazipur">Gazipur</option>
-                  <option value="Shariatpur">Shariatpur</option>
-                  <option value="Narayanganj">Narayanganj</option>
+                  <option value="Moulvibazar">Moulvibazar</option>
+                  <option value="Sunamganj">Sunamganj</option>
                   <option value="Dhaka">Dhaka</option>
+                  <option value="Narsingdi">Narsingdi</option>
+                  <option value="Tangail">Tangail</option>
+                  <option value="Brahmanbaria">Brahmanbaria</option>
+                  <option value="Khulna">Khulna</option>
                 </select>
               </div>
+
               <div className="flex-grow">
                 <label htmlFor="upozila" className="text-sm">
                   Choose Upozila
@@ -262,49 +265,50 @@ const UpdateDonationRequest = () => {
                   id="upozila"
                   value={upozila}
                   onChange={(e) => setUpozila(e.target.value)}
-                  className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
+                  className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 >
-                  {upozlias.map((up) => (
-                    <option key={up.id} value={up.name}>
-                      {up.name}
+                  <option value="">Choose Option</option>
+                  {upozilas.map((item) => (
+                    <option key={item.id} value={item.name}>
+                      {item.name}
                     </option>
                   ))}
                 </select>
               </div>
-              <div className="row-span-1">
+
+              <div className="row-span-1 ">
                 <label htmlFor="donation-date" className="block text-sm">
                   Donation Date
                 </label>
                 <DatePicker
-                  selected={donationDate}
+                  selected={donateDate}
                   onChange={(date) => setDonateDate(date)}
                   dateFormat="yyyy-MM-dd"
-                  className="border-2 w-full px-2 py-3 rounded-md"
+                  className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 />
               </div>
+
               <div className="row-span-1">
                 <label htmlFor="donation-time" className="block text-sm">
                   Donation Time
                 </label>
                 <TimePicker
-                  className="border-2 w-full px-2 py-3 rounded-md"
-                  onChange={setDonateTime}
-                  value={donationTime}
+                  onChange={handleTimeChange}
+                  value={donateTime}
+                  format="HH:mm"
+                  className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 />
               </div>
             </div>
+          </div>
 
-            {/* Donation Date input */}
-
-            {/* Submit Button */}
-            <div className="row-span-1 col-span-1 lg:col-span-2">
-              <button
-                type="submit"
-                className="bg-primary text-white py-2 px-4 rounded-md w-full"
-              >
-                Update Request
-              </button>
-            </div>
+          <div className="text-center mt-4">
+            <button
+              type="submit"
+              className="bg-primary text-white px-6 py-2 rounded-md transition"
+            >
+              Update Request
+            </button>
           </div>
         </form>
       </div>

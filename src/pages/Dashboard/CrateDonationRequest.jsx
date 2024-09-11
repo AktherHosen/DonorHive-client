@@ -33,8 +33,10 @@ const CrateDonationRequest = () => {
     const district = form.district.value;
     const upozila = form.upozila.value;
 
-    const formattedDonationDate = donateDate.toISOString().split("T")[0];
+    // Format date and time
+    const formattedDonationDate = donateDate.toISOString().split("T")[0]; // e.g., "2024-09-11"
 
+    // Convert donateTime string to Date object for formatting
     const timeParts = donateTime.split(":");
     const timeDate = new Date();
     timeDate.setHours(parseInt(timeParts[0], 10));
@@ -44,7 +46,7 @@ const CrateDonationRequest = () => {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
-    });
+    }); // e.g., "10:00 AM"
 
     const status = "pending";
 
@@ -185,8 +187,29 @@ const CrateDonationRequest = () => {
                   id="district"
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
-                  <option value="">Choose District</option>
-                  {/* Options omitted for brevity */}
+                  <option value="">Choose Option</option>
+                  <option value="Comilla">Comilla</option>
+                  <option value="Feni">Feni</option>
+                  <option value="Brahmanbaria">Brahmanbaria</option>
+                  <option value="Rangamati">Rangamati</option>
+                  <option value="Noakhali">Noakhali</option>
+                  <option value="Chandpur">Chandpur</option>
+                  <option value="Chattogram">Chattogram</option>
+                  <option value="Coxsbazar">Coxsbazar</option>
+                  <option value="Bandarban">Bandarban</option>
+                  <option value="Sirajganj">Sirajganj</option>
+                  <option value="Pabna">Pabna</option>
+                  <option value="Bogura">Bogura</option>
+                  <option value="Rajshahi">Rajshahi</option>
+                  <option value="Natore">Natore</option>
+                  <option value="Joypurhat">Joypurhat</option>
+                  <option value="Chapainawabganj">Chapainawabganj</option>
+                  <option value="Naogaon">Naogaon</option>
+                  <option value="Jashore">Jashore</option>
+                  <option value="Satkhira">Satkhira</option>
+                  <option value="Meherpur">Meherpur</option>
+                  <option value="Narail">Narail</option>
+                  <option value="Khulna">Khulna</option>
                 </select>
               </div>
               <div className="flex-grow">
