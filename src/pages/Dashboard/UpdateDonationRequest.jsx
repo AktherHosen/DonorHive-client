@@ -6,22 +6,32 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
-
+import TimePicker from "react-time-picker";
 const UpdateDonationRequest = () => {
   const { id } = useParams();
-  const [startDate, setStartDate] = useState(new Date());
-  const [time, setTime] = useState(new Date());
+  const [donateDate, setDonateDate] = useState(new Date());
+  const [donateTime, setDonateTime] = useState();
   const { user } = useAuth();
   const [donationRequest, setDonationRequest] = useState({});
   const [district, setDistrict] = useState("");
+  const [upozila, setUpozila] = useState("");
 
+  const [upozlias, setUpozilas] = useState([]);
+  useEffect(() => {
+    fetch("/upazilas.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setUpozilas(data);
+      });
+  }, []);
   const getData = async (id) => {
     try {
       const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`
       );
       setDonationRequest(result.data);
-      setDistrict(result.data.district); // Corrected to set the district
+      setDistrict(result.data.district);
+      setUpozila(result.data.upozila);
     } catch (err) {
       console.log(err?.message);
     }
@@ -46,8 +56,6 @@ const UpdateDonationRequest = () => {
     const district = form.district.value;
     const requestMessage = form.requestMessage.value;
     const upozila = form.upozila.value;
-    const donationDate = startDate;
-    const donationTime = time;
     const status = "pending";
     const requestInfo = {
       requesterName,
@@ -82,6 +90,8 @@ const UpdateDonationRequest = () => {
     requesterName,
     hospitalName,
     recipientName,
+    donationDate,
+    donationTime,
   } = donationRequest;
 
   return (
@@ -201,6 +211,7 @@ const UpdateDonationRequest = () => {
                   onChange={(e) => setDistrict(e.target.value)}
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
+                  <option value="">Choose Option</option>
                   <option value="Comilla">Comilla</option>
                   <option value="Feni">Feni</option>
                   <option value="Brahmanbaria">Brahmanbaria</option>
@@ -242,51 +253,48 @@ const UpdateDonationRequest = () => {
                   <option value="Dhaka">Dhaka</option>
                 </select>
               </div>
-            </div>
-
-            {/* Upozila input */}
-            <div className="row-span-1">
-              <label htmlFor="upozila" className="block text-sm">
-                Upozila
-              </label>
-              <input
-                name="upozila"
-                type="text"
-                id="upozila"
-                placeholder="Enter upozila"
-                className="border-2 w-full px-2 py-3 rounded-md outline-none"
-              />
+              <div className="flex-grow">
+                <label htmlFor="upozila" className="text-sm">
+                  Choose Upozila
+                </label>
+                <select
+                  name="upozila"
+                  id="upozila"
+                  value={upozila}
+                  onChange={(e) => setUpozila(e.target.value)}
+                  className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
+                >
+                  {upozlias.map((up) => (
+                    <option key={up.id} value={up.name}>
+                      {up.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="row-span-1">
+                <label htmlFor="donation-date" className="block text-sm">
+                  Donation Date
+                </label>
+                <DatePicker
+                  selected={donationDate}
+                  onChange={(date) => setDonateDate(date)}
+                  dateFormat="yyyy-MM-dd"
+                  className="border-2 w-full px-2 py-3 rounded-md"
+                />
+              </div>
+              <div className="row-span-1">
+                <label htmlFor="donation-time" className="block text-sm">
+                  Donation Time
+                </label>
+                <TimePicker
+                  className="border-2 w-full px-2 py-3 rounded-md"
+                  onChange={setDonateTime}
+                  value={donationTime}
+                />
+              </div>
             </div>
 
             {/* Donation Date input */}
-            <div className="row-span-1">
-              <label htmlFor="donation-date" className="block text-sm">
-                Donation Date
-              </label>
-              <DatePicker
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                dateFormat="yyyy-MM-dd"
-                className="border-2 w-full px-2 py-3 rounded-md"
-              />
-            </div>
-
-            {/* Donation Time input */}
-            <div className="row-span-1">
-              <label htmlFor="donation-time" className="block text-sm">
-                Donation Time
-              </label>
-              <DatePicker
-                selected={time}
-                onChange={handleTimeChange}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={15}
-                timeCaption="Time"
-                dateFormat="h:mm aa"
-                className="border-2 w-full px-2 py-3 rounded-md"
-              />
-            </div>
 
             {/* Submit Button */}
             <div className="row-span-1 col-span-1 lg:col-span-2">

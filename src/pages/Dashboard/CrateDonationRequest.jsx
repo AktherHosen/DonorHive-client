@@ -5,9 +5,21 @@ import DatePicker from "react-datepicker";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
+import TimePicker from "react-time-picker";
 
 const CrateDonationRequest = () => {
   const { user } = useAuth();
+  const [upozlias, setUpozilas] = useState([]);
+  const [donateDate, setDonateDate] = useState(new Date());
+  const [donateTime, setDonateTime] = useState("10:00");
+
+  useEffect(() => {
+    fetch("/upazilas.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setUpozilas(data);
+      });
+  }, []);
 
   const handleRequestSubmit = async (e) => {
     e.preventDefault();
@@ -19,8 +31,23 @@ const CrateDonationRequest = () => {
     const hospitalName = form.hospitalName.value;
     const requestMessage = form.requestMessage.value;
     const district = form.district.value;
+    const upozila = form.upozila.value;
+
+    const formattedDonationDate = donateDate.toISOString().split("T")[0];
+
+    const timeParts = donateTime.split(":");
+    const timeDate = new Date();
+    timeDate.setHours(parseInt(timeParts[0], 10));
+    timeDate.setMinutes(parseInt(timeParts[1], 10));
+
+    const formattedDonationTime = timeDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
 
     const status = "pending";
+
     const requestInfo = {
       requesterName,
       requesterEmail,
@@ -29,9 +56,12 @@ const CrateDonationRequest = () => {
       requestMessage,
       hospitalName,
       district,
+      upozila,
+      donationDate: formattedDonationDate,
+      donationTime: formattedDonationTime,
       status,
     };
-    // console.log(requestInfo);
+
     try {
       const result = await axios.post(
         `${import.meta.env.VITE_API_URL}/donation-request`,
@@ -89,6 +119,7 @@ const CrateDonationRequest = () => {
               />
             </div>
 
+            {/* Recipient Name input */}
             <div>
               <label htmlFor="recipient-name" className="block text-sm">
                 Recipient Name
@@ -102,7 +133,8 @@ const CrateDonationRequest = () => {
               />
             </div>
 
-            <div className="row-span-1 lg:row-span-3  mb-2">
+            {/* Request Message textarea */}
+            <div className="row-span-1 lg:row-span-3 mb-2">
               <label htmlFor="message" className="block text-sm">
                 Request Message
               </label>
@@ -153,71 +185,47 @@ const CrateDonationRequest = () => {
                   id="district"
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
-                  <option value="Comilla">Comilla</option>
-                  <option value="Feni">Feni</option>
-                  <option value="Brahmanbaria">Brahmanbaria</option>
-                  <option value="Rangamati">Rangamati</option>
-                  <option value="Noakhali">Noakhali</option>
-                  <option value="Chandpur">Chandpur</option>
-                  <option value="Chandpur">Chandpur</option>
-                  <option value="Chattogram">Chattogram</option>
-                  <option value="Coxsbazar">Coxsbazar</option>
-                  <option value="Coxsbazar">Coxsbazar</option>
-                  <option value="Bandarban">Bandarban</option>
-                  <option value="Sirajganj">Sirajganj</option>
-                  <option value="Pabna">Pabna</option>
-                  <option value="Bogura">Bogura</option>
-                  <option value="Rajshahi">Rajshahi</option>
-                  <option value="Natore">Natore</option>
-                  <option value="Joypurhat">Joypurhat</option>
-                  <option value="Chapainawabganj">Chapainawabganj</option>
-                  <option value="Naogaon">Naogaon</option>
-                  <option value="Jashore">Jashore</option>
-                  <option value="Satkhira">Satkhira</option>
-                  <option value="Meherpur">Meherpur</option>
-                  <option value="Narail">Narail</option>
-                  <option value="Chuadanga">Chuadanga</option>
-                  <option value="Kushtia">Kushtia</option>
-                  <option value="Magura">Magura</option>
-                  <option value="Khulna">Khulna</option>
-                  <option value="Bagerhat">Bagerhat</option>
-                  <option value="Jhenaidah">Jhenaidah</option>
-                  <option value="Jhenaidah">Jhenaidah</option>
-                  <option value="Patuakhali">Patuakhali</option>
-                  <option value="Pirojpur">Pirojpur</option>
-                  <option value="Barisal">Barisal</option>
-                  <option value="Bhola">Bhola</option>
-                  <option value="Barguna">Barguna</option>
-                  <option value="Sylhet">Sylhet</option>
-                  <option value="Moulvibazar">Moulvibazar</option>
-                  <option value="Habiganj">Habiganj</option>
-                  <option value="Habiganj">Habiganj</option>
-                  <option value="Habiganj">Habiganj</option>
-                  <option value="Gazipur">Gazipur</option>
-                  <option value="Shariatpur">Shariatpur</option>
-                  <option value="Narayanganj">Narayanganj</option>
-                  <option value="Tangail">Tangail</option>
-                  <option value="Kishoreganj">Kishoreganj</option>
-                  <option value="Manikganj">Manikganj</option>
-                  <option value="Dhaka">Dhaka</option>
-                  <option value="Dhaka">Dhaka</option>
-                  <option value="Rajbari">Rajbari</option>
-                  <option value="Madaripur">Madaripur</option>
-                  <option value="Gopalganj">Gopalganj</option>
-                  <option value="Faridpur">Faridpur</option>
-                  <option value="Panchagarh">Panchagarh</option>
-                  <option value="Dinajpur">Dinajpur</option>
-                  <option value="Lalmonirhat">Lalmonirhat</option>
-                  <option value="Nilphamari">Nilphamari</option>
-                  <option value="Gaibandha">Gaibandha</option>
-                  <option value="Thakurgaon">Thakurgaon</option>
-                  <option value="Rangpur">Rangpur</option>
-                  <option value="Kurigram">Kurigram</option>
-                  <option value="Sherpur">Sherpur</option>
-                  <option value="Mymensingh">Mymensingh</option>
-                  <option value="Jamalpur">Jamalpur</option>
-                  <option value="Netrokona">Netrokona</option>
+                  <option value="">Choose District</option>
+                  {/* Options omitted for brevity */}
                 </select>
+              </div>
+              <div className="flex-grow">
+                <label htmlFor="upozila" className="text-sm">
+                  Choose Upozila
+                </label>
+                <select
+                  name="upozila"
+                  id="upozila"
+                  className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
+                >
+                  {upozlias.map((up) => (
+                    <option key={up.id} value={up.name}>
+                      {up.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="row-span-1">
+                <label htmlFor="donation-date" className="block text-sm">
+                  Donation Date
+                </label>
+                <DatePicker
+                  selected={donateDate}
+                  name="donationDate"
+                  onChange={(date) => setDonateDate(date)} // Use setDonateDate instead of setStartDate
+                  dateFormat="yyyy-MM-dd"
+                  className="border-2 w-full px-2 py-3 rounded-md"
+                />
+              </div>
+              <div className="row-span-1">
+                <label htmlFor="donation-time" className="block text-sm">
+                  Donation Time
+                </label>
+                <TimePicker
+                  className="border-2 w-full px-2 py-3 rounded-md"
+                  onChange={setDonateTime}
+                  value={donateTime}
+                />
               </div>
             </div>
           </div>

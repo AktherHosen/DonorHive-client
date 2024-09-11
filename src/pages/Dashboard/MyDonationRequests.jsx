@@ -71,13 +71,7 @@ const MyDonationRequests = () => {
                   })}
                 </td>
 
-                <td>
-                  {new Date(dn.donationTime).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </td>
+                <td>{dn.donationTime}</td>
 
                 <td className="py-2">
                   <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5  rounded-full">
