@@ -5,11 +5,37 @@ import DatePicker from "react-datepicker";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
-const CrateDonationRequest = () => {
+const UpdateDonationRequest = () => {
+  const { id } = useParams();
+  const [startDate, setStartDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const { user } = useAuth();
+  const [donationRequest, setDonationRequest] = useState({});
+  const [district, setDistrict] = useState("");
 
-  const handleRequestSubmit = async (e) => {
+  const getData = async (id) => {
+    try {
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/donation-request/${id}`
+      );
+      setDonationRequest(result.data);
+      setDistrict(result.data.district); // Corrected to set the district
+    } catch (err) {
+      console.log(err?.message);
+    }
+  };
+
+  useEffect(() => {
+    getData(id);
+  }, [id]);
+
+  const handleTimeChange = (selectedTime) => {
+    setTime(selectedTime);
+  };
+
+  const handleUpdateRequest = async (e) => {
     e.preventDefault();
     const form = e.target;
     const requesterName = form.requesterName.value;
@@ -17,9 +43,11 @@ const CrateDonationRequest = () => {
     const recipientName = form.recipientName.value;
     const fullAddress = form.fullAddress.value;
     const hospitalName = form.hospitalName.value;
-    const requestMessage = form.requestMessage.value;
     const district = form.district.value;
-
+    const requestMessage = form.requestMessage.value;
+    const upozila = form.upozila.value;
+    const donationDate = startDate;
+    const donationTime = time;
     const status = "pending";
     const requestInfo = {
       requesterName,
@@ -29,33 +57,45 @@ const CrateDonationRequest = () => {
       requestMessage,
       hospitalName,
       district,
+      upozila,
+      donationDate,
+      donationTime,
       status,
     };
-    // console.log(requestInfo);
+
     try {
-      const result = await axios.post(
-        `${import.meta.env.VITE_API_URL}/donation-request`,
+      const result = await axios.put(
+        `${import.meta.env.VITE_API_URL}/donation-request/${id}`,
         requestInfo
       );
-      toast.success("Donation request submitted.");
+      toast.success("Donation request updated.");
       e.target.reset();
     } catch (err) {
       toast.error(err?.message);
     }
   };
 
+  const {
+    fullAddress,
+    requestMessage,
+    requesterEmail,
+    requesterName,
+    hospitalName,
+    recipientName,
+  } = donationRequest;
+
   return (
     <div className="pr-8 w-96 md:w-full lg:w-full">
       <Helmet>
-        <title>Donation Request</title>
+        <title>Update Donation Request</title>
       </Helmet>
       <SectionTitle
         title="Donation Request"
-        subTitle="Create your donation request"
+        subTitle="Update your donation request"
       />
 
       <div className="mt-2">
-        <form onSubmit={handleRequestSubmit}>
+        <form onSubmit={handleUpdateRequest}>
           <div className="w-full grid grid-row-6 grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Name input */}
             <div className="row-span-1">
@@ -69,7 +109,7 @@ const CrateDonationRequest = () => {
                 defaultValue={user?.displayName}
                 readOnly
                 placeholder="Enter name"
-                className="border-2 w-full px-2 py-3 rounded-md outline-none"
+                className="border-2 w-full bg-gray-100 px-2 py-3 rounded-md outline-none"
               />
             </div>
 
@@ -85,10 +125,11 @@ const CrateDonationRequest = () => {
                 defaultValue={user?.email}
                 readOnly
                 placeholder="Enter email"
-                className="border-2 w-full px-2 py-3 rounded-md outline-none"
+                className="border-2 w-full bg-gray-100 px-2 py-3 rounded-md outline-none"
               />
             </div>
 
+            {/* Recipient Name input */}
             <div>
               <label htmlFor="recipient-name" className="block text-sm">
                 Recipient Name
@@ -97,18 +138,21 @@ const CrateDonationRequest = () => {
                 type="text"
                 id="recipient-name"
                 name="recipientName"
+                defaultValue={recipientName}
                 placeholder="Enter recipient name"
                 className="border-2 w-full px-2 py-3 rounded-md outline-none"
               />
             </div>
 
-            <div className="row-span-1 lg:row-span-3  mb-2">
+            {/* Request Message input */}
+            <div className="row-span-1 lg:row-span-3 mb-2">
               <label htmlFor="message" className="block text-sm">
                 Request Message
               </label>
               <textarea
                 name="requestMessage"
                 id="message"
+                defaultValue={requestMessage}
                 placeholder="Write message"
                 className="border-2 w-full h-full resize-none px-2 py-3 rounded-md outline-none"
               />
@@ -122,6 +166,7 @@ const CrateDonationRequest = () => {
               <input
                 name="hospitalName"
                 type="text"
+                defaultValue={hospitalName}
                 id="hospital"
                 placeholder="Hospital Name"
                 className="border-2 w-full px-2 py-3 rounded-md outline-none"
@@ -136,13 +181,14 @@ const CrateDonationRequest = () => {
               <input
                 type="text"
                 id="full-address"
+                defaultValue={fullAddress}
                 name="fullAddress"
                 placeholder="Write full address"
                 className="border-2 w-full px-2 py-3 rounded-md outline-none"
               />
             </div>
 
-            {/* District and Upozila dropdowns */}
+            {/* District (controlled select element) */}
             <div className="col-span-1 lg:col-span-2 flex flex-wrap items-center gap-2">
               <div className="flex-grow">
                 <label htmlFor="district" className="text-sm">
@@ -151,6 +197,8 @@ const CrateDonationRequest = () => {
                 <select
                   name="district"
                   id="district"
+                  value={district}
+                  onChange={(e) => setDistrict(e.target.value)}
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
                   <option value="Comilla">Comilla</option>
@@ -159,9 +207,7 @@ const CrateDonationRequest = () => {
                   <option value="Rangamati">Rangamati</option>
                   <option value="Noakhali">Noakhali</option>
                   <option value="Chandpur">Chandpur</option>
-                  <option value="Chandpur">Chandpur</option>
                   <option value="Chattogram">Chattogram</option>
-                  <option value="Coxsbazar">Coxsbazar</option>
                   <option value="Coxsbazar">Coxsbazar</option>
                   <option value="Bandarban">Bandarban</option>
                   <option value="Sirajganj">Sirajganj</option>
@@ -182,7 +228,6 @@ const CrateDonationRequest = () => {
                   <option value="Khulna">Khulna</option>
                   <option value="Bagerhat">Bagerhat</option>
                   <option value="Jhenaidah">Jhenaidah</option>
-                  <option value="Jhenaidah">Jhenaidah</option>
                   <option value="Patuakhali">Patuakhali</option>
                   <option value="Pirojpur">Pirojpur</option>
                   <option value="Barisal">Barisal</option>
@@ -191,42 +236,67 @@ const CrateDonationRequest = () => {
                   <option value="Sylhet">Sylhet</option>
                   <option value="Moulvibazar">Moulvibazar</option>
                   <option value="Habiganj">Habiganj</option>
-                  <option value="Habiganj">Habiganj</option>
-                  <option value="Habiganj">Habiganj</option>
                   <option value="Gazipur">Gazipur</option>
                   <option value="Shariatpur">Shariatpur</option>
                   <option value="Narayanganj">Narayanganj</option>
-                  <option value="Tangail">Tangail</option>
-                  <option value="Kishoreganj">Kishoreganj</option>
-                  <option value="Manikganj">Manikganj</option>
                   <option value="Dhaka">Dhaka</option>
-                  <option value="Dhaka">Dhaka</option>
-                  <option value="Rajbari">Rajbari</option>
-                  <option value="Madaripur">Madaripur</option>
-                  <option value="Gopalganj">Gopalganj</option>
-                  <option value="Faridpur">Faridpur</option>
-                  <option value="Panchagarh">Panchagarh</option>
-                  <option value="Dinajpur">Dinajpur</option>
-                  <option value="Lalmonirhat">Lalmonirhat</option>
-                  <option value="Nilphamari">Nilphamari</option>
-                  <option value="Gaibandha">Gaibandha</option>
-                  <option value="Thakurgaon">Thakurgaon</option>
-                  <option value="Rangpur">Rangpur</option>
-                  <option value="Kurigram">Kurigram</option>
-                  <option value="Sherpur">Sherpur</option>
-                  <option value="Mymensingh">Mymensingh</option>
-                  <option value="Jamalpur">Jamalpur</option>
-                  <option value="Netrokona">Netrokona</option>
                 </select>
               </div>
             </div>
-          </div>
 
-          {/* Submit button */}
-          <div className="flex justify-start">
-            <button className="w-fit my-2 bg-primary text-white px-4 py-2 rounded">
-              Create Request
-            </button>
+            {/* Upozila input */}
+            <div className="row-span-1">
+              <label htmlFor="upozila" className="block text-sm">
+                Upozila
+              </label>
+              <input
+                name="upozila"
+                type="text"
+                id="upozila"
+                placeholder="Enter upozila"
+                className="border-2 w-full px-2 py-3 rounded-md outline-none"
+              />
+            </div>
+
+            {/* Donation Date input */}
+            <div className="row-span-1">
+              <label htmlFor="donation-date" className="block text-sm">
+                Donation Date
+              </label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                dateFormat="yyyy-MM-dd"
+                className="border-2 w-full px-2 py-3 rounded-md"
+              />
+            </div>
+
+            {/* Donation Time input */}
+            <div className="row-span-1">
+              <label htmlFor="donation-time" className="block text-sm">
+                Donation Time
+              </label>
+              <DatePicker
+                selected={time}
+                onChange={handleTimeChange}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="h:mm aa"
+                className="border-2 w-full px-2 py-3 rounded-md"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="row-span-1 col-span-1 lg:col-span-2">
+              <button
+                type="submit"
+                className="bg-primary text-white py-2 px-4 rounded-md w-full"
+              >
+                Update Request
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -234,4 +304,4 @@ const CrateDonationRequest = () => {
   );
 };
 
-export default CrateDonationRequest;
+export default UpdateDonationRequest;

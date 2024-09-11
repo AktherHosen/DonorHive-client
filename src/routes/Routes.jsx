@@ -13,6 +13,7 @@ import DonationRequests from "../pages/Dashboard/DonationRequests";
 import Contents from "../pages/Dashboard/Contents";
 import CreateBlog from "../pages/Dashboard/CreateBlog";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
+import UpdateDonationRequest from "../pages/Dashboard/UpdateDonationRequest";
 
 const router = createBrowserRouter([
   {
@@ -48,10 +49,7 @@ const router = createBrowserRouter([
             path: "create-donation-reqeust",
             element: <CrateDonationRequest />,
           },
-          {
-            path: "my-donation-requests",
-            element: <MyDonationRequests />,
-          },
+
           {
             path: "all-users",
             element: <Users />,
@@ -67,6 +65,14 @@ const router = createBrowserRouter([
           {
             path: "content-management/add-blog",
             element: <CreateBlog />,
+          },
+          {
+            path: "my-donation-requests",
+            element: <MyDonationRequests />,
+          },
+          {
+            path: "update-donation-request/:id",
+            element: <UpdateDonationRequest />,
           },
         ],
       },

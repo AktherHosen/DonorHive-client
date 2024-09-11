@@ -6,24 +6,37 @@ import { TbListDetails } from "react-icons/tb";
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const MyDonationRequests = () => {
   const { user } = useAuth();
   const [myDonationRequests, setMyDonationRequests] = useState([]);
 
+  const getData = async () => {
+    try {
+      const result = await axios(
+        `${import.meta.env.VITE_API_URL}/donation-requests/${user?.email}`
+      );
+      setMyDonationRequests(result.data);
+    } catch (err) {
+      console.log(err?.message);
+    }
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await axios(
-          `${import.meta.env.VITE_API_URL}/donation-requests/${user?.email}`
-        );
-        setMyDonationRequests(result.data);
-      } catch (err) {
-        console.log(err?.message);
-      }
-    };
     getData();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/donation-request/${id}`
+      );
+      getData();
+    } catch (err) {
+      console.log(err?.message);
+    }
+  };
   return (
     <>
       <Helmet>
@@ -45,7 +58,7 @@ const MyDonationRequests = () => {
           </thead>
           <tbody>
             {myDonationRequests.map((dn) => (
-              <tr className="py-2">
+              <tr key={dn._id} className="py-2">
                 <td>{dn.recipientName}</td>
                 <td>
                   {dn.district} - {dn.upozila}
@@ -73,14 +86,19 @@ const MyDonationRequests = () => {
                 </td>
                 <td>
                   <div className="flex gap-x-2">
-                    <FaRegEdit
-                      size={16}
-                      className="hover:scale-110 hover:transition-all hover:text-primary"
-                    />
-                    <AiFillDelete
-                      size={16}
-                      className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                    />
+                    <Link to={`/dashboard/update-donation-request/${dn._id}`}>
+                      <FaRegEdit
+                        size={16}
+                        className="hover:scale-110 hover:transition-all hover:text-primary"
+                      />
+                    </Link>
+
+                    <button onClick={() => handleDelete(dn._id)}>
+                      <AiFillDelete
+                        size={16}
+                        className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                      />
+                    </button>
                     <TbListDetails
                       size={16}
                       className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
