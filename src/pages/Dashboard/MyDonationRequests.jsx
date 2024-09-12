@@ -12,21 +12,24 @@ import { TiCancel, TiTick } from "react-icons/ti";
 const MyDonationRequests = () => {
   const { user } = useAuth();
   const [myDonationRequests, setMyDonationRequests] = useState([]);
+  const [filter, setFilter] = useState("");
 
   const getData = async () => {
     try {
       const result = await axios(
-        `${import.meta.env.VITE_API_URL}/donation-requests/${user?.email}`
+        `${import.meta.env.VITE_API_URL}/donation-requests/${
+          user?.email
+        }?filter=${filter}`
       );
       setMyDonationRequests(result.data);
     } catch (err) {
-      console.log(err?.message);
+      toast.error(err?.message);
     }
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [filter]);
 
   const handleDelete = async (id) => {
     try {
@@ -60,6 +63,26 @@ const MyDonationRequests = () => {
       </Helmet>
 
       <SectionTitle title={"My Donation Requests"} />
+      <div className="flex justify-end mb-3">
+        <div>
+          <label htmlFor="filterStatus" className="label block text-xs">
+            Filter By Status
+          </label>
+          <select
+            name="filterStatus"
+            id="filterStatus"
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+            className="border px-2 py-1 rounded-md"
+          >
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+            <option value="Cancel">Cancel</option>
+          </select>
+        </div>
+      </div>
       <div className="overflow-x-auto mt-2">
         <table className="table table-xs">
           <thead>
