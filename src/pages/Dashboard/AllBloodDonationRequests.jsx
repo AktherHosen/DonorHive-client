@@ -93,9 +93,9 @@ const AllBloodDonationRequests = () => {
                 {dn.status === "In Progress" ? (
                   <>
                     <td>
-                      {dn.requesterName}
+                      {dn.donorName}
                       <br />
-                      {dn.requesterEmail}
+                      {dn.donorEmail}
                     </td>
                   </>
                 ) : (
