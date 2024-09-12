@@ -16,6 +16,7 @@ import UpdateDonationRequest from "../pages/Dashboard/UpdateDonationRequest";
 import DonationRequestDetails from "../pages/Dashboard/DonationRequestDetails";
 import AllBloodDonationRequests from "../pages/Dashboard/AllBloodDonationRequests";
 import BloodDonationRequests from "../pages/BloodDonationRequests";
+import BlogDetail from "../pages/BlogDetail";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/blogs",
         element: <Blogs />,
+      },
+      {
+        path: "/blog-detail/:id",
+        element: <BlogDetail />,
       },
       {
         path: "/donation-requests",
