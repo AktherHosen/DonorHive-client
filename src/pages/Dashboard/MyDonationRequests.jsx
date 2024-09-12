@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { TiCancel, TiTick } from "react-icons/ti";
 
 const MyDonationRequests = () => {
   const { user } = useAuth();
@@ -37,7 +38,21 @@ const MyDonationRequests = () => {
       console.log(err?.message);
     }
   };
-
+  const handleStatus = async (id, status) => {
+    try {
+      await axios.patch(
+        `${import.meta.env.VITE_API_URL}/donation-request/${id}`,
+        { status: status }
+      );
+      toast.success("Status updated.");
+      getData();
+    } catch (err) {
+      toast.error(err?.message);
+    }
+  };
+  const inProgressRequests = myDonationRequests.filter(
+    (dn) => dn.status === "In Progress"
+  );
   return (
     <>
       <Helmet>
@@ -53,7 +68,13 @@ const MyDonationRequests = () => {
               <th>Recipient Location</th>
               <th>Donation Date</th>
               <th>Donation Time</th>
+              {inProgressRequests.length > 0 && (
+                <>
+                  <th>Donor Information</th>
+                </>
+              )}
               <th>Status</th>
+              <th>Manage Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -72,11 +93,51 @@ const MyDonationRequests = () => {
                   })}
                 </td>
                 <td>{dn.donationTime ? dn.donationTime : "N/A"}</td>
-
+                {dn.status === "In Progress" ? (
+                  <>
+                    <td>
+                      {dn.requesterName}
+                      <br />
+                      {dn.requesterEmail}
+                    </td>
+                  </>
+                ) : (
+                  inProgressRequests.length > 0 && (
+                    <>
+                      <td>-</td>
+                    </>
+                  )
+                )}
                 <td className="py-2">
                   <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5  rounded-full">
                     {dn.status}
                   </span>
+                </td>
+                <td>
+                  <div className="flex items-center gap-x-2">
+                    {dn.status === "In Progress" && (
+                      <>
+                        <button
+                          title="Done"
+                          onClick={() => handleStatus(dn._id, "Done")}
+                        >
+                          <TiTick
+                            size={20}
+                            className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                          />
+                        </button>
+                        <button
+                          title="Cancel"
+                          onClick={() => handleStatus(dn._id, "Cancel")}
+                        >
+                          <TiCancel
+                            size={20}
+                            className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                          />
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </td>
                 <td>
                   <div className="flex gap-x-2">
