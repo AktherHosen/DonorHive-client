@@ -94,7 +94,7 @@ const CrateDonationRequest = () => {
                 defaultValue={user?.displayName}
                 readOnly
                 placeholder="Enter name"
-                className="border-2 w-full px-2 py-3 rounded-md outline-none"
+                className="border-2 bg-gray-100 w-full px-2 py-3 rounded-md outline-none"
               />
             </div>
 
@@ -110,7 +110,7 @@ const CrateDonationRequest = () => {
                 defaultValue={user?.email}
                 readOnly
                 placeholder="Enter email"
-                className="border-2 w-full px-2 py-3 rounded-md outline-none"
+                className="border-2 bg-gray-100 w-full px-2 py-3 rounded-md outline-none"
               />
             </div>
 
@@ -180,7 +180,6 @@ const CrateDonationRequest = () => {
                   id="district"
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
-                  <option value="">Choose Option</option>
                   <option value="Comilla">Comilla</option>
                   <option value="Feni">Feni</option>
                   <option value="Brahmanbaria">Brahmanbaria</option>

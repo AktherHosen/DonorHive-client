@@ -5,10 +5,13 @@ import { MdDelete } from "react-icons/md";
 import toast from "react-hot-toast";
 const Contents = () => {
   const [blogs, setBlogs] = useState([]);
+  const [filter, setFilter] = useState("");
 
   const getData = async () => {
     try {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/blogs`);
+      const result = await axios(
+        `${import.meta.env.VITE_API_URL}/blogs?filter=${filter}`
+      );
       setBlogs(result.data);
     } catch (err) {
       console.log(err?.message);
@@ -40,7 +43,7 @@ const Contents = () => {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [filter]);
   return (
     <div className="pr-8 w-96 md:w-full lg:w-ful">
       <div className="flex justify-end">
@@ -50,6 +53,24 @@ const Contents = () => {
         >
           Add Blog
         </Link>
+      </div>
+      <div className="flex justify-center my-2">
+        <div>
+          <label htmlFor="filterStatus" className="label block text-xs">
+            Filter By Status
+          </label>
+          <select
+            name="filterStatus"
+            id="filterStatus"
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+            className="border px-2 py-1 rounded-md w-36"
+          >
+            <option value="">All</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
       </div>
       <div>
         {blogs.length > 0 ? (
@@ -61,8 +82,8 @@ const Contents = () => {
                     <th>Thumbnail</th>
                     <th>Blog Title</th>
                     <th>Content</th>
-
                     <th>Status</th>
+                    <th>Manage Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -85,7 +106,7 @@ const Contents = () => {
                               : blog.descriptionContent,
                         }}
                       />
-
+                      <td>{blog.status}</td>
                       <td>
                         <div className="flex items-center space-x-2">
                           {blog.status === "draft" ? (

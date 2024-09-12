@@ -162,7 +162,7 @@ const Sidebar = () => {
                 }`
               }
               data-tooltip-id="tooltip-requests"
-              data-tooltip-content="Donation Requests"
+              data-tooltip-content="All Donation Requests"
             >
               <VscGitPullRequestNewChanges size={20} />
               <span
@@ -170,7 +170,7 @@ const Sidebar = () => {
                   expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
-                Donation Requests
+                All Donation Requests
               </span>
             </NavLink>
             {!expanded && <Tooltip id="tooltip-requests" />}
