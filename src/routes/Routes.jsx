@@ -9,12 +9,13 @@ import Dashboard from "../layout/Dashboard";
 import CrateDonationRequest from "../pages/Dashboard/CrateDonationRequest";
 import MyDonationRequests from "../pages/Dashboard/MyDonationRequests";
 import Users from "../pages/Dashboard/Users";
-import DonationRequests from "../pages/Dashboard/DonationRequests";
 import Contents from "../pages/Dashboard/Contents";
 import CreateBlog from "../pages/Dashboard/CreateBlog";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import UpdateDonationRequest from "../pages/Dashboard/UpdateDonationRequest";
 import DonationRequestDetails from "../pages/Dashboard/DonationRequestDetails";
+import AllBloodDonationRequests from "../pages/Dashboard/AllBloodDonationRequests";
+import BloodDonationRequests from "../pages/BloodDonationRequests";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         element: <Blogs />,
       },
       {
+        path: "/donation-requests",
+        element: <BloodDonationRequests />,
+      },
+      {
         path: "dashboard",
         element: <Dashboard />,
         children: [
@@ -57,7 +62,7 @@ const router = createBrowserRouter([
           },
           {
             path: "all-blood-donation-request",
-            element: <DonationRequests />,
+            element: <AllBloodDonationRequests />,
           },
           {
             path: "content-management",
