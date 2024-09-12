@@ -93,10 +93,13 @@ const MyDonationRequests = () => {
                         className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                       />
                     </button>
-                    <TbListDetails
-                      size={16}
-                      className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                    />
+
+                    <Link to={`/dashboard/donation-request-details/${dn._id}`}>
+                      <TbListDetails
+                        size={16}
+                        className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                      />
+                    </Link>
                   </div>
                 </td>
               </tr>

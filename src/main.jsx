@@ -8,8 +8,6 @@ import AuthProvider from "./provider/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
 import "react-datepicker/dist/react-datepicker.css";
-import "react-time-picker/dist/TimePicker.css";
-import "react-clock/dist/Clock.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
