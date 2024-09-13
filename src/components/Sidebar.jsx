@@ -16,6 +16,8 @@ import "react-tooltip/dist/react-tooltip.css";
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(false);
 
+  // TODO : get isAdmin value from database
+  const isAdmin = true;
   return (
     <aside
       className={`min-h-[800px] bg-primary ${
@@ -65,6 +67,38 @@ const Sidebar = () => {
             </NavLink>
             {!expanded && <Tooltip id="tooltip-home" />}
           </li>
+          {isAdmin ? (
+            <>
+              {" "}
+              <li>
+                <NavLink
+                  to="/dashboard/all-users"
+                  className={({ isActive }) =>
+                    `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                      isActive
+                        ? "bg-white text-primary"
+                        : "bg-primary text-white"
+                    }`
+                  }
+                  data-tooltip-id="tooltip-users"
+                  data-tooltip-content="All Users"
+                >
+                  <PiUsersThreeFill size={20} />
+                  <span
+                    className={`transition-all ${
+                      expanded ? "ml-3" : "hidden lg:block ml-2"
+                    }`}
+                  >
+                    Users
+                  </span>
+                </NavLink>
+                {!expanded && <Tooltip id="tooltip-users" />}
+              </li>
+            </>
+          ) : (
+            <></>
+          )}
+
           <li>
             <NavLink
               to="/dashboard"
@@ -131,28 +165,7 @@ const Sidebar = () => {
             </NavLink>
             {!expanded && <Tooltip id="tooltip-my-requests" />}
           </li>
-          <li>
-            <NavLink
-              to="/dashboard/all-users"
-              className={({ isActive }) =>
-                `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                  isActive ? "bg-white text-primary" : "bg-primary text-white"
-                }`
-              }
-              data-tooltip-id="tooltip-users"
-              data-tooltip-content="All Users"
-            >
-              <PiUsersThreeFill size={20} />
-              <span
-                className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block ml-2"
-                }`}
-              >
-                Users
-              </span>
-            </NavLink>
-            {!expanded && <Tooltip id="tooltip-users" />}
-          </li>
+
           <li>
             <NavLink
               to="/dashboard/all-blood-donation-request"

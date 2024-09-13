@@ -3,8 +3,10 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
   const [districs, setDistrict] = useState([]);
   const [upozilas, setUpozilas] = useState([]);
   const navigate = useNavigate();
@@ -52,8 +54,6 @@ const Register = () => {
       district,
       upozila,
       bloodGroup,
-      password1,
-      password2,
       role,
       status,
     };
@@ -62,6 +62,7 @@ const Register = () => {
       const result = await createUser(email, password1);
       await updateUserProfile(name, photo);
       setUser({ ...result?.user, photoURL: photo, displayName: name });
+      const { data } = await axiosPublic.post("/users", userInfo);
       e.target.reset();
       toast.success("Registration successful.");
       navigate("/");
