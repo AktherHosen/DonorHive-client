@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { TbListDetails } from "react-icons/tb";
+import SectionTitle from "../components/SectionTitle";
 const BloodDonationRequests = () => {
   const [donationRequests, setDonationRequests] = useState([]);
   useEffect(() => {
@@ -24,10 +25,11 @@ const BloodDonationRequests = () => {
   return (
     <div className="px-4 md:px-3 lg:px-2 mt-2">
       <Helmet>
-        <title>Blogs</title>
+        <title>Donation Requests</title>
       </Helmet>
+      <SectionTitle title="Pending Request" />
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-2">
         <table className="table border">
           {/* head */}
           <thead>
