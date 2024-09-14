@@ -71,7 +71,7 @@ const AllBloodDonationRequests = () => {
                 </>
               )}
               <th>Status</th>
-
+              <th>Manage Actions</th>
               <th>Actions</th>
             </tr>
           </thead>

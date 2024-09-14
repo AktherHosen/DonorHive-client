@@ -22,12 +22,11 @@ const BloodDonationRequests = () => {
     getData();
   }, []);
   return (
-    <div>
+    <div className="px-4 md:px-3 lg:px-2 mt-2">
       <Helmet>
         <title>Blogs</title>
       </Helmet>
 
-      <h1>Pending donation request are shwon here {donationRequests.length}</h1>
       <div className="overflow-x-auto">
         <table className="table border">
           {/* head */}

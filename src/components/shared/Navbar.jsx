@@ -32,6 +32,9 @@ const Navbar = () => {
             <NavLink to="/donation-requests">Donation Request</NavLink>
           </li>
           <li>
+            <NavLink to="/donors">Donors</NavLink>
+          </li>
+          <li>
             <NavLink to="/blogs">Blog</NavLink>
           </li>
           {user && (
@@ -124,6 +127,9 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink to="/donation">Donation Request</NavLink>
+              </li>
+              <li>
+                <NavLink to="/donors">Donors</NavLink>
               </li>
               <li>
                 <NavLink to="/blogs">Blog</NavLink>
