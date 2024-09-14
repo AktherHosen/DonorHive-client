@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import { MdBloodtype, MdMarkEmailRead } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import { BiSolidEdit } from "react-icons/bi";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -69,15 +70,16 @@ const Profile = () => {
       upozila,
       bloodGroup,
     };
-
+    console.log(userInfo);
     try {
       const result = await axios.put(
-        `${import.meta.env.VITE_API_URL}/user/${user?.email}`,
+        `${import.meta.env.VITE_API_URL}/user/${userProfile._id}`,
         userInfo
       );
       toast.success("Profile updated successfully!");
-      getProfile();
       setEdit(false);
+      setUserProfile(result.data);
+      getProfile();
     } catch (err) {
       toast.error("Failed to update profile.");
     }
@@ -91,14 +93,20 @@ const Profile = () => {
         <title>Profile</title>
       </Helmet>
       <SectionTitle title="Profile" subTitle={userProfile?.name} />
-      <div className="flex flex-col-reverse lg:flex-row">
+      <div className="flex flex-col-reverse lg:flex-row gap-4">
         <div className="lg:flex-1">
-          <button
-            onClick={() => setEdit(!edit)}
-            className="my-3 bg-primary text-white font-semibold px-3 py-2 text-sm"
-          >
-            Edit Info
-          </button>
+          <div className="flex justify-end">
+            <button
+              onClick={() => setEdit(!edit)}
+              className="my-2 font-bold border p-0.5 shadow-sm rounded-sm text-sm"
+            >
+              <BiSolidEdit
+                size={25}
+                className="hover:text-primary hover:transition-colors hover:duration-300 "
+              />
+            </button>
+          </div>
+
           <form onSubmit={handleSubmit} className="w-full lg:w-[800px]">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
               {/* Name Field */}
@@ -126,11 +134,11 @@ const Profile = () => {
                   id="email"
                   type="email"
                   name="email"
-                  disabled
+                  disabled={!edit}
                   defaultValue={userProfile?.email || ""}
                   placeholder="Enter your email"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
-                  readOnly // Email is usually not editable
+                  className="w-full rounded-md px-2 py-2 border  focus:outline-none  bg-gray-100"
+                  readOnly
                 />
               </div>
 
@@ -226,16 +234,18 @@ const Profile = () => {
             )}
           </form>
         </div>
-        <div className="w-full lg:w-[250px] h-[320px] border rounded-3xl shadow-md px-2 py-1 hover:bg-primary hover:text-white hover:transition-all duration-300 hover:bg-opacity-95">
+        <div className="w-full lg:min-w-[250px] min-h-[320px] border rounded-3xl shadow-md px-2 py-1 hover:bg-primary hover:text-white hover:transition-all duration-300 hover:bg-opacity-95">
           <div className="flex justify-center  mt-2">
             <img
               src={userProfile?.photo}
               alt=""
-              className="h-[170px] w-full rounded-2xl p-6 border-2 shadow-sm"
+              className="h-[170px] w-full rounded-xl p-3 border-2 shadow-sm"
             />
           </div>
-          <div className="p-4 space-y-1 mb-4">
-            <h1 className="font-semibold text-lg">{userProfile?.name}</h1>
+          <div className="p-2 space-y-1 mb-4">
+            <h1 className="font-semibold font-bebas uppercase text-sm">
+              {userProfile?.name}
+            </h1>
             <div className="flex gap-x-2 items-center">
               <MdMarkEmailRead className="text-lg " />
               <span> {userProfile?.email}</span>

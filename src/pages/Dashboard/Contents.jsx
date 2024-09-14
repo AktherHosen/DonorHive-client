@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import toast from "react-hot-toast";
+import { IoAddCircleSharp } from "react-icons/io5";
 const Contents = () => {
   const [blogs, setBlogs] = useState([]);
   const [filter, setFilter] = useState("");
@@ -49,9 +50,9 @@ const Contents = () => {
       <div className="flex justify-end">
         <Link
           to="add-blog"
-          className="px-4 py-2 text-sm bg-primary rounded-md text-white font-semibold"
+          className="border rounded-full text-lg shadow-md p-0.5 hover:text-primary  font-semibold"
         >
-          Add Blog
+          <IoAddCircleSharp size={30} />
         </Link>
       </div>
       <div className="flex justify-center my-2">
