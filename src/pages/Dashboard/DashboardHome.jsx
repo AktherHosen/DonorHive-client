@@ -102,8 +102,6 @@ const DashboardHome = () => {
                           {dn.district} - {dn.upozila}
                         </td>
 
-                        {/* Conditionally render Requester Name and Email if status is "In Progress" */}
-
                         <td>
                           {new Date(dn.donationDate).toLocaleDateString(
                             "en-GB",

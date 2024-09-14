@@ -17,8 +17,10 @@ import AllBloodDonationRequests from "../pages/Dashboard/AllBloodDonationRequest
 import BloodDonationRequests from "../pages/BloodDonationRequests";
 import BlogDetail from "../pages/BlogDetail";
 import Profile from "../pages/Dashboard/Profile";
-import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
+
 import Donors from "../pages/Donors";
+import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +58,11 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        ),
         children: [
           {
             index: true,

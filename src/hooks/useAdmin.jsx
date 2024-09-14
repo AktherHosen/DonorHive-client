@@ -8,22 +8,27 @@ const useAdmin = () => {
   const [isVolunteer, setIsVolunteer] = useState(false);
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
+  const fetchUserRole = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axiosSecure.get(`/user/admin/${user.email}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      setIsAdmin(data.role === "admin");
+      setIsVolunteer(data.role === "volunteer");
+      console.log(data);
+    } catch (err) {
+      console.error("Error fetching user role:", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (user?.email) {
-      const fetchUserRole = async () => {
-        try {
-          setLoading(true);
-          const { data } = await axiosSecure.get(`/user/admin/${user.email}`);
-
-          setIsAdmin(data.role === "admin");
-          setIsVolunteer(data.role === "volunteer");
-        } catch (err) {
-          console.error("Error fetching user role:", err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-
       fetchUserRole();
     } else {
       setLoading(false);

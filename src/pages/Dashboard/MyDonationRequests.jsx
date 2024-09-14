@@ -8,6 +8,7 @@ import SectionTitle from "../../components/SectionTitle";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { TiCancel, TiTick } from "react-icons/ti";
+import toast from "react-hot-toast";
 
 const MyDonationRequests = () => {
   const { user } = useAuth();
@@ -38,7 +39,7 @@ const MyDonationRequests = () => {
       );
       getData();
     } catch (err) {
-      console.log(err?.message);
+      toast.error(err?.message);
     }
   };
   const handleStatus = async (id, status) => {
