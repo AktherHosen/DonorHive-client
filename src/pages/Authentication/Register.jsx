@@ -62,7 +62,7 @@ const Register = () => {
       const result = await createUser(email, password1);
       await updateUserProfile(name, photo);
       setUser({ ...result?.user, photoURL: photo, displayName: name });
-      const { data } = await axiosPublic.post("/users", userInfo);
+      const data = await axiosPublic.post("/users", userInfo);
       e.target.reset();
       toast.success("Registration successful.");
       navigate("/");

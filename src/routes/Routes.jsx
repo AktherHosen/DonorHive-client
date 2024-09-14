@@ -17,6 +17,7 @@ import DonationRequestDetails from "../pages/Dashboard/DonationRequestDetails";
 import AllBloodDonationRequests from "../pages/Dashboard/AllBloodDonationRequests";
 import BloodDonationRequests from "../pages/BloodDonationRequests";
 import BlogDetail from "../pages/BlogDetail";
+import Profile from "../pages/Dashboard/Profile";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <DashboardHome />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
           },
           {
             path: "create-donation-reqeust",

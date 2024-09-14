@@ -94,6 +94,30 @@ const Sidebar = () => {
                 </NavLink>
                 {!expanded && <Tooltip id="tooltip-users" />}
               </li>
+              <li>
+                <NavLink
+                  to="/dashboard/profile"
+                  className={({ isActive }) =>
+                    `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                      isActive
+                        ? "bg-white text-primary"
+                        : "bg-primary text-white"
+                    }`
+                  }
+                  data-tooltip-id="tooltip-users"
+                  data-tooltip-content="Profile"
+                >
+                  <PiUsersThreeFill size={20} />
+                  <span
+                    className={`transition-all ${
+                      expanded ? "ml-3" : "hidden lg:block ml-2"
+                    }`}
+                  >
+                    Profile
+                  </span>
+                </NavLink>
+                {!expanded && <Tooltip id="tooltip-users" />}
+              </li>
             </>
           ) : (
             <></>
