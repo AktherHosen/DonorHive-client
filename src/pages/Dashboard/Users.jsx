@@ -5,18 +5,22 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import { CiMenuKebab } from "react-icons/ci";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAdmin from "../../hooks/useAdmin";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const [filter, setFilter] = useState("");
-
+  const { isAdmin, isVolunteer } = useAdmin();
+  console.log(isAdmin);
+  console.log(isVolunteer);
   // Fetch user data
   const getUserData = async () => {
     setLoading(true);
     try {
-      const result = await axiosPublic.get(`/users?filter=${filter}`);
+      const result = await axiosSecure.get(`/users?filter=${filter}`);
       setUsers(result.data);
       setLoading(false);
     } catch (err) {
@@ -33,7 +37,7 @@ const Users = () => {
   const handleStatus = async (id, status) => {
     const newStatus = status === "active" ? "blocked" : "active";
     try {
-      await axios.patch(`${import.meta.env.VITE_API_URL}/user/${id}`, {
+      await axiosSecure.patch(`${import.meta.env.VITE_API_URL}/user/${id}`, {
         status: newStatus,
       });
       getUserData();
@@ -45,7 +49,7 @@ const Users = () => {
   // Handle making user an admin or volunteer
   const handleMakeAdmin = async (user, role) => {
     try {
-      await axios.patch(
+      await axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/user/admin/${user?._id}`,
         {
           role: role,

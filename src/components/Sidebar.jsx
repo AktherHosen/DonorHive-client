@@ -12,12 +12,14 @@ import {
   TbLayoutSidebarRightExpandFilled,
 } from "react-icons/tb";
 import "react-tooltip/dist/react-tooltip.css";
+import useAdmin from "../hooks/useAdmin";
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(false);
+  const { isAdmin, isVolunteer } = useAdmin();
 
   // TODO : get isAdmin value from database
-  const isAdmin = true;
+
   return (
     <aside
       className={`min-h-[800px] bg-primary ${
@@ -67,7 +69,7 @@ const Sidebar = () => {
             </NavLink>
             {!expanded && <Tooltip id="tooltip-home" />}
           </li>
-          {isAdmin ? (
+          {isAdmin || isVolunteer ? (
             <>
               {" "}
               <li>

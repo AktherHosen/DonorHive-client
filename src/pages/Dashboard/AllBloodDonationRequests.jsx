@@ -8,14 +8,16 @@ import { TbListDetails } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import SectionTitle from "../../components/SectionTitle";
 import { TiCancel, TiTick } from "react-icons/ti";
+import useAdmin from "../../hooks/useAdmin";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+
 const AllBloodDonationRequests = () => {
   const [allDonationRequests, setAllDonationRequests] = useState([]);
-
+  const { isAdmin, isVolunteer } = useAdmin();
+  const axiosSecure = useAxiosSecure();
   const getData = async () => {
     try {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/donation-requests`
-      );
+      const result = await axiosSecure(`/donation-requests`);
       setAllDonationRequests(result.data);
     } catch (err) {
       toast.error(err?.message);
@@ -27,9 +29,7 @@ const AllBloodDonationRequests = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/donation-request/${id}`
-      );
+      await axiosSecure.delete(`/donation-request/${id}`);
       getData();
     } catch (err) {
       console.log(err?.message);
@@ -37,10 +37,7 @@ const AllBloodDonationRequests = () => {
   };
   const handleStatus = async (id, status) => {
     try {
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/donation-request/${id}`,
-        { status: status }
-      );
+      await axiosSecure.patch(`/donation-request/${id}`, { status: status });
       toast.success("Status updated.");
       getData();
     } catch (err) {
@@ -138,19 +135,25 @@ const AllBloodDonationRequests = () => {
                 </td>
                 <td>
                   <div className="flex gap-x-2">
-                    <Link to={`/dashboard/update-donation-request/${dn._id}`}>
-                      <FaRegEdit
-                        size={16}
-                        className="hover:scale-110 hover:transition-all hover:text-primary"
-                      />
-                    </Link>
-
-                    <button onClick={() => handleDelete(dn._id)}>
-                      <AiFillDelete
-                        size={16}
-                        className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                      />
-                    </button>
+                    {isAdmin && (
+                      <>
+                        {/* Only admins can edit or delete */}
+                        <Link
+                          to={`/dashboard/update-donation-request/${dn._id}`}
+                        >
+                          <FaRegEdit
+                            size={16}
+                            className="hover:scale-110 hover:transition-all hover:text-primary"
+                          />
+                        </Link>
+                        <button onClick={() => handleDelete(dn._id)}>
+                          <AiFillDelete
+                            size={16}
+                            className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                          />
+                        </button>
+                      </>
+                    )}
 
                     <Link to={`/dashboard/donation-request-details/${dn._id}`}>
                       <TbListDetails
