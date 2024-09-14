@@ -12,13 +12,11 @@ import {
   TbLayoutSidebarRightExpandFilled,
 } from "react-icons/tb";
 import "react-tooltip/dist/react-tooltip.css";
-import useAdmin from "../hooks/useAdmin";
+import useAdmin from "../hooks/useAdmin"; // Custom hook to get role info
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(false);
-  const { isAdmin, isVolunteer } = useAdmin();
-
-  // TODO : get isAdmin value from database
+  const { isAdmin, isVolunteer } = useAdmin(); // Get role info
 
   return (
     <aside
@@ -47,6 +45,7 @@ const Sidebar = () => {
           </button>
         </div>
         <ul className="flex-1 px-3 text-white">
+          {/* Home */}
           <li>
             <NavLink
               to="/"
@@ -69,116 +68,174 @@ const Sidebar = () => {
             </NavLink>
             {!expanded && <Tooltip id="tooltip-home" />}
           </li>
-          {isAdmin || isVolunteer ? (
-            <>
-              {" "}
-              <li>
-                <NavLink
-                  to="/dashboard/all-users"
-                  className={({ isActive }) =>
-                    `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                      isActive
-                        ? "bg-white text-primary"
-                        : "bg-primary text-white"
-                    }`
-                  }
-                  data-tooltip-id="tooltip-users"
-                  data-tooltip-content="All Users"
+
+          {/* Admin or Volunteer - Dashboard */}
+          {(isAdmin || isVolunteer) && (
+            <li>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                    isActive ? "bg-white text-primary" : "bg-primary text-white"
+                  }`
+                }
+                data-tooltip-id="tooltip-dashboard"
+                data-tooltip-content="Dashboard"
+              >
+                <MdDashboardCustomize size={20} />
+                <span
+                  className={`transition-all ${
+                    expanded ? "ml-3" : "hidden lg:block ml-2"
+                  }`}
                 >
-                  <PiUsersThreeFill size={20} />
-                  <span
-                    className={`transition-all ${
-                      expanded ? "ml-3" : "hidden lg:block ml-2"
-                    }`}
-                  >
-                    Users
-                  </span>
-                </NavLink>
-                {!expanded && <Tooltip id="tooltip-users" />}
-              </li>
-              <li>
-                <NavLink
-                  to="/dashboard/profile"
-                  className={({ isActive }) =>
-                    `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                      isActive
-                        ? "bg-white text-primary"
-                        : "bg-primary text-white"
-                    }`
-                  }
-                  data-tooltip-id="tooltip-users"
-                  data-tooltip-content="Profile"
-                >
-                  <PiUsersThreeFill size={20} />
-                  <span
-                    className={`transition-all ${
-                      expanded ? "ml-3" : "hidden lg:block ml-2"
-                    }`}
-                  >
-                    Profile
-                  </span>
-                </NavLink>
-                {!expanded && <Tooltip id="tooltip-users" />}
-              </li>
-            </>
-          ) : (
-            <></>
+                  Dashboard
+                </span>
+              </NavLink>
+              {!expanded && <Tooltip id="tooltip-dashboard" />}
+            </li>
           )}
 
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                  isActive ? "bg-white text-primary" : "bg-primary text-white"
-                }`
-              }
-              data-tooltip-id="tooltip-dashboard"
-              data-tooltip-content="Dashboard"
-            >
-              <MdDashboardCustomize size={20} />
-              <span
-                className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block ml-2"
-                }`}
+          {/* Admin Only - All Users */}
+          {isAdmin && (
+            <li>
+              <NavLink
+                to="/dashboard/all-users"
+                className={({ isActive }) =>
+                  `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                    isActive ? "bg-white text-primary" : "bg-primary text-white"
+                  }`
+                }
+                data-tooltip-id="tooltip-users"
+                data-tooltip-content="All Users"
               >
-                Dashboard
-              </span>
-            </NavLink>
-            {!expanded && <Tooltip id="tooltip-dashboard" />}
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/create-donation-reqeust"
-              className={({ isActive }) =>
-                `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                  isActive ? "bg-white text-primary" : "bg-primary text-white"
-                }`
-              }
-              data-tooltip-id="tooltip-create"
-              data-tooltip-content="Create Donation Request"
-            >
-              <IoCreateSharp size={20} />
-              <span
-                className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block ml-2"
-                }`}
+                <PiUsersThreeFill size={20} />
+                <span
+                  className={`transition-all ${
+                    expanded ? "ml-3" : "hidden lg:block ml-2"
+                  }`}
+                >
+                  Users
+                </span>
+              </NavLink>
+              {!expanded && <Tooltip id="tooltip-users" />}
+            </li>
+          )}
+
+          {/* Volunteer or Admin - All Donation Requests */}
+          {(isAdmin || isVolunteer) && (
+            <li>
+              <NavLink
+                to="/dashboard/all-blood-donation-request"
+                className={({ isActive }) =>
+                  `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                    isActive ? "bg-white text-primary" : "bg-primary text-white"
+                  }`
+                }
+                data-tooltip-id="tooltip-requests"
+                data-tooltip-content="All Donation Requests"
               >
-                Post Donation Request
-              </span>
-            </NavLink>
-            {!expanded && <Tooltip id="tooltip-create" />}
-          </li>
+                <VscGitPullRequestNewChanges size={20} />
+                <span
+                  className={`transition-all ${
+                    expanded ? "ml-3" : "hidden lg:block ml-2"
+                  }`}
+                >
+                  All Donation Requests
+                </span>
+              </NavLink>
+              {!expanded && <Tooltip id="tooltip-requests" />}
+            </li>
+          )}
+
+          {/* Admin or Volunteer - Content Management */}
+          {(isAdmin || isVolunteer) && (
+            <li>
+              <NavLink
+                to="/dashboard/content-management"
+                className={({ isActive }) =>
+                  `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                    isActive ? "bg-white text-primary" : "bg-primary text-white"
+                  }`
+                }
+                data-tooltip-id="tooltip-content"
+                data-tooltip-content="Content Management"
+              >
+                <MdContentCopy size={20} />
+                <span
+                  className={`transition-all ${
+                    expanded ? "ml-3" : "hidden lg:block ml-2"
+                  }`}
+                >
+                  Content
+                </span>
+              </NavLink>
+              {!expanded && <Tooltip id="tooltip-content" />}
+            </li>
+          )}
+
+          {!isAdmin && !isVolunteer && (
+            <>
+              <li>
+                <NavLink
+                  to="/dashboard/create-donation-request"
+                  className={({ isActive }) =>
+                    `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                      isActive
+                        ? "bg-white text-primary"
+                        : "bg-primary text-white"
+                    }`
+                  }
+                  data-tooltip-id="tooltip-create"
+                  data-tooltip-content="Create Donation Request"
+                >
+                  <IoCreateSharp size={20} />
+                  <span
+                    className={`transition-all ${
+                      expanded ? "ml-3" : "hidden lg:block ml-2"
+                    }`}
+                  >
+                    Post Donation Request
+                  </span>
+                </NavLink>
+                {!expanded && <Tooltip id="tooltip-create" />}
+              </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/my-donation-requests"
+                  className={({ isActive }) =>
+                    `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
+                      isActive
+                        ? "bg-white text-primary"
+                        : "bg-primary text-white"
+                    }`
+                  }
+                  data-tooltip-id="tooltip-my-requests"
+                  data-tooltip-content="My Donation Requests"
+                >
+                  <BiSolidUser size={20} />
+                  <span
+                    className={`transition-all ${
+                      expanded ? "ml-3" : "hidden lg:block ml-2"
+                    }`}
+                  >
+                    My Donation Requests
+                  </span>
+                </NavLink>
+                {!expanded && <Tooltip id="tooltip-my-requests" />}
+              </li>
+            </>
+          )}
           <li>
             <NavLink
-              to="/dashboard/my-donation-requests"
+              to="/dashboard/profile"
               className={({ isActive }) =>
                 `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
                   isActive ? "bg-white text-primary" : "bg-primary text-white"
                 }`
               }
-              data-tooltip-id="tooltip-my-requests"
-              data-tooltip-content="My Donation Requests"
+              data-tooltip-id="tooltip-profile"
+              data-tooltip-content="Profile"
             >
               <BiSolidUser size={20} />
               <span
@@ -186,57 +243,13 @@ const Sidebar = () => {
                   expanded ? "ml-3" : "hidden lg:block ml-2"
                 }`}
               >
-                My Donation Requests
+                Profile
               </span>
             </NavLink>
-            {!expanded && <Tooltip id="tooltip-my-requests" />}
-          </li>
-
-          <li>
-            <NavLink
-              to="/dashboard/all-blood-donation-request"
-              className={({ isActive }) =>
-                `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                  isActive ? "bg-white text-primary" : "bg-primary text-white"
-                }`
-              }
-              data-tooltip-id="tooltip-requests"
-              data-tooltip-content="All Donation Requests"
-            >
-              <VscGitPullRequestNewChanges size={20} />
-              <span
-                className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block ml-2"
-                }`}
-              >
-                All Donation Requests
-              </span>
-            </NavLink>
-            {!expanded && <Tooltip id="tooltip-requests" />}
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/content-management"
-              className={({ isActive }) =>
-                `relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group h-[40px] ${
-                  isActive ? "bg-white text-primary" : "bg-primary text-white"
-                }`
-              }
-              data-tooltip-id="tooltip-content"
-              data-tooltip-content="Content Management"
-            >
-              <MdContentCopy size={20} />
-              <span
-                className={`transition-all ${
-                  expanded ? "ml-3" : "hidden lg:block ml-2"
-                }`}
-              >
-                Content
-              </span>
-            </NavLink>
-            {!expanded && <Tooltip id="tooltip-content" />}
+            {!expanded && <Tooltip id="tooltip-profile" />}
           </li>
         </ul>
+
         <div className="border-t flex p-3">
           <img src={logo} className="w-10 h-10 bg-white rounded-md" alt="" />
           <div
@@ -245,9 +258,10 @@ const Sidebar = () => {
             }`}
           >
             <div className="leading-4">
-              <h3 className="font-semibold text-white">Donor Hive</h3>
-              <span className="text-xs text-white">Donorhive@gmail.com</span>
+              <h3 className="font-semibold text-white">John Doe</h3>
+              <p className="text-white text-sm">Admin</p>
             </div>
+            <button className="bg-white rounded-md p-2">Logout</button>
           </div>
         </div>
       </nav>

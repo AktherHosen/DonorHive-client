@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import { CiMenuKebab } from "react-icons/ci";
-import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAdmin from "../../hooks/useAdmin";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const axiosSecure = useAxiosSecure();
   const [filter, setFilter] = useState("");
+  const axiosSecure = useAxiosSecure();
   const { isAdmin, isVolunteer } = useAdmin();
-  console.log(isAdmin);
-  console.log(isVolunteer);
+
   // Fetch user data
   const getUserData = async () => {
     setLoading(true);
@@ -51,9 +48,7 @@ const Users = () => {
     try {
       await axiosSecure.patch(
         `${import.meta.env.VITE_API_URL}/user/admin/${user?._id}`,
-        {
-          role: role,
-        }
+        { role }
       );
       toast.success(`Congratulations. Made ${role} successful.`);
       getUserData();
@@ -62,6 +57,20 @@ const Users = () => {
     }
   };
 
+  if (!isAdmin) {
+    return (
+      <div>
+        <Helmet>
+          <title>Access Denied</title>
+        </Helmet>
+        <SectionTitle
+          title="Access Denied"
+          subTitle="You do not have access to this page"
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Helmet>
@@ -69,7 +78,6 @@ const Users = () => {
       </Helmet>
       <SectionTitle title="Users" subTitle="Manage all users" />
 
-      {/* Filter options */}
       <div className="flex justify-end mb-3">
         <div>
           <label htmlFor="filterStatus" className="label block text-xs">
@@ -89,7 +97,6 @@ const Users = () => {
         </div>
       </div>
 
-      {/* Loading state */}
       {loading ? (
         <div className="flex justify-center items-center">
           <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-primary"></div>
@@ -98,7 +105,6 @@ const Users = () => {
       ) : (
         <div className="overflow-x-auto">
           <table className="table">
-            {/* Table Head */}
             <thead>
               <tr>
                 <th>Photo</th>
@@ -142,7 +148,6 @@ const Users = () => {
                         tabIndex={0}
                         className="dropdown-content menu bg-base-100 rounded-box z-50 w-32 p-1 shadow text-xs font-semibold"
                       >
-                        {/* Block/Unblock button */}
                         {user?.status === "active" ? (
                           <li>
                             <button
@@ -165,7 +170,6 @@ const Users = () => {
                           </li>
                         )}
 
-                        {/* Make Volunteer button */}
                         {user?.role !== "volunteer" && (
                           <li>
                             <button
@@ -176,7 +180,6 @@ const Users = () => {
                           </li>
                         )}
 
-                        {/* Make Admin button */}
                         {user?.role !== "admin" && (
                           <li>
                             <button
