@@ -6,7 +6,6 @@ import Register from "../pages/Authentication/Register";
 import Login from "../pages/Authentication/Login";
 import Blogs from "../pages/Blogs";
 import Dashboard from "../layout/Dashboard";
-import CrateDonationRequest from "../pages/Dashboard/CrateDonationRequest";
 import MyDonationRequests from "../pages/Dashboard/MyDonationRequests";
 import Users from "../pages/Dashboard/Users";
 import Contents from "../pages/Dashboard/Contents";
@@ -18,6 +17,7 @@ import AllBloodDonationRequests from "../pages/Dashboard/AllBloodDonationRequest
 import BloodDonationRequests from "../pages/BloodDonationRequests";
 import BlogDetail from "../pages/BlogDetail";
 import Profile from "../pages/Dashboard/Profile";
+import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
           },
           {
             path: "create-donation-reqeust",
-            element: <CrateDonationRequest />,
+            element: <CreateDonationRequest />,
           },
 
           {

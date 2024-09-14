@@ -8,9 +8,11 @@ import axios from "axios";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const axiosPublic = useAxiosPublic();
+  const [filter, setFilter] = useState("");
+
   const getUserData = async () => {
     try {
-      const result = await axiosPublic.get("/users");
+      const result = await axiosPublic.get(`/users?filter=${filter}`);
       setUsers(result.data);
     } catch (err) {
       toast.error(err?.message);
@@ -19,7 +21,7 @@ const Users = () => {
 
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [filter]);
 
   const handleStatus = async (id, status) => {
     const newStatus = status === "active" ? "blocked" : "active";
@@ -40,7 +42,24 @@ const Users = () => {
         <title>Users</title>
       </Helmet>
       <SectionTitle title="Users" subTitle="Manage all users" />
-
+      <div className="flex justify-end mb-3">
+        <div>
+          <label htmlFor="filterStatus" className="label block text-xs">
+            Filter By Status
+          </label>
+          <select
+            name="filterStatus"
+            id="filterStatus"
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+            className="border px-2 py-1 rounded-md"
+          >
+            <option value="">All</option>
+            <option value="active">Active</option>
+            <option value="blocked">Blocked</option>
+          </select>
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}

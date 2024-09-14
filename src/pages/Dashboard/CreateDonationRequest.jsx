@@ -6,7 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const CrateDonationRequest = () => {
+const CreateDonationRequest = () => {
   const { user } = useAuth();
   const [upozilas, setUpozilas] = useState([]);
   const [donateDate, setDonateDate] = useState(new Date());
@@ -30,15 +30,12 @@ const CrateDonationRequest = () => {
     const upozila = form.upozila.value;
     const donationTime = form.donationTime.value;
 
-    // Format date
     const formattedDonationDate = donateDate.toISOString().split("T")[0];
-
-    // Format time with AM/PM
     const timeParts = donationTime.split(":");
     let hours = parseInt(timeParts[0], 10);
     const minutes = timeParts[1];
     const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format
+    hours = hours % 12 || 12;
     const formattedDonationTime = `${hours}:${minutes} ${ampm}`;
 
     const status = "pending";
@@ -59,13 +56,17 @@ const CrateDonationRequest = () => {
 
     try {
       const result = await axios.post(
-        `${import.meta.env.VITE_API_URL}/donation-request`,
+        `${import.meta.env.VITE_API_URL}/donation-request?email=${user?.email}`,
         requestInfo
       );
       toast.success("Donation request submitted.");
       e.target.reset();
     } catch (err) {
-      toast.error(err?.message);
+      if (err.response && err.response.status === 403) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error(err?.message);
+      }
     }
   };
 
@@ -248,7 +249,7 @@ const CrateDonationRequest = () => {
           {/* Submit button */}
           <div className="flex justify-start">
             <button className="w-fit my-2 bg-primary text-white px-4 py-2 rounded">
-              Create Request
+              Request
             </button>
           </div>
         </form>
@@ -257,4 +258,4 @@ const CrateDonationRequest = () => {
   );
 };
 
-export default CrateDonationRequest;
+export default CreateDonationRequest;
