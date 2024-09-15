@@ -88,10 +88,13 @@ const MyDonationRequests = () => {
         <title>My Donation Requests</title>
       </Helmet>
 
-      <SectionTitle title={"My Donation Requests"} />
-      <div className="flex justify-end mb-3">
+      <div className="flex justify-between items-center my-4">
+        <SectionTitle
+          title="My Donation Requests"
+          subTitle="Manage your donation request"
+        />
         <div>
-          <label htmlFor="filterStatus" className="label block text-xs">
+          <label htmlFor="filterStatus" className="label block text-sm">
             Filter By Status
           </label>
           <select
@@ -99,7 +102,7 @@ const MyDonationRequests = () => {
             id="filterStatus"
             onChange={(e) => setFilter(e.target.value)}
             value={filter}
-            className="border px-2 py-1 rounded-md"
+            className="border px-4 py-2 rounded-md"
           >
             <option value="">All</option>
             <option value="pending">Pending</option>
@@ -109,114 +112,122 @@ const MyDonationRequests = () => {
           </select>
         </div>
       </div>
-      <div className="overflow-x-auto mt-2">
-        <table className="table table-sm">
-          <thead>
-            <tr>
-              <th>Recipient Name</th>
-              <th>Recipient Location</th>
-              <th>Donation Date</th>
-              <th>Donation Time</th>
-              {inProgressRequests.length > 0 && (
-                <>
-                  <th>Donor Information</th>
-                </>
-              )}
-              <th>Status</th>
-              <th>Manage Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {myDonationRequests.map((dn) => (
-              <tr key={dn._id} className="py-2">
-                <td>{dn.recipientName}</td>
-                <td>
-                  {dn.district} - {dn.upozila}
-                </td>
-                <td>
-                  {new Date(dn.donationDate).toLocaleDateString("en-GB", {
-                    year: "2-digit",
-                    month: "2-digit",
-                    day: "2-digit",
-                  })}
-                </td>
-                <td>{dn.donationTime ? dn.donationTime : "N/A"}</td>
-                {dn.status === "In Progress" ? (
+      {myDonationRequests.length > 0 ? (
+        <div className="overflow-x-auto mt-2">
+          <table className="table table-sm border">
+            <thead>
+              <tr>
+                <th>Recipient Name</th>
+                <th>Recipient Location</th>
+                <th>Donation Date</th>
+                <th>Donation Time</th>
+                {inProgressRequests.length > 0 && (
                   <>
-                    <td>
-                      {dn.requesterName}
-                      <br />
-                      {dn.requesterEmail}
-                    </td>
+                    <th>Donor Information</th>
                   </>
-                ) : (
-                  inProgressRequests.length > 0 && (
-                    <>
-                      <td>-</td>
-                    </>
-                  )
                 )}
-                <td className="py-2">
-                  <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5  rounded-full">
-                    {dn.status}
-                  </span>
-                </td>
-                <td>
-                  <div className="flex items-center gap-x-2">
-                    {dn.status === "In Progress" && (
-                      <>
-                        <button
-                          title="Done"
-                          onClick={() => handleStatus(dn._id, "Done")}
-                        >
-                          <TiTick
-                            size={20}
-                            className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                          />
-                        </button>
-                        <button
-                          title="Cancel"
-                          onClick={() => handleStatus(dn._id, "Cancel")}
-                        >
-                          <TiCancel
-                            size={20}
-                            className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                          />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </td>
-                <td>
-                  <div className="flex gap-x-2">
-                    <Link to={`/dashboard/update-donation-request/${dn._id}`}>
-                      <FaRegEdit
-                        size={16}
-                        className="hover:scale-110 hover:transition-all hover:text-primary"
-                      />
-                    </Link>
-
-                    <button onClick={() => handleDeleteConfirmation(dn._id)}>
-                      <AiFillDelete
-                        size={16}
-                        className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                      />
-                    </button>
-
-                    <Link to={`/dashboard/donation-request-details/${dn._id}`}>
-                      <TbListDetails
-                        size={16}
-                        className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
-                      />
-                    </Link>
-                  </div>
-                </td>
+                <th>Status</th>
+                <th>Manage Status</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {myDonationRequests.map((dn) => (
+                <tr key={dn._id} className="py-2">
+                  <td>{dn.recipientName}</td>
+                  <td>
+                    {dn.district} - {dn.upozila}
+                  </td>
+                  <td>
+                    {new Date(dn.donationDate).toLocaleDateString("en-GB", {
+                      year: "2-digit",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </td>
+                  <td>{dn.donationTime ? dn.donationTime : "N/A"}</td>
+                  {dn.status === "In Progress" ? (
+                    <>
+                      <td>
+                        {dn.requesterName}
+                        <br />
+                        {dn.requesterEmail}
+                      </td>
+                    </>
+                  ) : (
+                    inProgressRequests.length > 0 && (
+                      <>
+                        <td>-</td>
+                      </>
+                    )
+                  )}
+                  <td className="py-2">
+                    <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5  rounded-full">
+                      {dn.status}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-x-2">
+                      {dn.status === "In Progress" && (
+                        <>
+                          <button
+                            title="Done"
+                            onClick={() => handleStatus(dn._id, "Done")}
+                          >
+                            <TiTick
+                              size={20}
+                              className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                            />
+                          </button>
+                          <button
+                            title="Cancel"
+                            onClick={() => handleStatus(dn._id, "Cancel")}
+                          >
+                            <TiCancel
+                              size={20}
+                              className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                            />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex gap-x-2">
+                      <Link to={`/dashboard/update-donation-request/${dn._id}`}>
+                        <FaRegEdit
+                          size={16}
+                          className="hover:scale-110 hover:transition-all hover:text-primary"
+                        />
+                      </Link>
+
+                      <button onClick={() => handleDeleteConfirmation(dn._id)}>
+                        <AiFillDelete
+                          size={16}
+                          className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                        />
+                      </button>
+
+                      <Link
+                        to={`/dashboard/donation-request-details/${dn._id}`}
+                      >
+                        <TbListDetails
+                          size={16}
+                          className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
+                        />
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="text-gray-500 font-semibold text-sm">
+          No donation request found..
+        </p>
+      )}
     </>
   );
 };

@@ -62,11 +62,11 @@ const Users = () => {
       <Helmet>
         <title>Users</title>
       </Helmet>
-      <SectionTitle title="Users" subTitle="Manage all users" />
 
-      <div className="flex justify-end mb-3">
+      <div className="flex justify-between items-center mb-3">
+        <SectionTitle title="Users" subTitle="Manage all users" />
         <div>
-          <label htmlFor="filterStatus" className="label block text-xs">
+          <label htmlFor="filterStatus" className="label block text-sm">
             Filter By Status
           </label>
           <select
@@ -74,7 +74,7 @@ const Users = () => {
             id="filterStatus"
             onChange={(e) => setFilter(e.target.value)}
             value={filter}
-            className="border px-2 py-1 rounded-md"
+            className="border px-4 py-2 rounded-md"
           >
             <option value="">All</option>
             <option value="active">Active</option>

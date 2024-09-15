@@ -105,7 +105,15 @@ const DashboardHome = () => {
       <Helmet>
         <title>Dashboard</title>
       </Helmet>
-      <SectionTitle title={"Welcome"} subTitle={user?.displayName} />
+      <div className="my-6">
+        <h1 className="font-bebas text-xl font-bold">
+          Hey,{" "}
+          <span className="font-medium text-lg text-primary">
+            {user.displayName}
+          </span>
+        </h1>
+        <h4 className="font-semibold ">Welcome to your dashboard.</h4>
+      </div>
 
       {isAdmin || isVolunteer ? (
         <>
@@ -141,9 +149,11 @@ const DashboardHome = () => {
         <>
           {myDonationRequests.length > 0 ? (
             <>
-              <SectionTitle title={"Recent Donation Requests"} />
+              <div className="mb-2">
+                <SectionTitle title="your Donation Requests" />
+              </div>
               <div className="overflow-x-auto mt-2">
-                <table className="table table-sm">
+                <table className="table table-sm border">
                   <thead>
                     <tr>
                       <th>Recipient Name</th>
@@ -262,7 +272,7 @@ const DashboardHome = () => {
               <div className="my-4 text-center">
                 <Link
                   to="/dashboard/my-donation-requests"
-                  className="text-xs bg-primary text-white rounded-md px-3 py-1.5"
+                  className="text-sm bg-primary text-white rounded-md px-3 py-2"
                 >
                   View All My Requests
                 </Link>

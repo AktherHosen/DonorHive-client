@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import SectionTitle from "../../components/SectionTitle";
 
 const DonationRequestDetails = () => {
   const [donationRequest, setDonationRequest] = useState({});
@@ -63,8 +64,11 @@ const DonationRequestDetails = () => {
 
   return (
     <>
+      <div className="my-4">
+        <SectionTitle title="Donation" subTitle="Donation request details." />
+      </div>
       <div className="overflow-x-auto">
-        <table className="table border table-auto break-words">
+        <table className="table border table-auto table-sm break-words">
           <thead>
             <tr>
               <th>Requester Name</th>
@@ -74,15 +78,13 @@ const DonationRequestDetails = () => {
               <th>Requester Message</th>
               <th>Full Address</th>
               <th>District</th>
-
               <th>Donation Date & Time</th>
-
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="hover:bg-gray-100">
+            <tr>
               <td>
                 {requesterName}
                 <br />
@@ -106,7 +108,7 @@ const DonationRequestDetails = () => {
               <td>{status}</td>
               <td>
                 <button
-                  className="btn bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                  className=" bg-primary text-white py-2 px-4 rounded-md"
                   onClick={() =>
                     document.getElementById("my_modal_3").showModal()
                   }

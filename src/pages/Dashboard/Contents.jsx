@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { IoAddCircleSharp } from "react-icons/io5";
 import useAdmin from "../../hooks/useAdmin";
 import { MdDeleteForever } from "react-icons/md";
+import SectionTitle from "../../components/SectionTitle";
 const Contents = () => {
   const [blogs, setBlogs] = useState([]);
   const [filter, setFilter] = useState("");
@@ -80,7 +81,28 @@ const Contents = () => {
 
   return (
     <div>
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center my-4">
+        <SectionTitle
+          title="All Donation Requests"
+          subTitle="Manage all donation request."
+        />
+        <div>
+          <label htmlFor="filterStatus" className="label block text-sm">
+            Filter By Status
+          </label>
+          <select
+            name="filterStatus"
+            id="filterStatus"
+            onChange={(e) => setFilter(e.target.value)}
+            value={filter}
+            className="border px-4 py-2 rounded-md w-36"
+          >
+            <option value="">All</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+
         <Link
           to="add-blog"
           className="border rounded-full text-lg shadow-md p-0.5 hover:text-primary font-semibold"
@@ -89,29 +111,10 @@ const Contents = () => {
         </Link>
       </div>
 
-      <div className="flex justify-center my-2">
-        <div>
-          <label htmlFor="filterStatus" className="label block text-xs">
-            Filter By Status
-          </label>
-          <select
-            name="filterStatus"
-            id="filterStatus"
-            onChange={(e) => setFilter(e.target.value)}
-            value={filter}
-            className="border px-2 py-1 rounded-md w-36"
-          >
-            <option value="">All</option>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-          </select>
-        </div>
-      </div>
-
       <div>
         {blogs.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="table table-xs">
+            <table className="table table-xs border">
               <thead>
                 <tr>
                   <th>Thumbnail</th>

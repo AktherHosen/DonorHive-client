@@ -38,9 +38,10 @@ const CreateBlog = () => {
 
   return (
     <div>
-      <SectionTitle title="Create Blog" subTitle="create your blog" />
-
-      <div className="mt-4">
+      <div className="my-4">
+        <SectionTitle title="Blog" subTitle="Create your blog" />
+      </div>
+      <div>
         <form
           onSubmit={handleCreateContent}
           className="lg:w-full border-2 px-4 py-10 space-y-2 "

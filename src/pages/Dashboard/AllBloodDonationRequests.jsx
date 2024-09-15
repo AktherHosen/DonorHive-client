@@ -78,9 +78,14 @@ const AllBloodDonationRequests = () => {
         <title>All Donation Requests</title>
       </Helmet>
 
-      <SectionTitle title={"All Donation Requests"} />
+      <div className="my-4">
+        <SectionTitle
+          title="All Donation Requests"
+          subTitle="Manage all donation request."
+        />
+      </div>
       <div className="overflow-x-auto mt-2">
-        <table className="table table-xs">
+        <table className="table table-sm border">
           <thead>
             <tr>
               <th>Recipient Name</th>

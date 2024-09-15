@@ -16,15 +16,12 @@ const Sidebar = () => {
   const { isAdmin, isVolunteer } = useAdmin();
   const { user, logOut } = useAuth();
   const [isActive, setActive] = useState(false);
-
-  // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
 
   return (
     <>
-      {/* Small Screen Navbar */}
       <div className="bg-primary text-white flex justify-between md:hidden">
         <div>
           <div className="block cursor-pointer p-4 font-bold">
@@ -174,29 +171,31 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <div>
-          <hr />
+        <div className=" border-t-2">
+          <div className="mt-3 flex flex-row-reverse justify-between items-center">
+            <NavLink
+              to="/dashboard/profile"
+              className={({ isActive }) =>
+                `flex items-center transition-colors duration-300 transform p-1 rounded-full ${
+                  isActive ? "bg-gray-100  text-black" : ""
+                }`
+              }
+            >
+              <img
+                src={user?.photoURL}
+                alt="Profile"
+                className="h-10 w-10 rounded-full border"
+              />
+            </NavLink>
+            <button
+              onClick={logOut}
+              className="flex w-full items-center px-4 py-2  transition-colors duration-300 transform"
+            >
+              <GrLogout className="w-5 h-5" />
 
-          <NavLink
-            to="/dashboard/profile"
-            className={({ isActive }) =>
-              `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform   ${
-                isActive ? "bg-gray-100  text-black" : ""
-              }`
-            }
-          >
-            <CgProfile className="w-5 h-5 " />
-
-            <span className="mx-4 font-medium">Profile</span>
-          </NavLink>
-          <button
-            onClick={logOut}
-            className="flex w-full items-center px-4 py-2 mt-5 transition-colors duration-300 transform"
-          >
-            <GrLogout className="w-5 h-5" />
-
-            <span className="mx-4 font-medium">Logout</span>
-          </button>
+              <span className="mx-4 font-medium">Logout</span>
+            </button>
+          </div>
         </div>
       </div>
     </>
