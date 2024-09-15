@@ -62,38 +62,47 @@ const DonationRequestDetails = () => {
   } = donationRequest;
 
   return (
-    <div className="">
-      <div className="overflow-x-auto ">
-        <table className="table border w-full">
-          {/* head */}
+    <>
+      <div className="overflow-x-auto">
+        <table className="table border table-auto break-words">
           <thead>
             <tr>
               <th>Requester Name</th>
-              <th>Requester Email</th>
+
               <th>Recipient Name</th>
               <th>Hospital Name</th>
               <th>Requester Message</th>
               <th>Full Address</th>
               <th>District</th>
-              <th>Upozila</th>
-              <th>Donation Date</th>
-              <th>Donation Time</th>
+
+              <th>Donation Date & Time</th>
+
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr className="hover:bg-gray-100">
-              <td>{requesterName}</td>
-              <td>{requesterEmail}</td>
+              <td>
+                {requesterName}
+                <br />
+                {requesterEmail}
+              </td>
+
               <td>{recipientName}</td>
               <td>{hospitalName}</td>
               <td>{requestMessage}</td>
               <td>{fullAddress}</td>
-              <td>{district}</td>
-              <td>{upozila}</td>
-              <td>{donationDate}</td>
-              <td>{donationTime}</td>
+              <td>
+                {district} <br />
+                {upozila}
+              </td>
+
+              <td>
+                {donationDate} <br />
+                {donationTime}
+              </td>
+
               <td>{status}</td>
               <td>
                 <button
@@ -171,7 +180,7 @@ const DonationRequestDetails = () => {
           </div>
         </div>
       </dialog>
-    </div>
+    </>
   );
 };
 

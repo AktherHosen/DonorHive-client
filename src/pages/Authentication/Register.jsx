@@ -10,8 +10,7 @@ const Register = () => {
   const [districs, setDistrict] = useState([]);
   const [upozilas, setUpozilas] = useState([]);
   const navigate = useNavigate();
-  const { user, setUser, loading, setLoading, createUser, updateUserProfile } =
-    useAuth();
+  const { setUser, createUser, updateUserProfile } = useAuth();
 
   useEffect(() => {
     fetch("/districts.json")

@@ -103,7 +103,7 @@ const DashboardHome = () => {
   return (
     <div>
       <Helmet>
-        <title>Profile</title>
+        <title>Dashboard</title>
       </Helmet>
       <SectionTitle title={"Welcome"} subTitle={user?.displayName} />
 
@@ -143,7 +143,7 @@ const DashboardHome = () => {
             <>
               <SectionTitle title={"Recent Donation Requests"} />
               <div className="overflow-x-auto mt-2">
-                <table className="table table-xs">
+                <table className="table table-sm">
                   <thead>
                     <tr>
                       <th>Recipient Name</th>

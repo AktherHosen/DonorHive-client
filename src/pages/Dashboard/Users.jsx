@@ -57,20 +57,6 @@ const Users = () => {
     }
   };
 
-  if (!isAdmin) {
-    return (
-      <div>
-        <Helmet>
-          <title>Access Denied</title>
-        </Helmet>
-        <SectionTitle
-          title="Access Denied"
-          subTitle="You do not have access to this page"
-        />
-      </div>
-    );
-  }
-
   return (
     <div>
       <Helmet>

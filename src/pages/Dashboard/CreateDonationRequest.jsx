@@ -8,8 +8,17 @@ import toast from "react-hot-toast";
 
 const CreateDonationRequest = () => {
   const { user } = useAuth();
+  const [districs, setDistrict] = useState([]);
   const [upozilas, setUpozilas] = useState([]);
   const [donateDate, setDonateDate] = useState(new Date());
+
+  useEffect(() => {
+    fetch("/districts.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setDistrict(data);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("/upazilas.json")
@@ -71,7 +80,7 @@ const CreateDonationRequest = () => {
   };
 
   return (
-    <div className="pr-8 w-96 md:w-full lg:w-full">
+    <div>
       <Helmet>
         <title>Donation Request</title>
       </Helmet>
@@ -181,28 +190,11 @@ const CreateDonationRequest = () => {
                   id="district"
                   className="w-full rounded-md px-2 py-3 border focus:border-collapse focus:ring-1 focus:outline-none"
                 >
-                  <option value="Comilla">Comilla</option>
-                  <option value="Feni">Feni</option>
-                  <option value="Brahmanbaria">Brahmanbaria</option>
-                  <option value="Rangamati">Rangamati</option>
-                  <option value="Noakhali">Noakhali</option>
-                  <option value="Chandpur">Chandpur</option>
-                  <option value="Chattogram">Chattogram</option>
-                  <option value="Coxsbazar">Coxsbazar</option>
-                  <option value="Bandarban">Bandarban</option>
-                  <option value="Sirajganj">Sirajganj</option>
-                  <option value="Pabna">Pabna</option>
-                  <option value="Bogura">Bogura</option>
-                  <option value="Rajshahi">Rajshahi</option>
-                  <option value="Natore">Natore</option>
-                  <option value="Joypurhat">Joypurhat</option>
-                  <option value="Chapainawabganj">Chapainawabganj</option>
-                  <option value="Naogaon">Naogaon</option>
-                  <option value="Jashore">Jashore</option>
-                  <option value="Satkhira">Satkhira</option>
-                  <option value="Meherpur">Meherpur</option>
-                  <option value="Narail">Narail</option>
-                  <option value="Khulna">Khulna</option>
+                  {districs.map((dt) => (
+                    <option key={dt.id} value={dt.name}>
+                      {dt.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="flex-grow">

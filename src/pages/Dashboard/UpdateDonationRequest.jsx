@@ -6,7 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css"; // Import datepicker CSS
+import "react-datepicker/dist/react-datepicker.css";
 
 const UpdateDonationRequest = () => {
   const { id } = useParams();
@@ -16,9 +16,18 @@ const UpdateDonationRequest = () => {
   const [district, setDistrict] = useState("");
   const [upozila, setUpozila] = useState("");
   const [upozilas, setUpozilas] = useState([]);
+  const [allDistrict, setALDistrict] = useState([]);
   const [donationTime, setDonationTime] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("/districts.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setALDistrict(data);
+      });
+  }, []);
 
   useEffect(() => {
     fetch("/upazilas.json")
@@ -108,7 +117,7 @@ const UpdateDonationRequest = () => {
   } = donationRequest;
 
   return (
-    <div className="pr-8 w-96 md:w-full lg:w-full">
+    <div>
       <Helmet>
         <title>Update Donation Request</title>
       </Helmet>
@@ -223,19 +232,11 @@ const UpdateDonationRequest = () => {
                   onChange={(e) => setDistrict(e.target.value)}
                   className="border-2 w-full px-2 py-3 rounded-md outline-none"
                 >
-                  <option value="Comilla">Comilla</option>
-                  <option value="Feni">Feni</option>
-                  <option value="Brahmanbaria">Brahmanbaria</option>
-                  <option value="Rangamati">Rangamati</option>
-                  <option value="Noakhali">Noakhali</option>
-                  <option value="Chandpur">Chandpur</option>
-                  <option value="Chattogram">Chattogram</option>
-                  <option value="Coxsbazar">Coxsbazar</option>
-                  <option value="Bandarban">Bandarban</option>
-                  <option value="Sirajganj">Sirajganj</option>
-                  <option value="Dhaka">Dhaka</option>
-                  <option value="Gazipur">Gazipur</option>
-                  <option value="Narayanganj">Narayanganj</option>
+                  {allDistrict.map((dt) => (
+                    <option key={dt.id} value={dt.name}>
+                      {dt.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -289,9 +290,9 @@ const UpdateDonationRequest = () => {
             <div className="col-span-1 lg:col-span-2">
               <button
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                className="bg-primary text-white py-2 px-4 rounded-md"
               >
-                Update Request
+                Update
               </button>
             </div>
           </div>

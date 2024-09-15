@@ -75,7 +75,7 @@ const Contents = () => {
   }, [filter]);
 
   return (
-    <div className="pr-8 w-96 md:w-full lg:w-full">
+    <div>
       <div className="flex justify-end">
         <Link
           to="add-blog"

@@ -10,13 +10,15 @@ const Dashboard = () => {
         <title>Dashboard</title>
       </Helmet>
 
-      <div className="flex lg:px-0">
+      <div className="relative min-h-screen md:flex">
         <div>
           <Sidebar />
         </div>
-        <main className="flex-1 px-20 py-10 lg:px-4 min-h-screen">
-          <Outlet />
-        </main>
+        <div className="flex-1 md:ml-64">
+          <div className="p-6">
+            <Outlet />
+          </div>
+        </div>
       </div>
     </>
   );

@@ -24,8 +24,8 @@ const Funding = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString("en-US", {
-      dateStyle: "short", // Formats as MM/DD/YYYY
-      timeStyle: "short", // Formats as HH:MM AM/PM or 24-hour format based on locale
+      dateStyle: "short",
+      timeStyle: "short",
     });
   };
 

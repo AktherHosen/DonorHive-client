@@ -110,7 +110,7 @@ const MyDonationRequests = () => {
         </div>
       </div>
       <div className="overflow-x-auto mt-2">
-        <table className="table table-xs">
+        <table className="table table-sm">
           <thead>
             <tr>
               <th>Recipient Name</th>
