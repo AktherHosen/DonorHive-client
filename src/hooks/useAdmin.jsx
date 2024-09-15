@@ -6,11 +6,11 @@ const useAdmin = () => {
   const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isVolunteer, setIsVolunteer] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
   const fetchUserRole = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const { data } = await axiosSecure.get(`/user/admin/${user.email}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -23,7 +23,7 @@ const useAdmin = () => {
     } catch (err) {
       console.error("Error fetching user role:", err.message);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -31,11 +31,11 @@ const useAdmin = () => {
     if (user?.email) {
       fetchUserRole();
     } else {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, [user?.email]);
 
-  return { isAdmin, isVolunteer, loading };
+  return { isAdmin, isVolunteer, isLoading };
 };
 
 export default useAdmin;

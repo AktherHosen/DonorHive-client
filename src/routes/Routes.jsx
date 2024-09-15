@@ -21,6 +21,8 @@ import Profile from "../pages/Dashboard/Profile";
 import Donors from "../pages/Donors";
 import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
 import PrivateRoute from "./PrivateRoute";
+import Funding from "../pages/Funding";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
         element: <Donors />,
       },
       {
+        path: "/funding",
+        element: (
+          <PrivateRoute>
+            <Funding />
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "dashboard",
         element: (
           <PrivateRoute>
@@ -87,11 +97,19 @@ const router = createBrowserRouter([
           },
           {
             path: "content-management",
-            element: <Contents />,
+            element: (
+              <AdminRoute>
+                <Contents />
+              </AdminRoute>
+            ),
           },
           {
             path: "content-management/add-blog",
-            element: <CreateBlog />,
+            element: (
+              <AdminRoute>
+                <CreateBlog />
+              </AdminRoute>
+            ),
           },
           {
             path: "my-donation-requests",
