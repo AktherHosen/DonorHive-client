@@ -4,18 +4,35 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import { FaRegEdit } from "react-icons/fa";
 import axios from "axios";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiFillFund } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import toast from "react-hot-toast";
 import { TiTick, TiCancel } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
+import { FaUsers } from "react-icons/fa";
+import { VscGitPullRequestNewChanges } from "react-icons/vsc";
 
 const DashboardHome = () => {
   const { user } = useAuth();
   const [myDonationRequests, setMyDonationRequests] = useState([]);
   const { isAdmin, isVolunteer } = useAdmin();
+  const [statistics, setStatistics] = useState([]);
 
+  const getStatistics = async () => {
+    try {
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/statistics`
+      );
+      setStatistics(result.data);
+    } catch (err) {
+      toast.error(err?.message);
+    }
+  };
+  console.log(statistics);
+  useEffect(() => {
+    getStatistics();
+  }, []);
   const getData = async () => {
     try {
       const result = await axios(
@@ -68,7 +85,33 @@ const DashboardHome = () => {
 
       {isAdmin || isVolunteer ? (
         <>
-          <div>statistics</div>
+          <div className="my-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
+                <div>
+                  <h1 className="text-6xl">{statistics.totalDonors}</h1>
+                  <h1 className="text-sm font-semibold ">Total Donors</h1>
+                </div>
+                <FaUsers size={50} />
+              </div>
+              <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
+                <div>
+                  <h1 className="text-6xl">{statistics.totalBloodRequests}</h1>
+                  <h1 className="text-sm font-semibold ">Total Funding</h1>
+                </div>
+                <AiFillFund size={50} />
+              </div>
+              <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
+                <div>
+                  <h1 className="text-6xl">{statistics.totalBloodRequests}</h1>
+                  <h1 className="text-sm font-semibold ">
+                    Total Donation <br /> Requests
+                  </h1>
+                </div>
+                <VscGitPullRequestNewChanges size={50} />
+              </div>
+            </div>
+          </div>
         </>
       ) : (
         <>
