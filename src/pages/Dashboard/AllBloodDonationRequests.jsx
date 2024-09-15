@@ -27,7 +27,7 @@ const AllBloodDonationRequests = () => {
   useEffect(() => {
     getData();
   }, []);
-  // Confirmation toast for deletion
+
   const handleDeleteConfirmation = (id) => {
     toast((t) => (
       <span>

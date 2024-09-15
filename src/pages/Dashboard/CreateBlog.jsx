@@ -2,10 +2,12 @@ import React, { useRef, useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import JoditEditor from "jodit-react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 const CreateBlog = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
 
   const handleCreateContent = async (e) => {
     e.preventDefault();
@@ -25,13 +27,13 @@ const CreateBlog = () => {
         `${import.meta.env.VITE_API_URL}/blog`,
         blogInfo
       );
-      console.log(result.data);
     } catch (err) {
-      console.log(err?.message);
+      toast.error(err?.message);
     }
 
     setContent("");
     form.reset();
+    navigate("/dashboard/content-management");
   };
 
   return (
