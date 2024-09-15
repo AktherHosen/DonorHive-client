@@ -23,6 +23,7 @@ import CreateDonationRequest from "../pages/Dashboard/CreateDonationRequest";
 import PrivateRoute from "./PrivateRoute";
 import Funding from "../pages/Funding";
 import AdminRoute from "./AdminRoute";
+import Payment from "../pages/Payment";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Funding />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment",
+        element: (
+          <PrivateRoute>
+            <Payment />
           </PrivateRoute>
         ),
       },

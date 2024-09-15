@@ -96,7 +96,7 @@ const DashboardHome = () => {
               </div>
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
-                  <h1 className="text-6xl">{statistics.totalBloodRequests}</h1>
+                  <h1 className="text-6xl">{statistics.totalFunding}</h1>
                   <h1 className="text-sm font-semibold ">Total Funding</h1>
                 </div>
                 <AiFillFund size={50} />
