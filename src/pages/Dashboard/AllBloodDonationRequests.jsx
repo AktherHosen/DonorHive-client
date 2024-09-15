@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 import toast from "react-hot-toast";
 import { AiFillDelete } from "react-icons/ai";
@@ -11,22 +11,33 @@ import { TiCancel, TiTick } from "react-icons/ti";
 import useAdmin from "../../hooks/useAdmin";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdDeleteForever, MdCancel } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
 
 const AllBloodDonationRequests = () => {
-  const [allDonationRequests, setAllDonationRequests] = useState([]);
   const { isAdmin, isVolunteer } = useAdmin();
   const axiosSecure = useAxiosSecure();
-  const getData = async () => {
-    try {
-      const result = await axiosSecure(`/donation-requests`);
-      setAllDonationRequests(result.data);
-    } catch (err) {
+
+  // Use useQuery to fetch donation requests
+  const {
+    data: allDonationRequests = [],
+    refetch,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["donation-requests"],
+    queryFn: async () => {
+      const result = await axiosSecure.get(`/donation-requests`);
+      return result.data;
+    },
+    onError: (err) => {
       toast.error(err?.message);
-    }
-  };
-  useEffect(() => {
-    getData();
-  }, []);
+    },
+  });
+
+  // Error handling
+  if (isError) {
+    toast.error(error?.message);
+  }
 
   const handleDeleteConfirmation = (id) => {
     toast((t) => (
@@ -55,23 +66,26 @@ const AllBloodDonationRequests = () => {
       await axiosSecure.delete(`/donation-request/${id}`);
       toast.dismiss(toastId);
       toast.success("Donation request deleted successfully.");
-      getData();
+      refetch(); // Refetch data after delete
     } catch (err) {
       toast.error(err?.message);
     }
   };
+
   const handleStatus = async (id, status) => {
     try {
       await axiosSecure.patch(`/donation-request/${id}`, { status: status });
       toast.success("Status updated.");
-      getData();
+      refetch(); // Refetch data after status update
     } catch (err) {
       toast.error(err?.message);
     }
   };
+
   const inProgressRequests = allDonationRequests.filter(
     (dn) => dn.status === "In Progress"
   );
+
   return (
     <>
       <Helmet>
@@ -133,7 +147,7 @@ const AllBloodDonationRequests = () => {
                   )
                 )}
                 <td className="py-2">
-                  <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5  rounded-full">
+                  <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5 rounded-full">
                     {dn.status}
                   </span>
                 </td>

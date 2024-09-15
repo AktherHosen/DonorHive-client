@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { MdCancel, MdDelete } from "react-icons/md";
 import toast from "react-hot-toast";
@@ -7,32 +7,43 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import useAdmin from "../../hooks/useAdmin";
 import { MdDeleteForever } from "react-icons/md";
 import SectionTitle from "../../components/SectionTitle";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
 const Contents = () => {
-  const [blogs, setBlogs] = useState([]);
   const [filter, setFilter] = useState("");
   const { isAdmin, isVolunteer } = useAdmin();
+  const queryClient = useQueryClient();
 
-  const getData = async () => {
-    try {
-      const result = await axios(
+  // Fetch blogs using TanStack Query's useQuery hook
+  const {
+    data: blogs = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["blogs", filter],
+    queryFn: async () => {
+      const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/blogs?filter=${filter}`
       );
-      setBlogs(result.data);
-    } catch (err) {
-      console.log(err?.message);
-    }
-  };
+      return result.data;
+    },
+    keepPreviousData: true,
+  });
 
   const handleStatus = async (id, status) => {
     const newStatus = status === "published" ? "draft" : "published";
     if (status === "draft" && !isAdmin) return;
 
     try {
+      // Make the PATCH request to update the status
       await axios.patch(`${import.meta.env.VITE_API_URL}/blog/${id}`, {
         status: newStatus,
       });
-      getData();
+
       toast.success("Blog status updated");
+
+      // Refetch the blogs data after updating the status
+      queryClient.invalidateQueries(["blogs", filter]);
     } catch (err) {
       toast.error(err?.message);
     }
@@ -69,22 +80,20 @@ const Contents = () => {
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/blog/${id}`);
       toast.success("Blog Deleted Successfully.", { id: toastInstance.id });
-      getData();
+
+      // Refetch the blogs data after deletion
+      queryClient.invalidateQueries(["blogs", filter]);
     } catch (err) {
       toast.error(err?.message, { id: toastInstance.id });
     }
   };
-
-  useEffect(() => {
-    getData();
-  }, [filter]);
 
   return (
     <div>
       <div className="flex justify-between items-center my-4">
         <SectionTitle
           title="All Donation Requests"
-          subTitle="Manage all donation request."
+          subTitle="Manage all donation requests."
         />
         <div>
           <label htmlFor="filterStatus" className="label block text-sm">
@@ -112,7 +121,15 @@ const Contents = () => {
       </div>
 
       <div>
-        {blogs.length > 0 ? (
+        {isLoading ? (
+          <p className="text-gray-500 font-semibold text-start mt-4 text-sm">
+            Loading...
+          </p>
+        ) : isError ? (
+          <p className="text-red-500 font-semibold text-start mt-4 text-sm">
+            Error loading blogs!
+          </p>
+        ) : blogs.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="table table-xs border">
               <thead>
@@ -122,7 +139,7 @@ const Contents = () => {
                   <th>Content</th>
                   <th>Status</th>
                   <th>Manage Status</th>
-                  {isAdmin && <th>Actions</th>}{" "}
+                  {isAdmin && <th>Actions</th>}
                 </tr>
               </thead>
               <tbody>

@@ -12,7 +12,7 @@ const DonationRequestDetails = () => {
 
   const getData = async (id) => {
     try {
-      const result = await axios(
+      const result = await axios.get(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`
       );
       setDonationRequest(result.data);
@@ -107,14 +107,18 @@ const DonationRequestDetails = () => {
 
               <td>{status}</td>
               <td>
-                <button
-                  className=" bg-primary text-white py-2 px-4 rounded-md"
-                  onClick={() =>
-                    document.getElementById("my_modal_3").showModal()
-                  }
-                >
-                  Donate
-                </button>
+                {status !== "In Progress" ? (
+                  <button
+                    className="px-2 bg-primary text-white py-1 rounded-md"
+                    onClick={() =>
+                      document.getElementById("my_modal_3").showModal()
+                    }
+                  >
+                    Donate
+                  </button>
+                ) : (
+                  ""
+                )}
               </td>
             </tr>
           </tbody>
