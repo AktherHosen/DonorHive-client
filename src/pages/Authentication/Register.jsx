@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
@@ -71,23 +71,25 @@ const Register = () => {
   };
 
   return (
-    <>
+    <div className="px-4 md:px-3 lg:px-2 mt-2">
       <Helmet>
         <title>Registration</title>
       </Helmet>
-      <div className="min-h-[600px] flex items-center justify-center">
-        <div className=" w-full lg:w-[800px] max-w-lg flex flex-col items-center justify-center px-4">
-          <div className="space-y-2 mb-6">
-            <div className="flex flex-col items-center">
-              <p className="font-medium text-xl">Please Register</p>
+      <div className="flex items-center justify-center mt-4 ">
+        <div className="border w-full lg:max-w-2xl shadow-sm rounded-md">
+          <div className="space-y-2 mb-6 px-4 pt-4">
+            <div className="flex flex-col items-start">
+              <p className="font-medium text-xl uppercase">
+                Please Register{" "}
+                <span className="font-extrabold text-primary">.</span>
+              </p>
               <p className="text-xs">
                 You have to register to access this website.
               </p>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="w-full lg:w-[800px]">
+          <form onSubmit={handleSubmit} className="p-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-              {/* Name Field */}
               <div>
                 <label htmlFor="name" className="text-sm">
                   Name
@@ -215,15 +217,25 @@ const Register = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="w-full flex justify-end my-4">
+            <div className="w-full flex justify-end mt-4">
               <button className="px-4 w-full py-2 rounded-md bg-primary text-white">
                 Register
               </button>
             </div>
           </form>
+          <p className="px-6 mb-4 text-sm text-center">
+            Already have an account yet?{" "}
+            <Link
+              rel="noopener noreferrer"
+              to="/login"
+              className="hover:underline"
+            >
+              Login
+            </Link>
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -28,77 +28,72 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="px-4 md:px-3 lg:px-2 mt-2">
       <Helmet>
         <title>Login</title>
       </Helmet>
-      <div className="min-h-[600px] flex items-center justify-center w-full">
-        <div className="w-full px-4 md:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            <div className="hidden md:flex items-center justify-center">
-              <img
-                src={loginImg}
-                alt="Login"
-                className="h-[300px] lg:h-[400px] "
+
+      <div className="min-h-[600px] flex flex-col md:flex-row justify-center lg:gap-8 items-center">
+        <div className="flex items-center justify-center">
+          <img src={loginImg} alt="Login" className="h-[200px] md:h-[400px] " />
+        </div>
+        <div className="space-y-6  p-4 rounded-md shadow-md border-2  w-full md:max-w-lg">
+          <div>
+            <h1 className="font-bebas font-semibold uppercase text-start text-2xl text-slate-700">
+              Login <span className="font-extrabold text-green-500">.</span>
+            </h1>
+          </div>
+          <form onSubmit={handleLogin} className="space-y-2">
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm">
+                Email address
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                className="w-full px-3 py-2 border rounded-md"
+                required
               />
             </div>
-            <div className="space-y-6 min-h-[400px] lg:w-[400px] p-4 rounded-md shadow-md border-2 w-full">
-              <h1 className="font-bebas font-semibold uppercase text-center text-2xl text-slate-700">
-                Login
-              </h1>
-              <form onSubmit={handleLogin} className="space-y-2 w-full ">
-                <div>
-                  <label htmlFor="email" className="block mb-2 text-sm">
-                    Email address
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    className="w-full px-3 py-2 border rounded-md"
-                    required
-                  />
-                </div>
-                <div>
-                  <div className="block mb-2 text-sm">
-                    <label htmlFor="password" className="text-sm">
-                      Password
-                    </label>
-                  </div>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    className="w-full px-3 py-2 border rounded-md"
-                    required
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    className="mt-2 w-full font-semibold font-inter hover:transition-all hover:duration-200 px-4 py-2 text-white rounded-md bg-primary hover:bg-primary border-2"
-                  >
-                    Sign in
-                  </button>
-                </div>
-              </form>
-              <p className="px-6 text-sm text-center">
-                Don't have an account yet?{" "}
-                <Link
-                  rel="noopener noreferrer"
-                  to="/registration"
-                  className="hover:underline"
-                >
-                  Sign up
-                </Link>
-              </p>
+            <div>
+              <div className="block mb-2 text-sm">
+                <label htmlFor="password" className="text-sm">
+                  Password
+                </label>
+              </div>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter your password"
+                className="w-full px-3 py-2 border rounded-md"
+                required
+              />
             </div>
-          </div>
+            <div>
+              <button
+                type="submit"
+                className="mt-2 w-full font-semibold font-inter hover:transition-all hover:duration-200 px-4 py-2 text-white rounded-md bg-primary hover:bg-primary border-2"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+          <p className="px-6 text-sm text-center">
+            Don't have an account yet?{" "}
+            <Link
+              rel="noopener noreferrer"
+              to="/registration"
+              className="hover:underline"
+            >
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
