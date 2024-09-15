@@ -10,6 +10,7 @@ import SectionTitle from "../../components/SectionTitle";
 import { TiCancel, TiTick } from "react-icons/ti";
 import useAdmin from "../../hooks/useAdmin";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { MdDeleteForever, MdCancel } from "react-icons/md";
 
 const AllBloodDonationRequests = () => {
   const [allDonationRequests, setAllDonationRequests] = useState([]);
@@ -26,13 +27,37 @@ const AllBloodDonationRequests = () => {
   useEffect(() => {
     getData();
   }, []);
+  // Confirmation toast for deletion
+  const handleDeleteConfirmation = (id) => {
+    toast((t) => (
+      <span>
+        Are you sure you want to delete this request?
+        <div className="flex gap-2 mt-3">
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded"
+            onClick={() => handleDelete(id, t)}
+          >
+            <MdDeleteForever size={20} />
+          </button>
+          <button
+            className="bg-gray-300 px-4 py-2 rounded"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            <MdCancel size={20} />
+          </button>
+        </div>
+      </span>
+    ));
+  };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, toastId) => {
     try {
       await axiosSecure.delete(`/donation-request/${id}`);
+      toast.dismiss(toastId);
+      toast.success("Donation request deleted successfully.");
       getData();
     } catch (err) {
-      console.log(err?.message);
+      toast.error(err?.message);
     }
   };
   const handleStatus = async (id, status) => {
@@ -146,7 +171,9 @@ const AllBloodDonationRequests = () => {
                             className="hover:scale-110 hover:transition-all hover:text-primary"
                           />
                         </Link>
-                        <button onClick={() => handleDelete(dn._id)}>
+                        <button
+                          onClick={() => handleDeleteConfirmation(dn._id)}
+                        >
                           <AiFillDelete
                             size={16}
                             className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"

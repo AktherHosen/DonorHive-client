@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import { FaUsers } from "react-icons/fa";
 import { VscGitPullRequestNewChanges } from "react-icons/vsc";
+import { MdCancel, MdDeleteForever } from "react-icons/md";
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -48,11 +49,34 @@ const DashboardHome = () => {
     getData();
   }, [user?.email]);
 
-  const handleDelete = async (id) => {
+  const handleDeleteConfirmation = (id) => {
+    toast((t) => (
+      <span>
+        Are you sure you want to delete this request?
+        <div className="flex gap-2 mt-3">
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded"
+            onClick={() => handleDelete(id, t)}
+          >
+            <MdDeleteForever size={20} />
+          </button>
+          <button
+            className="bg-gray-300 px-4 py-2 rounded"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            <MdCancel size={20} />
+          </button>
+        </div>
+      </span>
+    ));
+  };
+  const handleDelete = async (id, toastId) => {
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/donation-request/${id}`
       );
+      toast.dismiss(toastId);
+      toast.success("Donation request deleted successfully.");
       getData();
     } catch (err) {
       toast.error(err?.message);
@@ -212,7 +236,9 @@ const DashboardHome = () => {
                                 className="hover:scale-110 hover:transition-all hover:text-primary"
                               />
                             </Link>
-                            <button onClick={() => handleDelete(dn._id)}>
+                            <button
+                              onClick={() => handleDeleteConfirmation(dn._id)}
+                            >
                               <AiFillDelete
                                 size={16}
                                 className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"

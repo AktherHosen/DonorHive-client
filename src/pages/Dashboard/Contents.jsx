@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MdDelete } from "react-icons/md";
+import { MdCancel, MdDelete } from "react-icons/md";
 import toast from "react-hot-toast";
 import { IoAddCircleSharp } from "react-icons/io5";
 import useAdmin from "../../hooks/useAdmin";
-
+import { MdDeleteForever } from "react-icons/md";
 const Contents = () => {
   const [blogs, setBlogs] = useState([]);
   const [filter, setFilter] = useState("");
@@ -36,15 +36,37 @@ const Contents = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDeleteConfirmation = (id) => {
+    toast((t) => (
+      <span>
+        Are you sure you want to delete this blog?
+        <div className="flex gap-2 mt-3">
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded"
+            onClick={() => handleDelete(id, t)}
+          >
+            <MdDeleteForever size={20} />
+          </button>
+          <button
+            className="bg-gray-300 px-4 py-2 rounded"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            <MdCancel size={20} />
+          </button>
+        </div>
+      </span>
+    ));
+  };
+
+  const handleDelete = async (id, toastInstance) => {
     if (!isAdmin) return;
 
     try {
       await axios.delete(`${import.meta.env.VITE_API_URL}/blog/${id}`);
-      toast.success("Blog Deleted Successfully.");
+      toast.success("Blog Deleted Successfully.", { id: toastInstance.id });
       getData();
     } catch (err) {
-      console.log(err?.message);
+      toast.error(err?.message, { id: toastInstance.id });
     }
   };
 
@@ -140,7 +162,7 @@ const Contents = () => {
                     {isAdmin && (
                       <td>
                         <button
-                          onClick={() => handleDelete(blog._id)}
+                          onClick={() => handleDeleteConfirmation(blog._id)}
                           className="px-2 py-1 rounded-md bg-slate-100 text-primary text-xl"
                         >
                           <MdDelete />
