@@ -40,25 +40,28 @@ const AllBloodDonationRequests = () => {
   }
 
   const handleDeleteConfirmation = (id) => {
-    toast((t) => (
-      <span>
-        Are you sure you want to delete this request?
-        <div className="flex gap-2 mt-3">
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded"
-            onClick={() => handleDelete(id, t)}
-          >
-            <MdDeleteForever size={20} />
-          </button>
-          <button
-            className="bg-gray-300 px-4 py-2 rounded"
-            onClick={() => toast.dismiss(t.id)}
-          >
-            <MdCancel size={20} />
-          </button>
-        </div>
-      </span>
-    ));
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this request?
+          <div className="flex gap-2 mt-3">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => handleDelete(id, t)}
+            >
+              <MdDeleteForever size={20} />
+            </button>
+            <button
+              className="bg-gray-300 px-4 py-2 rounded"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              <MdCancel size={20} />
+            </button>
+          </div>
+        </span>
+      ),
+      { autoClose: 3000 }
+    );
   };
 
   const handleDelete = async (id, toastId) => {

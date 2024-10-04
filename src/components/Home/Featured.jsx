@@ -3,7 +3,9 @@ import React from "react";
 const Featured = () => {
   return (
     <div>
-      <h1 className="font-bold uppercase text-2xl my-4">SERVICES</h1>
+      <h1 className="font-bold font-bebas uppercase text-2xl my-4 tracking-wider">
+        SERVICES
+      </h1>
       <hr />
       <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="border p-2">

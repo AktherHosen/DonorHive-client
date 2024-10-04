@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        bebas: "Bebas Neue', sans-serif",
-        inter: "Inter', sans-serif",
+        bebas: "'Bebas Neue', sans-serif",
+        inter: "'Inter', sans-serif",
       },
       backgroundColor: {
         primary: "#ac1a33",

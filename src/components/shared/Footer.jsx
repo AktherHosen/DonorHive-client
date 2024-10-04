@@ -75,9 +75,10 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Subscribe</h3>
             <form onSubmit={handleSubscribe}>
               <input
-                type="text"
+                type="email"
                 className="px-2 py-3 rounded-tl-xl w-full text-black rounded-br-xl bg-gray-100 outline-none"
                 placeholder="Enter your email"
+                required
               />
 
               <button className="bg-primary mt-2 rounded-tl-xl rounded-br-xl text-white px-6 py-2 rounded hover:scale-105 ">

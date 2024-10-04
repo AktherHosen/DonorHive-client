@@ -90,15 +90,12 @@ const Contents = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center my-4">
-        <SectionTitle
-          title="All Donation Requests"
-          subTitle="Manage all donation requests."
-        />
+      <SectionTitle
+        title="All Donation Requests"
+        subTitle="Manage all donation requests."
+      />
+      <div className="flex items-center justify-between  my-4">
         <div>
-          <label htmlFor="filterStatus" className="label block text-sm">
-            Filter By Status
-          </label>
           <select
             name="filterStatus"
             id="filterStatus"

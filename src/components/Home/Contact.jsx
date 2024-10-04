@@ -1,12 +1,20 @@
 import React from "react";
 import { MdMarkEmailUnread, MdPermPhoneMsg } from "react-icons/md";
 import { BsSendFill } from "react-icons/bs";
+import { toast } from "react-hot-toast";
 const Contact = () => {
+  const handleContact = (e) => {
+    e.preventDefault();
+    e.target.reset();
+    toast.success("Thanks for contacting us.");
+  };
   return (
     <div className="my-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
         <div>
-          <h1 className="text-3xl font-semibold mb-4">Let's Donate Together</h1>
+          <h1 className="text-3xl font-semibold mb-4 font-bebas tracking-wider">
+            Let's Donate Together
+          </h1>
           <div className="flex flex-col justify-center space-y-4">
             <p>
               If you have any questions, need assistance, or want to learn more
@@ -31,8 +39,10 @@ const Contact = () => {
           </div>
         </div>
         <div>
-          <h1 className="text-2xl font-bold uppercase">Contact Us</h1>
-          <form>
+          <h1 className="text-2xl font-bold uppercase font-bebas tracking-wider">
+            Contact Us
+          </h1>
+          <form onSubmit={handleContact}>
             <div className="flex flex-col lg:flex-row gap-2">
               <div className="lg:w-1/2">
                 <label htmlFor="name" className="block text-xm label">
@@ -50,6 +60,7 @@ const Contact = () => {
                 </label>
                 <input
                   type="email"
+                  required
                   placeholder="Enter your email"
                   className="border px-4 py-3 w-full outline-none"
                 />

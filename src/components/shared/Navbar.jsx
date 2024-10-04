@@ -5,12 +5,13 @@ import { RiCloseLargeFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import logo from "../../assets/logo.png";
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logOut } = useAuth();
 
   return (
-    <div className="navbar bg-base-100 px-0">
+    <div className="navbar bg-base-100 px-4 md:px-2 lg:px-0">
       <div className="navbar-start">
         <img src={logo} className="h-12" alt="" />
         <NavLink
@@ -59,7 +60,7 @@ const Navbar = () => {
           <div className="w-10 rounded-full lg:hidden">
             <img
               alt="User Profile"
-              className="rounded-full"
+              className="h-10 rounded-full"
               src={user?.photoURL}
             />
           </div>
@@ -73,7 +74,7 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="User Profile" src={user?.photoURL} />
+                <img alt="User Profile" className="h-10" src={user?.photoURL} />
               </div>
             </div>
             <ul
@@ -126,7 +127,7 @@ const Navbar = () => {
                 <NavLink to="/">Home</NavLink>
               </li>
               <li>
-                <NavLink to="/donation">Donation Request</NavLink>
+                <NavLink to="/donation-requests">Donation Request</NavLink>
               </li>
               <li>
                 <NavLink to="/donors">Donors</NavLink>
@@ -147,7 +148,10 @@ const Navbar = () => {
                     <NavLink to="/dashboard">Dashboard</NavLink>
                   </li>
                   <li>
-                    <button className="bg-primary shadow-lg hover:bg-white hover:text-primary border-2 text-white font-semibold w-fit px-4 py-2 rounded-md">
+                    <button
+                      onClick={() => logOut()}
+                      className="bg-primary shadow-lg hover:bg-white hover:text-primary border-2 text-white font-semibold w-fit px-4 py-2 rounded-md"
+                    >
                       Log Out <CiLogout size={16} className="font-bold" />
                     </button>
                   </li>

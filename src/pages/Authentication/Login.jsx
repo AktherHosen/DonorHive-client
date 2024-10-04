@@ -39,7 +39,7 @@ const Login = () => {
         </div>
         <div className="space-y-6  p-4 rounded-md shadow-md border-2  w-full md:max-w-lg">
           <div>
-            <h1 className="font-bebas font-semibold uppercase text-start text-2xl text-slate-700">
+            <h1 className="font-bebas font-medium uppercase text-start text-2xl text-slate-700">
               Login <span className="font-extrabold text-green-500">.</span>
             </h1>
           </div>

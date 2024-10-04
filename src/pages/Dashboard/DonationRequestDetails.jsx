@@ -44,7 +44,6 @@ const DonationRequestDetails = () => {
       document.getElementById("my_modal_3").close();
     } catch (err) {
       toast.error("Error updating donation request");
-      console.log(err.message);
     }
   };
 

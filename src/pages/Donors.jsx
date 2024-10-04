@@ -55,7 +55,7 @@ const Donors = () => {
 
   return (
     <div className="px-4 md:px-3 lg:px-2">
-      <h1 className="font-bebas font-semibold text-lg uppercase text-center">
+      <h1 className="font-bebas font-medium tracking-wider text-lg uppercase text-center">
         Search Your Donor
       </h1>
 

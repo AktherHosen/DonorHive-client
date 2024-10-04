@@ -26,11 +26,15 @@ const Blogs = () => {
         <title>Blogs</title>
       </Helmet>
       <SectionTitle title="Blogs" subTitle="Read, Learn and Grow" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-        {blogs.map((blog) => (
-          <BlogCard key={blog._id} blog={blog} />
-        ))}
-      </div>
+      {blogs.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-4">
+          {blogs.map((blog) => (
+            <BlogCard key={blog._id} blog={blog} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500">No published blog found.</p>
+      )}
     </div>
   );
 };

@@ -79,7 +79,7 @@ const Register = () => {
         <div className="border w-full lg:max-w-2xl shadow-sm rounded-md">
           <div className="space-y-2 mb-6 px-4 pt-4">
             <div className="flex flex-col items-start">
-              <p className="font-medium text-xl uppercase">
+              <p className="font-medium text-xl uppercase font-bebas">
                 Please Register{" "}
                 <span className="font-extrabold text-primary">.</span>
               </p>

@@ -93,21 +93,21 @@ const Profile = () => {
         <title>Profile</title>
       </Helmet>
       <SectionTitle title="Profile" subTitle={userProfile?.name} />
-      <div className="flex flex-col-reverse lg:flex-row gap-4">
-        <div className="lg:flex-1">
+      <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-4 lg:gap-6">
+        <div className="lg:col-span-2">
           <div className="flex justify-end">
             <button
               onClick={() => setEdit(!edit)}
-              className="my-2 font-bold border p-0.5 shadow-sm rounded-sm text-sm"
+              className="my-2 font-bold border p-1 shadow-sm rounded-sm text-sm"
             >
               <BiSolidEdit
-                size={25}
-                className="hover:text-primary hover:transition-colors hover:duration-300 "
+                size={26}
+                className="hover:bg-primary hover:text-white hover:transition-colors hover:duration-300 "
               />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="w-full lg:w-[800px]">
+          <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
               {/* Name Field */}
               <div>
@@ -234,16 +234,17 @@ const Profile = () => {
             )}
           </form>
         </div>
-        <div className="w-full lg:min-w-[250px] min-h-[320px] border rounded-3xl shadow-md px-2 py-1 hover:bg-primary hover:text-white hover:transition-all duration-300 hover:bg-opacity-95">
+
+        <div className="lg:col-span-1 w-full md:max-w-md border rounded-3xl shadow-md px-2 py-1 hover:bg-primary hover:text-white hover:transition-all duration-300 hover:bg-opacity-95">
           <div className="flex justify-center  mt-2">
             <img
               src={userProfile?.photo}
               alt=""
-              className="h-[170px] w-full rounded-xl p-3 border-2 shadow-sm"
+              className="h-[170px] w-[170px] rounded-full p-1 border-2 shadow-sm"
             />
           </div>
           <div className="p-2 space-y-1 mb-4">
-            <h1 className="font-semibold font-bebas uppercase text-sm">
+            <h1 className="font-semibold font-inter uppercase text-sm">
               {userProfile?.name}
             </h1>
             <div className="flex gap-x-2 items-center">

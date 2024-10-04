@@ -4,11 +4,11 @@ import JoditEditor from "jodit-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+
 const CreateBlog = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
   const navigate = useNavigate();
-
   const handleCreateContent = async (e) => {
     e.preventDefault();
     const form = e.target;

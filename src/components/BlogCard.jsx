@@ -6,26 +6,28 @@ const BlogCard = ({ blog }) => {
 
   const getTruncatedDescription = () => {
     const truncatedContent =
-      descriptionContent.length > 60
-        ? `${descriptionContent.substring(0, 70)}...`
+      descriptionContent.length > 70
+        ? `${descriptionContent.substring(0, 100)}...`
         : descriptionContent;
     return { __html: truncatedContent };
   };
 
   return (
-    <div className="w-full md:w-[350px]">
+    <div className="">
       <div className="border rounded-md">
         <img src={thumb} alt={title} className="w-full p-2 h-[300px]" />
       </div>
-      <div className="py-3 px-2">
-        <h1 className="font-bebas font-semibold text-lg">{title}</h1>
+      <div className="py-3 px-2 ">
+        <h1 className="font-bebas font-medium tracking-wide text-lg ">
+          {title}
+        </h1>
         <p
-          className="text-gray-600 text-sm"
+          className="text-gray-600 text-sm mb-3"
           dangerouslySetInnerHTML={getTruncatedDescription()}
         />
         <Link
           to={`/blog-detail/${_id}`}
-          className="hover:text-primary font-semibold hover:underline hover:transition-all hover:duration-200"
+          className="hover:text-primary font-semibold hover:underline hover:transition-all hover:duration-200 "
         >
           Read More
         </Link>

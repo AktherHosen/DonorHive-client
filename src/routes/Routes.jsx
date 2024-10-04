@@ -23,12 +23,13 @@ import PrivateRoute from "./PrivateRoute";
 import Funding from "../pages/Funding";
 import AdminRoute from "./AdminRoute";
 import Payment from "../pages/Payment";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    errorElement: <p>404, Not found</p>,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/blog-detail/:id",
-        element: <BlogDetail />,
+        element: (
+          <PrivateRoute>
+            <BlogDetail />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/donation-requests",

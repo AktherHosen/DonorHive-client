@@ -50,25 +50,28 @@ const DashboardHome = () => {
   }, [user?.email]);
 
   const handleDeleteConfirmation = (id) => {
-    toast((t) => (
-      <span>
-        Are you sure you want to delete this request?
-        <div className="flex gap-2 mt-3">
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded"
-            onClick={() => handleDelete(id, t)}
-          >
-            <MdDeleteForever size={20} />
-          </button>
-          <button
-            className="bg-gray-300 px-4 py-2 rounded"
-            onClick={() => toast.dismiss(t.id)}
-          >
-            <MdCancel size={20} />
-          </button>
-        </div>
-      </span>
-    ));
+    toast(
+      (t) => (
+        <span>
+          Are you sure you want to delete this request?
+          <div className="flex gap-2 mt-3">
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded"
+              onClick={() => handleDelete(id, t)}
+            >
+              <MdDeleteForever size={20} />
+            </button>
+            <button
+              className="bg-gray-300 px-4 py-2 rounded"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              <MdCancel size={20} />
+            </button>
+          </div>
+        </span>
+      ),
+      { autoClose: 3000 }
+    );
   };
   const handleDelete = async (id, toastId) => {
     try {
@@ -106,13 +109,15 @@ const DashboardHome = () => {
         <title>Dashboard</title>
       </Helmet>
       <div className="my-6">
-        <h1 className="font-bebas text-xl font-bold">
+        <h1 className="font-bebas text-2xl font-bold">
           Hey,{" "}
-          <span className="font-medium text-lg text-primary">
+          <span className="font-medium text-xl text-primary">
             {user.displayName}
           </span>
         </h1>
-        <h4 className="font-semibold ">Welcome to your dashboard.</h4>
+        <h4 className="font-normal text-lg tracking-wider uppercase font-bebas">
+          Welcome to your dashboard.
+        </h4>
       </div>
 
       {isAdmin || isVolunteer ? (
@@ -121,23 +126,29 @@ const DashboardHome = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
-                  <h1 className="text-6xl">{statistics.totalDonors}</h1>
+                  <h1 className="text-6xl font-bebas">
+                    {statistics.totalDonors}
+                  </h1>
                   <h1 className="text-sm font-semibold ">Total Donors</h1>
                 </div>
                 <FaUsers size={50} />
               </div>
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
-                  <h1 className="text-6xl">{statistics.totalFunding}</h1>
+                  <h1 className="text-6xl font-bebas">
+                    {statistics.totalFunding}
+                  </h1>
                   <h1 className="text-sm font-semibold ">Total Funding</h1>
                 </div>
                 <AiFillFund size={50} />
               </div>
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
-                  <h1 className="text-6xl">{statistics.totalBloodRequests}</h1>
+                  <h1 className="text-6xl font-bebas">
+                    {statistics.totalBloodRequests}
+                  </h1>
                   <h1 className="text-sm font-semibold ">
-                    Total Donation <br /> Requests
+                    Total Donation Requests
                   </h1>
                 </div>
                 <VscGitPullRequestNewChanges size={50} />

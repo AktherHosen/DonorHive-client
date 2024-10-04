@@ -176,7 +176,7 @@ const Sidebar = () => {
             <NavLink
               to="/dashboard/profile"
               className={({ isActive }) =>
-                `flex items-center transition-colors duration-300 transform p-1 rounded-full ${
+                `flex items-center transition-colors duration-300 h-[50px] w-[60px] rounded-[100%] transform p-1  ${
                   isActive ? "bg-gray-100  text-black" : ""
                 }`
               }
@@ -184,7 +184,7 @@ const Sidebar = () => {
               <img
                 src={user?.photoURL}
                 alt="Profile"
-                className="h-10 w-10 rounded-full border"
+                className="h-full w-full rounded-[100%] border"
               />
             </NavLink>
             <button

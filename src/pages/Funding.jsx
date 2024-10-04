@@ -48,7 +48,7 @@ const Funding = () => {
         <table className="table table-sm border">
           <thead>
             <tr>
-              <th></th>
+              <th>Serial No.</th>
               <th>Name</th>
               <th>Email</th>
               <th>Amount</th>

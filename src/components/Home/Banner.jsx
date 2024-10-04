@@ -8,7 +8,7 @@ const Banner = () => {
     <div>
       <div className="flex flex-col md:flex-row items-center  justify-between">
         <div className="flex items-center pt-8 md:pt-0">
-          <div>
+          <div className="text-center md:text-start">
             <h1 className="text-5xl uppercase font-semibold">
               Donate <br />
             </h1>
@@ -19,21 +19,21 @@ const Banner = () => {
               {!user ? (
                 <Link
                   to="/registration"
-                  className="border-2 px-4 py-3 rounded-md hover:bg-primary hover:text-white text-lg font-semibold"
+                  className="border-2 px-3 py-2 lg:px-4 lg:py-3 rounded-md hover:bg-primary hover:text-white text-sm lg:text-lg font-semibold"
                 >
                   Join as a Donor
                 </Link>
               ) : (
                 <Link
                   to="/dashboard"
-                  className="border-2 px-4 py-3 rounded-md hover:bg-primary hover:text-white text-lg font-semibold"
+                  className="border-2 px-3 py-2 lg:px-4 lg:py-3  rounded-md hover:bg-primary hover:text-white text-sm lg:text-lg font-semibold"
                 >
                   Join as a Donor
                 </Link>
               )}
               <Link
                 to="/donors"
-                className="px-4 py-3 bg-primary text-white rounded-md border-2 outline-none font-semibold text-lg flex items-center gap-3"
+                className="px-3 py-2 lg:px-4 lg:py-3 bg-primary text-white rounded-md border-2 outline-none font-semibold text-sm lg:text-lg flex items-center gap-3"
               >
                 Search Donor <FaSearch size={20} />
               </Link>
