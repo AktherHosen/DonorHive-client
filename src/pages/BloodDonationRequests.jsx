@@ -33,12 +33,12 @@ const BloodDonationRequests = () => {
         <div className="overflow-x-auto mt-2">
           <table className="table border">
             {/* head */}
-            <thead>
+            <thead className="bg-gray-50 uppercase font-semibold">
               <tr>
                 <th>Recipient Name</th>
                 <th>Location</th>
-                <th>Donation Date</th>
-                <th>Donation Time</th>
+                <th>Donation Date & Time</th>
+
                 <th>Actions</th>
               </tr>
             </thead>
@@ -47,8 +47,10 @@ const BloodDonationRequests = () => {
                 <tr key={dn._id} className="hover:bg-gray-100">
                   <td>{dn.recipientName}</td>
                   <td>{dn.fullAddress}</td>
-                  <td>{dn.donationDate}</td>
-                  <td>{dn.donationTime}</td>
+                  <td>
+                    {dn.donationDate} | {dn.donationTime}
+                  </td>
+
                   <td>
                     <Link to={`/dashboard/donation-request-details/${dn._id}`}>
                       <TbListDetails

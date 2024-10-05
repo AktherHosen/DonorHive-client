@@ -240,7 +240,7 @@ const CreateDonationRequest = () => {
 
           {/* Submit button */}
           <div className="flex justify-start">
-            <button className="w-fit my-2 bg-primary text-white px-4 py-2 rounded">
+            <button className="w-fit my-2 bg-primary font-bebas tracking-widest text-white px-4 py-2 rounded">
               Request
             </button>
           </div>

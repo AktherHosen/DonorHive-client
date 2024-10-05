@@ -92,7 +92,7 @@ const AllBloodDonationRequests = () => {
   return (
     <>
       <Helmet>
-        <title>All Donation Requests</title>
+        <title>Donation Requests | Dashboard</title>
       </Helmet>
 
       <div className="my-4">
@@ -102,13 +102,13 @@ const AllBloodDonationRequests = () => {
         />
       </div>
       <div className="overflow-x-auto mt-2">
-        <table className="table table-sm border">
-          <thead>
+        <table className="table  border">
+          <thead className="uppercase font-semibold bg-slate-100">
             <tr>
               <th>Recipient Name</th>
               <th>Recipient Location</th>
-              <th>Donation Date</th>
-              <th>Donation Time</th>
+              <th>Donation Date & Time</th>
+
               {inProgressRequests.length > 0 && (
                 <>
                   <th>Donor Information</th>
@@ -121,7 +121,7 @@ const AllBloodDonationRequests = () => {
           </thead>
           <tbody>
             {allDonationRequests.map((dn) => (
-              <tr key={dn._id} className="py-2">
+              <tr key={dn._id} className="py-2 bg-gray-50 hover:bg-gray-100">
                 <td>{dn.recipientName}</td>
                 <td>
                   {dn.district} - {dn.upozila}
@@ -131,9 +131,10 @@ const AllBloodDonationRequests = () => {
                     year: "2-digit",
                     month: "2-digit",
                     day: "2-digit",
-                  })}
+                  })}{" "}
+                  | {dn.donationTime ? dn.donationTime : "N/A"}
                 </td>
-                <td>{dn.donationTime ? dn.donationTime : "N/A"}</td>
+
                 {dn.status === "In Progress" ? (
                   <>
                     <td>
@@ -150,10 +151,21 @@ const AllBloodDonationRequests = () => {
                   )
                 )}
                 <td className="py-2">
-                  <span className="bg-primary text-white opacity-50 px-3 text-xs py-0.5 rounded-full">
+                  <span
+                    className={`px-3 text-xs py-0.5 rounded-full ${
+                      dn.status === "In Progress"
+                        ? "bg-yellow-500 text-white"
+                        : dn.status === "Done"
+                        ? "bg-green-500 text-white"
+                        : dn.status === "Cancel"
+                        ? "bg-red-500 text-white"
+                        : "bg-gray-500 text-white"
+                    }`}
+                  >
                     {dn.status}
                   </span>
                 </td>
+
                 <td>
                   <div className="flex items-center gap-x-2">
                     {dn.status === "In Progress" && (
@@ -163,7 +175,7 @@ const AllBloodDonationRequests = () => {
                           onClick={() => handleStatus(dn._id, "Done")}
                         >
                           <TiTick
-                            size={20}
+                            size={25}
                             className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                           />
                         </button>
@@ -172,7 +184,7 @@ const AllBloodDonationRequests = () => {
                           onClick={() => handleStatus(dn._id, "Cancel")}
                         >
                           <TiCancel
-                            size={20}
+                            size={25}
                             className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                           />
                         </button>
@@ -189,7 +201,7 @@ const AllBloodDonationRequests = () => {
                           to={`/dashboard/update-donation-request/${dn._id}`}
                         >
                           <FaRegEdit
-                            size={16}
+                            size={20}
                             className="hover:scale-110 hover:transition-all hover:text-primary"
                           />
                         </Link>
@@ -197,7 +209,7 @@ const AllBloodDonationRequests = () => {
                           onClick={() => handleDeleteConfirmation(dn._id)}
                         >
                           <AiFillDelete
-                            size={16}
+                            size={20}
                             className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                           />
                         </button>
@@ -206,7 +218,7 @@ const AllBloodDonationRequests = () => {
 
                     <Link to={`/dashboard/donation-request-details/${dn._id}`}>
                       <TbListDetails
-                        size={16}
+                        size={20}
                         className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                       />
                     </Link>

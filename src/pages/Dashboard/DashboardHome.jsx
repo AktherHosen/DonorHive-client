@@ -164,14 +164,14 @@ const DashboardHome = () => {
                 <SectionTitle title="your Donation Requests" />
               </div>
               <div className="overflow-x-auto mt-2">
-                <table className="table table-sm border">
-                  <thead>
+                <table className="table border">
+                  <thead className="bg-slate-100 font-semibold uppercase">
                     <tr>
                       <th>Recipient Name</th>
                       <th>Recipient Location</th>
 
-                      <th>Donation Date</th>
-                      <th>Donation Time</th>
+                      <th>Donation Date & Time</th>
+
                       {inProgressRequests.length > 0 && (
                         <>
                           <th>Donor Information</th>
@@ -184,7 +184,10 @@ const DashboardHome = () => {
                   </thead>
                   <tbody>
                     {myDonationRequests.slice(0, 3).map((dn) => (
-                      <tr key={dn._id} className="py-2">
+                      <tr
+                        key={dn._id}
+                        className="py-2 bg-gray-50 hover:bg-gray-100"
+                      >
                         <td>{dn.recipientName}</td>
                         <td>
                           {dn.district} - {dn.upozila}
@@ -198,9 +201,10 @@ const DashboardHome = () => {
                               month: "2-digit",
                               day: "2-digit",
                             }
-                          )}
+                          )}{" "}
+                          | {dn.donationTime ? dn.donationTime : "N/A"}
                         </td>
-                        <td>{dn.donationTime ? dn.donationTime : "N/A"}</td>
+
                         {dn.status === "In Progress" ? (
                           <>
                             <td>
@@ -253,7 +257,7 @@ const DashboardHome = () => {
                               to={`/dashboard/update-donation-request/${dn._id}`}
                             >
                               <FaRegEdit
-                                size={16}
+                                size={20}
                                 className="hover:scale-110 hover:transition-all hover:text-primary"
                               />
                             </Link>
@@ -261,7 +265,7 @@ const DashboardHome = () => {
                               onClick={() => handleDeleteConfirmation(dn._id)}
                             >
                               <AiFillDelete
-                                size={16}
+                                size={20}
                                 className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                               />
                             </button>
@@ -269,7 +273,7 @@ const DashboardHome = () => {
                               to={`/dashboard/donation-request-details/${dn._id}`}
                             >
                               <TbListDetails
-                                size={16}
+                                size={20}
                                 className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                               />
                             </Link>

@@ -96,7 +96,7 @@ const Profile = () => {
   return (
     <div>
       <Helmet>
-        <title>Profile</title>
+        <title>Profile | Dashboard</title>
       </Helmet>
       <SectionTitle title="Profile" subTitle={userProfile?.name} />
       <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-4 lg:gap-6">
@@ -237,7 +237,7 @@ const Profile = () => {
             <div className="w-full flex justify-start my-4">
               <button
                 disabled={!edit}
-                className={`px-5 w-fit py-2  rounded-md ${
+                className={`px-5 w-fit py-2 font-bebas tracking-widest rounded-md ${
                   edit
                     ? "bg-primary text-white"
                     : "bg-gray-400 text-gray-200 cursor-not-allowed"

@@ -55,10 +55,6 @@ const Donors = () => {
 
   return (
     <div className="px-4 md:px-3 lg:px-2">
-      <h1 className="font-bebas font-medium tracking-wider text-lg uppercase text-center">
-        Search Your Donor
-      </h1>
-
       <form
         onSubmit={handleSearch}
         className="h-[100px] flex gap-4 justify-center items-center"
@@ -108,17 +104,17 @@ const Donors = () => {
           </select>
         </div>
 
-        <button className="px-4 py-2 border-none outline-none bg-primary text-white rounded-md">
-          Search
+        <button className="px-4 py-2 border-none outline-none bg-primary text-white rounded-md font-bebas tracking-wider">
+          Search Donor
         </button>
       </form>
 
       {donors.length > 0 ? (
         <>
-          <p className="text-gray-500 mb-1">{donors.length} results found.</p>
+          <p className="text-gray-500 mb-1">{donors.length} results found</p>
           <div className="overflow-x-auto">
-            <table className="table">
-              <thead>
+            <table className="table border">
+              <thead className="bg-gray-50 uppercase">
                 <tr>
                   <th>Avatar</th>
                   <th>Name</th>
@@ -134,7 +130,7 @@ const Donors = () => {
                     <th>
                       <img
                         src={dn.photo}
-                        className="h-10 w-10 rounded-full"
+                        className="h-8 w-8 rounded-full"
                         alt=""
                       />
                     </th>
@@ -151,7 +147,7 @@ const Donors = () => {
           </div>
         </>
       ) : (
-        <p className="text-primary text-center">
+        <p className="text-primary text-center text-sm">
           No donors found. Please try a different search.
         </p>
       )}

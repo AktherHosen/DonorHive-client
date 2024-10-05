@@ -39,29 +39,29 @@ const Funding = () => {
         <SectionTitle title="Funding" subTitle="All funding history" />
         <Link
           to="/payment"
-          className="px-4 py-2 text-sm rounded-md bg-primary text-white"
+          className="px-4 py-2 text-md rounded-md bg-primary text-white font-bebas tracking-wider"
         >
           Donate
         </Link>
       </div>
       <div className="overflow-x-auto mt-4">
-        <table className="table table-sm border">
-          <thead>
+        <table className="table  border">
+          <thead className="uppercase bg-gray-50 font-semibold">
             <tr>
               <th>Serial No.</th>
               <th>Name</th>
               <th>Email</th>
               <th>Amount</th>
-              <th>Date</th>
+              <th>Date & Time</th>
             </tr>
           </thead>
           <tbody>
             {payments.map((payment, idx) => (
-              <tr key={payment._id}>
+              <tr key={payment._id} className="hover:bg-gray-50">
                 <th>{idx + 1}</th>
                 <td>{payment.name}</td>
                 <td>{payment.email}</td>
-                <td>{payment.price}</td>
+                <td>{payment.price}$</td>
                 <td>{formatDate(payment.date)}</td>
               </tr>
             ))}

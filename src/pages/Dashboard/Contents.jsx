@@ -8,6 +8,7 @@ import useAdmin from "../../hooks/useAdmin";
 import { MdDeleteForever } from "react-icons/md";
 import SectionTitle from "../../components/SectionTitle";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const Contents = () => {
   const [filter, setFilter] = useState("");
@@ -90,6 +91,9 @@ const Contents = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Content | Dashboard</title>
+      </Helmet>
       <SectionTitle
         title="All Donation Requests"
         subTitle="Manage all donation requests."
@@ -128,9 +132,9 @@ const Contents = () => {
           </p>
         ) : blogs.length > 0 ? (
           <div className="overflow-x-auto">
-            <table className="table table-xs border">
+            <table className="table  border">
               <thead>
-                <tr>
+                <tr className="uppercase font-semibold bg-slate-100">
                   <th>Thumbnail</th>
                   <th>Blog Title</th>
                   <th>Content</th>
@@ -141,7 +145,10 @@ const Contents = () => {
               </thead>
               <tbody>
                 {blogs.map((blog) => (
-                  <tr key={blog._id}>
+                  <tr
+                    key={blog._id}
+                    className="bg-gray-50 hover:bg-gray-100 p-2"
+                  >
                     <td>
                       <img
                         src={blog.thumb}
@@ -158,7 +165,19 @@ const Contents = () => {
                             : blog.descriptionContent,
                       }}
                     />
-                    <td>{blog.status}</td>
+                    <td>
+                      <span
+                        className={`px-3 text-xs py-0.5 rounded-full ${
+                          blog.status === "draft"
+                            ? "bg-red-500 text-white"
+                            : blog.status === "published"
+                            ? "bg-green-500 text-white"
+                            : "bg-gray-500 text-white"
+                        }`}
+                      >
+                        {blog.status}
+                      </span>
+                    </td>
                     <td>
                       {blog.status === "draft" ? (
                         isAdmin && (

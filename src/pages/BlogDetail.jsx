@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { FacebookShareButton, WhatsappShareButton } from "react-share";
 import { ImFacebook2 } from "react-icons/im";
 import { SiWhatsapp } from "react-icons/si";
+import Container from "../components/Container";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -39,7 +40,7 @@ const BlogDetail = () => {
       <Helmet>
         <title>Blog Details</title>
       </Helmet>
-      <div className="px-10 py-4 flex  justify-center flex-col">
+      <Container className="px-10 py-4 flex  justify-center flex-col">
         <div className="max-w-2xl mx-auto ">
           <img src={thumb} alt={title} className=" w-full h-[300px]" />
         </div>
@@ -65,7 +66,7 @@ const BlogDetail = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </>
   );
 };

@@ -79,7 +79,7 @@ const CreateBlog = () => {
           />
           <button
             type="submit"
-            className="px-4 py-2 rounded-md bg-primary text-white text-sm my-2"
+            className="px-4 py-2 rounded-md font-normal font-bebas tracking-widest bg-primary text-white text-sm my-2"
           >
             Submit
           </button>

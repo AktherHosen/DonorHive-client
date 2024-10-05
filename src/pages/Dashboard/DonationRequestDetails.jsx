@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import SectionTitle from "../../components/SectionTitle";
-
+import { Helmet } from "react-helmet-async";
+import { RxCross1 } from "react-icons/rx";
 const DonationRequestDetails = () => {
   const [donationRequest, setDonationRequest] = useState({});
   const { id } = useParams();
@@ -63,12 +64,15 @@ const DonationRequestDetails = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Donation Request Detail | Dashboard</title>
+      </Helmet>
       <div className="my-4">
         <SectionTitle title="Donation" subTitle="Donation request details." />
       </div>
       <div className="overflow-x-auto">
         <table className="table border table-auto table-sm break-words">
-          <thead>
+          <thead className="bg-slate-100">
             <tr>
               <th>Requester Name</th>
 
@@ -83,7 +87,7 @@ const DonationRequestDetails = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr className="bg-gray-50 hover:bg-gray-100">
               <td>
                 {requesterName}
                 <br />
@@ -104,11 +108,19 @@ const DonationRequestDetails = () => {
                 {donationTime}
               </td>
 
-              <td>{status}</td>
+              <td>
+                <span
+                  className={` rounded-full px-2 py-1 text-xs font-bold ${
+                    status === "pending" ? "bg-primary text-white" : ""
+                  }`}
+                >
+                  {status}
+                </span>
+              </td>
               <td>
                 {status !== "In Progress" ? (
                   <button
-                    className="px-2 bg-primary text-white py-1 rounded-md"
+                    className="px-2 bg-primary text-white py-1 rounded-md font-bebas tracking-widest"
                     onClick={() =>
                       document.getElementById("my_modal_3").showModal()
                     }
@@ -134,7 +146,9 @@ const DonationRequestDetails = () => {
           >
             ✕
           </button>
-          <h3 className="font-bold text-lg">Donation Form</h3>
+          <h3 className="text-lg font-bebas uppercase tracking-widest">
+            Donor Information
+          </h3>
           <div className="py-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -170,7 +184,7 @@ const DonationRequestDetails = () => {
                   type="submit"
                   className="btn bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
                 >
-                  Confirm Donation
+                  Confirm
                 </button>
 
                 <button

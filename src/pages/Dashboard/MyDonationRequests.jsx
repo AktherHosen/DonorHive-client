@@ -88,7 +88,7 @@ const MyDonationRequests = () => {
   return (
     <>
       <Helmet>
-        <title>My Donation Requests</title>
+        <title>My Donation Requests | Dashboard</title>
       </Helmet>
 
       <div className="flex justify-between items-center my-4">
@@ -117,8 +117,8 @@ const MyDonationRequests = () => {
       </div>
       {myDonationRequests.length > 0 ? (
         <div className="overflow-x-auto mt-2">
-          <table className="table table-sm border">
-            <thead>
+          <table className="table  border">
+            <thead className="bg-slate-50 uppercase font-semibold">
               <tr>
                 <th>Recipient Name</th>
                 <th>Recipient Location</th>
@@ -136,7 +136,7 @@ const MyDonationRequests = () => {
             </thead>
             <tbody>
               {myDonationRequests.map((dn) => (
-                <tr key={dn._id} className="py-2">
+                <tr key={dn._id} className="py-2 bg-gray-50 hover:bg-gray-100">
                   <td>{dn.recipientName}</td>
                   <td>
                     {dn.district} - {dn.upozila}
@@ -199,14 +199,14 @@ const MyDonationRequests = () => {
                     <div className="flex gap-x-2">
                       <Link to={`/dashboard/update-donation-request/${dn._id}`}>
                         <FaRegEdit
-                          size={16}
+                          size={20}
                           className="hover:scale-110 hover:transition-all hover:text-primary"
                         />
                       </Link>
 
                       <button onClick={() => handleDeleteConfirmation(dn._id)}>
                         <AiFillDelete
-                          size={16}
+                          size={20}
                           className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                         />
                       </button>
@@ -215,7 +215,7 @@ const MyDonationRequests = () => {
                         to={`/dashboard/donation-request-details/${dn._id}`}
                       >
                         <TbListDetails
-                          size={16}
+                          size={20}
                           className="hover:scale-110 hover:transition-all hover:text-primary hover:font-semibold"
                         />
                       </Link>

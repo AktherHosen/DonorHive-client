@@ -60,7 +60,7 @@ const Users = () => {
   return (
     <div>
       <Helmet>
-        <title>Users</title>
+        <title>Users | Dashboard</title>
       </Helmet>
 
       <div className="flex justify-between items-center mb-3">
@@ -90,12 +90,11 @@ const Users = () => {
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table">
-            <thead>
+          <table className="table border">
+            <thead className="bg-slate-100 font-semibold uppercase">
               <tr>
                 <th>Photo</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Info</th>
                 <th>Role</th>
                 <th>Status</th>
                 <th className="text-end">Manage Actions</th>
@@ -103,17 +102,30 @@ const Users = () => {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user._id}>
+                <tr key={user._id} className="bg-gray-50 hover:bg-gray-100">
                   <td>
                     <img
                       src={user.photo}
-                      className="h-12 w-12 rounded-full"
+                      className="h-8 w-8 rounded-full"
                       alt={user?.name}
                     />
                   </td>
-                  <td>{user?.name}</td>
-                  <td>{user?.email}</td>
-                  <td>{user?.role}</td>
+                  <td>
+                    {user?.name} <br />
+                    {user?.email}
+                  </td>
+
+                  <td>
+                    <span
+                      className={`px-3 text-xs py-0.5 rounded-full ${
+                        user?.role === "admin"
+                          ? "bg-red-500 text-white font-semibold"
+                          : ""
+                      }`}
+                    >
+                      {user?.role}
+                    </span>
+                  </td>
                   <td>
                     <span
                       className={`rounded-full px-3 py-1 ${
@@ -161,7 +173,7 @@ const Users = () => {
                             <button
                               onClick={() => handleMakeAdmin(user, "volunteer")}
                             >
-                              Make Volunteer
+                              Volunteer
                             </button>
                           </li>
                         )}
@@ -171,7 +183,7 @@ const Users = () => {
                             <button
                               onClick={() => handleMakeAdmin(user, "admin")}
                             >
-                              Make Admin
+                              Admin
                             </button>
                           </li>
                         )}

@@ -119,7 +119,7 @@ const UpdateDonationRequest = () => {
   return (
     <div>
       <Helmet>
-        <title>Update Donation Request</title>
+        <title>Update Donation Request | Dashboard</title>
       </Helmet>
       <SectionTitle
         title="Donation Request"
@@ -290,7 +290,7 @@ const UpdateDonationRequest = () => {
             <div className="col-span-1 lg:col-span-2">
               <button
                 type="submit"
-                className="bg-primary text-white py-2 px-4 rounded-md"
+                className="bg-primary text-white py-2 px-4 font-bebas tracking-widest rounded-md"
               >
                 Update
               </button>

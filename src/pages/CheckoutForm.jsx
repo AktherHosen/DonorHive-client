@@ -86,17 +86,19 @@ const CheckoutForm = ({ userName }) => {
 
   return (
     <div className="flex items-center justify-center min-h-[500px]">
-      <div className="w-[600px] flex flex-col justify-center gap-4 border rounded-md shadow-md px-5 py-8">
+      <div className="w-[600px] flex flex-col justify-center gap-4 border rounded-md shadow-md px-5 py-8 bg-primary text-white">
         {transactionId && (
           <p>
             TransactionId:{" "}
             <span className="text-green-500">{transactionId}</span>
           </p>
         )}
-        <h1 className="font-bold font-bebas mb-2 text-lg">PAYMENT</h1>
+        <h1 className="font-normal font-bebas mb-2 text-lg tracking-wider">
+          Pay Donation
+        </h1>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="price" className="block text-sm text-gray-500 mb-2">
+            <label htmlFor="price" className="block text-sm  mb-2">
               Enter amount
             </label>
             <input
@@ -115,19 +117,20 @@ const CheckoutForm = ({ userName }) => {
               style: {
                 base: {
                   fontSize: "16px",
-                  color: "#424770",
+                  color: "#ffffff",
+
                   "::placeholder": {
-                    color: "#aab7c4",
+                    color: "#ffffff",
                   },
                 },
                 invalid: {
-                  color: "#9e2146",
+                  color: "#ffffff",
                 },
               },
             }}
           />
           <button
-            className="bg-primary text-white px-6 py-2 mt-6 rounded-md"
+            className="bg-black text-white px-6 py-2 mt-6 rounded-md"
             type="submit"
             disabled={!stripe || !clientSecret}
           >

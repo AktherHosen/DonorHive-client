@@ -25,22 +25,68 @@ const Navbar = () => {
 
       {/* Centered menu for larger screens */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 space-x-2">
+        <ul className="menu menu-horizontal px-1 space-x-2 text-start">
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "border-b-2  border-primary  rounded-none"
+                  : " rounded-none"
+              }
+            >
+              Home
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/donation-requests">Donation Request</NavLink>
+            <NavLink
+              to="/donors"
+              className={({ isActive }) =>
+                isActive
+                  ? "border-b-2 border-primary bg-none rounded-none"
+                  : "bg-none rounded-none"
+              }
+            >
+              Donors
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/donors">Donors</NavLink>
+            <NavLink
+              to="/donation-requests"
+              className={({ isActive }) =>
+                isActive
+                  ? "border-b-2 border-primary bg-none rounded-none"
+                  : "bg-none rounded-none"
+              }
+            >
+              Donation Request
+            </NavLink>
           </li>
+
           <li>
-            <NavLink to="/blogs">Blog</NavLink>
+            <NavLink
+              to="/blogs"
+              className={({ isActive }) =>
+                isActive
+                  ? "border-b-2 border-primary bg-none rounded-none"
+                  : "bg-none rounded-none"
+              }
+            >
+              Blog
+            </NavLink>
           </li>
           {user && (
             <li>
-              <NavLink to="/funding">Funding Request</NavLink>
+              <NavLink
+                to="/funding"
+                className={({ isActive }) =>
+                  isActive
+                    ? "border-b-2 border-primary bg-none rounded-none "
+                    : "bg-none rounded-none"
+                }
+              >
+                Funding Request
+              </NavLink>
             </li>
           )}
         </ul>

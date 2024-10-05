@@ -13,6 +13,9 @@ export default {
       textColor: {
         primary: "#ac1a33",
       },
+      borderColor: {
+        primary: "#ac1a33",
+      },
     },
   },
   plugins: [require("daisyui")],

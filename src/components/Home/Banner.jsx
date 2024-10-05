@@ -2,10 +2,11 @@ import React from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import Container from "../Container";
 const Banner = () => {
   const { user } = useAuth();
   return (
-    <div>
+    <Container>
       <div className="flex flex-col md:flex-row items-center  justify-between">
         <div className="flex items-center pt-8 md:pt-0">
           <div className="text-center md:text-start">
@@ -44,7 +45,7 @@ const Banner = () => {
           <img src="https://i.ibb.co.com/gD7N7NN/25543-ai.png" alt="" />
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
