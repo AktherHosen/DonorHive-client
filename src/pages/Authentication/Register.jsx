@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { imageUpload } from "../../api/utils";
 
 const Register = () => {
   const axiosPublic = useAxiosPublic();
@@ -34,7 +35,6 @@ const Register = () => {
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
-    const photo = form.photo.value;
     const district = form.district.value;
     const upozila = form.upozila.value;
     const bloodGroup = form.bloodGroup.value;
@@ -42,6 +42,8 @@ const Register = () => {
     const password2 = form.password2.value;
     const role = "donor";
     const status = "active";
+    const photo = form.photo.files[0];
+    const photo_url = await imageUpload(photo);
 
     if (password1 !== password2) {
       return toast.error("Your password does not matched");
@@ -49,7 +51,7 @@ const Register = () => {
     const userInfo = {
       name,
       email,
-      photo,
+      photo: photo_url,
       district,
       upozila,
       bloodGroup,
@@ -59,8 +61,8 @@ const Register = () => {
 
     try {
       const result = await createUser(email, password1);
-      await updateUserProfile(name, photo);
-      setUser({ ...result?.user, photoURL: photo, displayName: name });
+      await updateUserProfile(name, photo_url);
+      setUser({ ...result?.user, photoURL: photo_url, displayName: name });
       const data = await axiosPublic.post("/users", userInfo);
       e.target.reset();
       toast.success("Registration successful.");
@@ -99,7 +101,7 @@ const Register = () => {
                   type="text"
                   name="name"
                   placeholder="Enter your first name"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
               </div>
 
@@ -113,7 +115,7 @@ const Register = () => {
                   type="email"
                   name="email"
                   placeholder="Enter your email"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
               </div>
 
@@ -125,7 +127,7 @@ const Register = () => {
                 <select
                   name="district"
                   id="district"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 >
                   {districs.map((dis) => (
                     <option key={dis.id} value={dis.name}>
@@ -143,7 +145,7 @@ const Register = () => {
                 <select
                   name="upozila"
                   id="upozila"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 >
                   {upozilas.map((up) => (
                     <option key={up.id} value={up.name}>
@@ -153,17 +155,16 @@ const Register = () => {
                 </select>
               </div>
 
-              {/* Photo Field */}
               <div>
                 <label htmlFor="photo" className="text-sm">
-                  Photo URL
+                  Upload Photo
                 </label>
                 <input
+                  type="file"
                   id="photo"
-                  type="text"
                   name="photo"
-                  placeholder="Enter your photo URL"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  accept="image/*"
+                  className="file-input   file-input-bordered file-input-md w-full rounded-md border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
               </div>
 
@@ -175,7 +176,7 @@ const Register = () => {
                 <select
                   name="bloodGroup"
                   id="blood"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 >
                   <option value="A+">A+</option>
                   <option value="A-">A-</option>
@@ -198,7 +199,7 @@ const Register = () => {
                   type="password"
                   name="password1"
                   placeholder="Password"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
               </div>
 
@@ -211,7 +212,7 @@ const Register = () => {
                   type="password"
                   name="password2"
                   placeholder="Confirm Password"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
               </div>
             </div>

@@ -41,6 +41,10 @@ Donor Hive is a MERN stack-based blood donation platform designed to seamlessly 
 
 - Custom alerts (SweetAlert/Toast) for CRUD operations, authentication events, and other user actions for clear feedback.
 
+### NEWLY ADDED FEATURE
+
+- Added file upload system instead of using file link
+
 ### INSTALLATION
 
 Install my-project with npm

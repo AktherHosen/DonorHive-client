@@ -7,6 +7,7 @@ import SectionTitle from "../../components/SectionTitle";
 import { MdBloodtype, MdMarkEmailRead } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
+import { imageUpload } from "../../api/utils";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -14,6 +15,7 @@ const Profile = () => {
   const [districs, setDistrict] = useState([]);
   const [upozilas, setUpozilas] = useState([]);
   const [edit, setEdit] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   // Fetch user profile
   const getProfile = async () => {
@@ -58,14 +60,18 @@ const Profile = () => {
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
-    const photo = form.photo.value;
     const district = form.district.value;
     const upozila = form.upozila.value;
     const bloodGroup = form.bloodGroup.value;
+    const photo = selectedPhoto || userProfile?.photo; // Use selected photo or current one
+    const photo_url = selectedPhoto
+      ? await imageUpload(photo)
+      : userProfile.photo;
+
     const userInfo = {
       name,
       email,
-      photo,
+      photo: photo_url,
       district,
       upozila,
       bloodGroup,
@@ -86,7 +92,7 @@ const Profile = () => {
   };
 
   if (!userProfile) return <div>Loading profile...</div>;
-  console.log(edit);
+
   return (
     <div>
       <Helmet>
@@ -121,7 +127,7 @@ const Profile = () => {
                   disabled={!edit}
                   defaultValue={userProfile?.name || ""}
                   placeholder="Enter your first name"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
               </div>
 
@@ -137,7 +143,7 @@ const Profile = () => {
                   disabled={!edit}
                   defaultValue={userProfile?.email || ""}
                   placeholder="Enter your email"
-                  className="w-full rounded-md px-2 py-2 border  focus:outline-none  bg-gray-100"
+                  className="w-full input-md rounded-md px-2 py-2 border  focus:outline-none  bg-gray-100"
                   readOnly
                 />
               </div>
@@ -152,8 +158,7 @@ const Profile = () => {
                   id="district"
                   disabled={!edit}
                   defaultValue={userProfile?.district}
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
-                  onChange={(e) => setUserProfile(e.target.value)}
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 >
                   {districs.map((dis) => (
                     <option key={dis.id} value={dis.name}>
@@ -173,7 +178,7 @@ const Profile = () => {
                   id="upozila"
                   disabled={!edit}
                   defaultValue={userProfile?.upozila}
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 >
                   {upozilas.map((up) => (
                     <option key={up.id} value={up.name}>
@@ -186,17 +191,23 @@ const Profile = () => {
               {/* Photo Field */}
               <div>
                 <label htmlFor="photo" className="text-sm">
-                  Photo URL
+                  Upload Photo
                 </label>
                 <input
+                  type="file"
                   id="photo"
-                  type="text"
                   name="photo"
                   disabled={!edit}
-                  defaultValue={userProfile?.photo || ""}
-                  placeholder="Enter your photo URL"
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  accept="image/*"
+                  onChange={(e) => setSelectedPhoto(e.target.files[0])}
+                  className="file-input file-input-bordered file-input-md w-full rounded-md border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 />
+                {/* Show the previous image name if no new photo is selected */}
+                {userProfile?.photo && !selectedPhoto && (
+                  <p className="text-sm text-gray-600 mt-1">
+                    Current file: {userProfile.photo.split("/").pop()}
+                  </p>
+                )}
               </div>
 
               {/* Blood Group Field */}
@@ -209,7 +220,7 @@ const Profile = () => {
                   id="blood"
                   disabled={!edit}
                   defaultValue={userProfile?.bloodGroup || ""}
-                  className="w-full rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
+                  className="w-full input-md rounded-md px-2 py-2 border focus:border-collapse focus:ring-1 focus:outline-none border-red"
                 >
                   <option value="A+">A+</option>
                   <option value="A-">A-</option>
@@ -223,23 +234,31 @@ const Profile = () => {
               </div>
             </div>
 
-            {edit ? (
-              <div className="w-full flex justify-start my-4">
-                <button className="px-5 w-fit py-2 rounded-md bg-primary text-white">
-                  Save
-                </button>
-              </div>
-            ) : (
-              ""
-            )}
+            <div className="w-full flex justify-start my-4">
+              <button
+                disabled={!edit}
+                className={`px-5 w-fit py-2  rounded-md ${
+                  edit
+                    ? "bg-primary text-white"
+                    : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                }`}
+              >
+                Save
+              </button>
+            </div>
           </form>
         </div>
 
-        <div className="lg:col-span-1 w-full md:max-w-md border rounded-3xl shadow-md px-2 py-1 hover:bg-primary hover:text-white hover:transition-all duration-300 hover:bg-opacity-95">
+        {/* Profile Display Section */}
+        <div className="lg:col-span-1 w-full  h-fit md:max-w-md border rounded-3xl shadow-md px-2 py-1 hover:bg-primary hover:text-white hover:transition-all duration-300 hover:bg-opacity-95">
           <div className="flex justify-center  mt-2">
             <img
-              src={userProfile?.photo}
-              alt=""
+              src={
+                selectedPhoto
+                  ? URL.createObjectURL(selectedPhoto)
+                  : userProfile?.photo
+              }
+              alt="Profile"
               className="h-[170px] w-[170px] rounded-full p-1 border-2 shadow-sm"
             />
           </div>
@@ -252,14 +271,8 @@ const Profile = () => {
               <span> {userProfile?.email}</span>
             </div>
             <div className="flex gap-x-2 items-center">
-              <FaLocationDot className="text-lg" />
-              <span> {userProfile?.district}, </span>
-              <span>{userProfile?.upozila}</span>
-            </div>
-
-            <div className="flex items-center gap-x-2">
-              <MdBloodtype className="text-xl" />
-              <span className=" font-bold">{userProfile?.bloodGroup}</span>
+              <MdBloodtype className="text-lg " />
+              <span> {userProfile?.bloodGroup}</span>
             </div>
           </div>
         </div>

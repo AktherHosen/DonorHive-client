@@ -4,6 +4,7 @@ import JoditEditor from "jodit-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { imageUpload } from "../../api/utils";
 
 const CreateBlog = () => {
   const editor = useRef(null);
@@ -14,12 +15,13 @@ const CreateBlog = () => {
     const form = e.target;
     const title = form.title.value;
     const descriptionContent = content;
-    const thumb = form.thumb.value;
+    const thumb = form.thumb.files[0];
+    const thumb_url = await imageUpload(thumb);
     const status = "draft";
     const blogInfo = {
       title,
       descriptionContent,
-      thumb,
+      thumb: thumb_url,
       status,
     };
     try {
@@ -54,18 +56,20 @@ const CreateBlog = () => {
               type="text"
               name="title"
               placeholder="Enter Blog Title"
-              className="px-4 py-2 rounded-md w-full border-2"
+              className="px-4 py-2 input-md rounded-md w-full border-2"
             />
           </div>
+
           <div>
             <label htmlFor="thumb" className="block mb-2 text-sm">
-              Blog Thumbnail
+              Upload Thumbnail
             </label>
             <input
-              type="text"
+              type="file"
+              id="thumb"
               name="thumb"
-              placeholder="Enter Thumbnail Link"
-              className="px-4 py-2 rounded-md w-full border-2"
+              accept="image/*"
+              className="file-input   border file-input-md rounded-md w-full file-input-bordered"
             />
           </div>
           <JoditEditor
