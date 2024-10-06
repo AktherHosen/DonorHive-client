@@ -11,7 +11,7 @@ import { GrLogout } from "react-icons/gr";
 import logo from "../assets/logo.png";
 import { CgProfile } from "react-icons/cg";
 import { RiExpandLeftRightLine } from "react-icons/ri";
-
+import { FaHistory } from "react-icons/fa";
 const Sidebar = () => {
   const { isAdmin, isVolunteer } = useAdmin();
   const { user, logOut } = useAuth();
@@ -166,6 +166,19 @@ const Sidebar = () => {
                     </span>
                   </NavLink>
                 </>
+              )}
+              {isAdmin && (
+                <NavLink
+                  to="/dashboard/donated"
+                  className={({ isActive }) =>
+                    `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform   ${
+                      isActive ? "bg-gray-100 text-black" : ""
+                    }`
+                  }
+                >
+                  <FaHistory className="w-5 h-5" />
+                  <span className="mx-4 font-medium">Donation History</span>
+                </NavLink>
               )}
             </nav>
           </div>

@@ -9,6 +9,7 @@ import { MdDeleteForever } from "react-icons/md";
 import SectionTitle from "../../components/SectionTitle";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
+import Loader from "../../components/Loader";
 
 const Contents = () => {
   const [filter, setFilter] = useState("");
@@ -124,7 +125,7 @@ const Contents = () => {
       <div>
         {isLoading ? (
           <p className="text-gray-500 font-semibold text-start mt-4 text-sm">
-            Loading...
+            <Loader />
           </p>
         ) : isError ? (
           <p className="text-red-500 font-semibold text-start mt-4 text-sm">

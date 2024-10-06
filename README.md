@@ -44,6 +44,7 @@ Donor Hive is a MERN stack-based blood donation platform designed to seamlessly 
 ### NEWLY ADDED FEATURE
 
 - Added file upload system instead of using file link
+- Added donation history pages where cancelled or donated request are stored
 
 ### INSTALLATION
 

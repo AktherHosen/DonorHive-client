@@ -5,6 +5,7 @@ import SectionTitle from "../../components/SectionTitle";
 import { CiMenuKebab } from "react-icons/ci";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAdmin from "../../hooks/useAdmin";
+import Loader from "../../components/Loader";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -83,119 +84,110 @@ const Users = () => {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-primary"></div>
-          <p className="ml-2 text-primary">Loading users...</p>
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table border">
-            <thead className="bg-slate-100 font-semibold uppercase">
-              <tr>
-                <th>Photo</th>
-                <th>Info</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th className="text-end">Manage Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user._id} className="bg-gray-50 hover:bg-gray-100">
-                  <td>
-                    <img
-                      src={user.photo}
-                      className="h-8 w-8 rounded-full"
-                      alt={user?.name}
-                    />
-                  </td>
-                  <td>
-                    {user?.name} <br />
-                    {user?.email}
-                  </td>
+      <div className="overflow-x-auto">
+        <table className="table border">
+          <thead className="bg-slate-100 font-semibold uppercase">
+            <tr>
+              <th>Photo</th>
+              <th>Info</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th className="text-end">Manage Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id} className="bg-gray-50 hover:bg-gray-100">
+                <td>
+                  <img
+                    src={user.photo}
+                    className="h-8 w-8 rounded-full"
+                    alt={user?.name}
+                  />
+                </td>
+                <td>
+                  {user?.name} <br />
+                  {user?.email}
+                </td>
 
-                  <td>
-                    <span
-                      className={`px-3 text-xs py-0.5 rounded-full ${
-                        user?.role === "admin"
-                          ? "bg-red-500 text-white font-semibold"
-                          : ""
-                      }`}
-                    >
-                      {user?.role}
-                    </span>
-                  </td>
-                  <td>
-                    <span
-                      className={`rounded-full px-3 py-1 ${
-                        user?.status === "active"
-                          ? "bg-green-500"
-                          : "bg-red-500"
-                      } text-white`}
-                    >
-                      {user?.status}
-                    </span>
-                  </td>
-                  <td className="text-end relative overflow-visible">
-                    <div className="dropdown dropdown-end">
-                      <div tabIndex={0} role="button" className="m-1">
-                        <CiMenuKebab size={20} />
-                      </div>
-                      <ul
-                        tabIndex={0}
-                        className="dropdown-content menu bg-base-100 rounded-box z-50 w-32 p-1 shadow text-xs font-semibold"
-                      >
-                        {user?.status === "active" ? (
-                          <li>
-                            <button
-                              onClick={() =>
-                                handleStatus(user?._id, user?.status)
-                              }
-                            >
-                              Block
-                            </button>
-                          </li>
-                        ) : (
-                          <li>
-                            <button
-                              onClick={() =>
-                                handleStatus(user?._id, user?.status)
-                              }
-                            >
-                              Unblock
-                            </button>
-                          </li>
-                        )}
-
-                        {user?.role !== "volunteer" && (
-                          <li>
-                            <button
-                              onClick={() => handleMakeAdmin(user, "volunteer")}
-                            >
-                              Volunteer
-                            </button>
-                          </li>
-                        )}
-
-                        {user?.role !== "admin" && (
-                          <li>
-                            <button
-                              onClick={() => handleMakeAdmin(user, "admin")}
-                            >
-                              Admin
-                            </button>
-                          </li>
-                        )}
-                      </ul>
+                <td>
+                  <span
+                    className={`px-3 text-xs py-0.5 rounded-full ${
+                      user?.role === "admin"
+                        ? "bg-red-500 text-white font-semibold"
+                        : ""
+                    }`}
+                  >
+                    {user?.role}
+                  </span>
+                </td>
+                <td>
+                  <span
+                    className={`rounded-full px-3 py-1 ${
+                      user?.status === "active" ? "bg-green-500" : "bg-red-500"
+                    } text-white`}
+                  >
+                    {user?.status}
+                  </span>
+                </td>
+                <td className="text-end relative overflow-visible">
+                  <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="m-1">
+                      <CiMenuKebab size={20} />
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content menu bg-base-100 rounded-box z-50 w-32 p-1 shadow text-xs font-semibold"
+                    >
+                      {user?.status === "active" ? (
+                        <li>
+                          <button
+                            onClick={() =>
+                              handleStatus(user?._id, user?.status)
+                            }
+                          >
+                            Block
+                          </button>
+                        </li>
+                      ) : (
+                        <li>
+                          <button
+                            onClick={() =>
+                              handleStatus(user?._id, user?.status)
+                            }
+                          >
+                            Unblock
+                          </button>
+                        </li>
+                      )}
+
+                      {user?.role !== "volunteer" && (
+                        <li>
+                          <button
+                            onClick={() => handleMakeAdmin(user, "volunteer")}
+                          >
+                            Volunteer
+                          </button>
+                        </li>
+                      )}
+
+                      {user?.role !== "admin" && (
+                        <li>
+                          <button
+                            onClick={() => handleMakeAdmin(user, "admin")}
+                          >
+                            Admin
+                          </button>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

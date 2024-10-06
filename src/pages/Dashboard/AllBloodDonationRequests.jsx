@@ -14,7 +14,7 @@ import { MdDeleteForever, MdCancel } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 
 const AllBloodDonationRequests = () => {
-  const { isAdmin, isVolunteer } = useAdmin();
+  const { isAdmin } = useAdmin();
   const axiosSecure = useAxiosSecure();
 
   // Use useQuery to fetch donation requests
@@ -34,10 +34,16 @@ const AllBloodDonationRequests = () => {
     },
   });
 
+  console.log(allDonationRequests);
   // Error handling
   if (isError) {
     toast.error(error?.message);
   }
+
+  // Filter out requests with status "Done"
+  const filteredRequests = allDonationRequests.filter(
+    (dn) => dn.status !== "Done" && dn.status !== "Cancel"
+  );
 
   const handleDeleteConfirmation = (id) => {
     toast(
@@ -75,9 +81,19 @@ const AllBloodDonationRequests = () => {
     }
   };
 
+  // const handleStatus = async (id, status) => {
+  //   try {
+  //     await axiosSecure.patch(`/donation-request/${id}`, { status: status });
+  //     toast.success("Status updated.");
+  //     refetch(); // Refetch data after status update
+  //   } catch (err) {
+  //     toast.error(err?.message);
+  //   }
+  // };
   const handleStatus = async (id, status) => {
     try {
-      await axiosSecure.patch(`/donation-request/${id}`, { status: status });
+      // Sending only the status field unless donor information is updated
+      await axiosSecure.patch(`/donation-request/${id}`, { status });
       toast.success("Status updated.");
       refetch(); // Refetch data after status update
     } catch (err) {
@@ -85,7 +101,7 @@ const AllBloodDonationRequests = () => {
     }
   };
 
-  const inProgressRequests = allDonationRequests.filter(
+  const inProgressRequests = filteredRequests.filter(
     (dn) => dn.status === "In Progress"
   );
 
@@ -98,7 +114,7 @@ const AllBloodDonationRequests = () => {
       <div className="my-4">
         <SectionTitle
           title="All Donation Requests"
-          subTitle="Manage all donation request."
+          subTitle="Manage all donation requests."
         />
       </div>
       <div className="overflow-x-auto mt-2">
@@ -120,7 +136,7 @@ const AllBloodDonationRequests = () => {
             </tr>
           </thead>
           <tbody>
-            {allDonationRequests.map((dn) => (
+            {filteredRequests.map((dn) => (
               <tr key={dn._id} className="py-2 bg-gray-50 hover:bg-gray-100">
                 <td>{dn.recipientName}</td>
                 <td>
@@ -155,8 +171,6 @@ const AllBloodDonationRequests = () => {
                     className={`px-3 text-xs py-0.5 rounded-full ${
                       dn.status === "In Progress"
                         ? "bg-yellow-500 text-white"
-                        : dn.status === "Done"
-                        ? "bg-green-500 text-white"
                         : dn.status === "Cancel"
                         ? "bg-red-500 text-white"
                         : "bg-gray-500 text-white"

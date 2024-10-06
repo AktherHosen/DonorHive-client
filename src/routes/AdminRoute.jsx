@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAdmin from "../hooks/useAdmin";
+import Loader from "../components/Loader";
 
 const AdminRoute = ({ children }) => {
   const location = useLocation();
@@ -10,7 +11,7 @@ const AdminRoute = ({ children }) => {
 
   // Show loading state while data is being fetched
   if (isLoading || loading) {
-    return <p>Wait for loading.....</p>;
+    return <Loader />;
   }
 
   // Allow access if the user is either an admin or a volunteer

@@ -24,6 +24,7 @@ import Funding from "../pages/Funding";
 import AdminRoute from "./AdminRoute";
 import Payment from "../pages/Payment";
 import NotFound from "../pages/NotFound";
+import Donated from "../pages/Dashboard/Donated";
 
 const router = createBrowserRouter([
   {
@@ -135,6 +136,14 @@ const router = createBrowserRouter([
           {
             path: "donation-request-details/:id",
             element: <DonationRequestDetails />,
+          },
+          {
+            path: "donated",
+            element: (
+              <AdminRoute>
+                <Donated />
+              </AdminRoute>
+            ),
           },
         ],
       },

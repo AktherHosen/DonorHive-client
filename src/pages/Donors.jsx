@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-
+import { FiSearch } from "react-icons/fi";
 const Donors = () => {
   const [districts, setDistricts] = useState([]);
   const [upozilas, setUpozilas] = useState([]);
@@ -104,8 +104,8 @@ const Donors = () => {
           </select>
         </div>
 
-        <button className="px-4 py-2 border-none outline-none bg-primary text-white rounded-md font-bebas tracking-wider">
-          Search Donor
+        <button className="px-4 py-2.5 border-none outline-none bg-primary text-white rounded-md font-bebas tracking-wider">
+          <FiSearch size={18} className="font-bold" />
         </button>
       </form>
 
@@ -114,7 +114,7 @@ const Donors = () => {
           <p className="text-gray-500 mb-1">{donors.length} results found</p>
           <div className="overflow-x-auto">
             <table className="table border">
-              <thead className="bg-gray-50 uppercase">
+              <thead className="bg-slate-100 font-semibold uppercase">
                 <tr>
                   <th>Avatar</th>
                   <th>Name</th>
@@ -124,9 +124,10 @@ const Donors = () => {
                   <th>Blood Group</th>
                 </tr>
               </thead>
+
               <tbody>
                 {donors.map((dn) => (
-                  <tr key={dn._id} className="hover:bg-gray-50">
+                  <tr key={dn._id} className="hover:bg-gray-50 bg-gray-50">
                     <th>
                       <img
                         src={dn.photo}

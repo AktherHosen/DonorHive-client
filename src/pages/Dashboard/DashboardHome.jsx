@@ -4,7 +4,8 @@ import { Helmet } from "react-helmet-async";
 import SectionTitle from "../../components/SectionTitle";
 import { FaRegEdit } from "react-icons/fa";
 import axios from "axios";
-import { AiFillDelete, AiFillFund } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
+import { BsCurrencyDollar } from "react-icons/bs";
 import { TbListDetails } from "react-icons/tb";
 import toast from "react-hot-toast";
 import { TiTick, TiCancel } from "react-icons/ti";
@@ -13,7 +14,7 @@ import useAdmin from "../../hooks/useAdmin";
 import { FaUsers } from "react-icons/fa";
 import { VscGitPullRequestNewChanges } from "react-icons/vsc";
 import { MdCancel, MdDeleteForever } from "react-icons/md";
-
+import CountUp from "react-countup";
 const DashboardHome = () => {
   const { user } = useAuth();
   const [myDonationRequests, setMyDonationRequests] = useState([]);
@@ -127,7 +128,11 @@ const DashboardHome = () => {
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
                   <h1 className="text-6xl font-bebas">
-                    {statistics.totalDonors}
+                    <CountUp
+                      start={parseInt(statistics.totalDonors - 5)}
+                      end={parseInt(statistics.totalDonors)}
+                      duration={3}
+                    />
                   </h1>
                   <h1 className="text-sm font-semibold ">Total Donors</h1>
                 </div>
@@ -136,16 +141,25 @@ const DashboardHome = () => {
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
                   <h1 className="text-6xl font-bebas">
-                    {statistics.totalFunding}
+                    {/* {statistics.totalFunding} */}
+                    <CountUp
+                      start={parseInt(statistics.totalFunding - 10)}
+                      end={parseInt(statistics.totalFunding)}
+                      duration={3}
+                    />
                   </h1>
                   <h1 className="text-sm font-semibold ">Total Funding</h1>
                 </div>
-                <AiFillFund size={50} />
+                <BsCurrencyDollar size={50} />
               </div>
               <div className="hover:bg-primary hover:text-white hover:transition-all hover:duration-300 rounded-2xl flex justify-between items-center gap-3 border-2 px-8 py-3 h-[150px]">
                 <div>
                   <h1 className="text-6xl font-bebas">
-                    {statistics.totalBloodRequests}
+                    <CountUp
+                      start={parseInt(statistics.totalBloodRequests - 5)}
+                      end={parseInt(statistics.totalBloodRequests)}
+                      duration={3}
+                    />
                   </h1>
                   <h1 className="text-sm font-semibold ">
                     Total Donation Requests

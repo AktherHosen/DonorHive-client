@@ -1,6 +1,6 @@
 const Loader = () => (
   <div className="flex justify-center items-center h-64">
-    <div className="loader">Loading...</div>
+    <span className="loading loading-ring loading-lg"></span>
   </div>
 );
 

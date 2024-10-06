@@ -27,13 +27,13 @@ const BloodDonationRequests = () => {
       <Helmet>
         <title>Donation Requests</title>
       </Helmet>
-      <SectionTitle title="Pending Request" />
+      <SectionTitle title="Pending Requests" />
 
       {donationRequests.length > 0 ? (
         <div className="overflow-x-auto mt-2">
           <table className="table border">
             {/* head */}
-            <thead className="bg-gray-50 uppercase font-semibold">
+            <thead className="bg-slate-100 uppercase font-semibold">
               <tr>
                 <th>Recipient Name</th>
                 <th>Location</th>
@@ -44,7 +44,7 @@ const BloodDonationRequests = () => {
             </thead>
             <tbody>
               {donationRequests.map((dn) => (
-                <tr key={dn._id} className="hover:bg-gray-100">
+                <tr key={dn._id} className="hover:bg-gray-100 bg-gray-50">
                   <td>{dn.recipientName}</td>
                   <td>{dn.fullAddress}</td>
                   <td>
@@ -52,12 +52,16 @@ const BloodDonationRequests = () => {
                   </td>
 
                   <td>
-                    <Link to={`/dashboard/donation-request-details/${dn._id}`}>
-                      <TbListDetails
+                    <Link
+                      to={`/dashboard/donation-request-details/${dn._id}`}
+                      className="bg-primary text-white rounded-full px-2 py-1 text-xs font-semibold"
+                    >
+                      {/* <TbListDetails
                         title="Details"
                         size={20}
                         className="hover:text-primary hover:scale-110 hover:transition-all hover:duration-300"
-                      />
+                      /> */}
+                      Details
                     </Link>
                   </td>
                 </tr>
