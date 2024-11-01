@@ -62,7 +62,7 @@ const Sidebar = () => {
                   height="50"
                 />
               </Link>
-              <h2 className="uppercase font-bold font-bebas text-xl">
+              <h2 className="uppercase font-normal tracking-wider font-bebas text-xl">
                 Donor Hive
               </h2>
             </div>

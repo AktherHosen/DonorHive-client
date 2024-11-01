@@ -11,16 +11,19 @@ const Navbar = () => {
   const { user, logOut } = useAuth();
 
   return (
-    <div className="navbar bg-base-100 px-4 md:px-2 lg:px-0">
+    <div className="navbar bg-base-100 px-4 lg:px-16 ">
       <div className="navbar-start">
         <img src={logo} className="h-12" alt="" />
         <NavLink
           to="/"
-          className="text-xl text-primary font-bebas font-bold uppercase"
+          className="text-xl text-primary font-bebas font-normal tracking-wider uppercase"
         >
           Donor <br />
         </NavLink>
-        <span className="text-xs -mt-1 uppercase ms-1 font-bold"> Hive</span>
+        <span className="text-xs -mt-1 uppercase ms-1 font-bold bg-primary text-white px-2 rounded-full">
+          {" "}
+          Hive
+        </span>
       </div>
 
       {/* Centered menu for larger screens */}
@@ -31,7 +34,7 @@ const Navbar = () => {
               to="/"
               className={({ isActive }) =>
                 isActive
-                  ? "border-b-2  border-primary  rounded-none"
+                  ? "border-b-2  border-primary  rounded-none font-semibold"
                   : " rounded-none"
               }
             >
@@ -43,7 +46,7 @@ const Navbar = () => {
               to="/donors"
               className={({ isActive }) =>
                 isActive
-                  ? "border-b-2 border-primary bg-none rounded-none"
+                  ? "border-b-2 border-primary bg-none rounded-none font-semibold"
                   : "bg-none rounded-none"
               }
             >
@@ -55,7 +58,7 @@ const Navbar = () => {
               to="/donation-requests"
               className={({ isActive }) =>
                 isActive
-                  ? "border-b-2 border-primary bg-none rounded-none"
+                  ? "border-b-2 border-primary bg-none rounded-none font-semibold"
                   : "bg-none rounded-none"
               }
             >
@@ -68,7 +71,7 @@ const Navbar = () => {
               to="/blogs"
               className={({ isActive }) =>
                 isActive
-                  ? "border-b-2 border-primary bg-none rounded-none"
+                  ? "border-b-2 border-primary bg-none rounded-none font-semibold"
                   : "bg-none rounded-none"
               }
             >
@@ -81,7 +84,7 @@ const Navbar = () => {
                 to="/funding"
                 className={({ isActive }) =>
                   isActive
-                    ? "border-b-2 border-primary bg-none rounded-none "
+                    ? "border-b-2 border-primary bg-none rounded-none font-semibold "
                     : "bg-none rounded-none"
                 }
               >

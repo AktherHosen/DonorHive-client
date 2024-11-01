@@ -9,17 +9,14 @@ const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const { isAdmin, isVolunteer, isLoading } = useAdmin();
 
-  // Show loading state while data is being fetched
   if (isLoading || loading) {
     return <Loader />;
   }
 
-  // Allow access if the user is either an admin or a volunteer
   if (user && (isAdmin || isVolunteer)) {
     return children;
   }
 
-  // Redirect to home page if not authorized
   return <Navigate state={{ from: location }} replace={true} to="/" />;
 };
 

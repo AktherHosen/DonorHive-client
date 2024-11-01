@@ -9,9 +9,8 @@ const Main = () => {
   return (
     <>
       {/* Navbar  */}
-
+      {withoutHeaderFooter || <Navbar />}
       <div className="max-w-[1400px] mx-auto  font-inter min-h-[calc(100vh-20px)]">
-        {withoutHeaderFooter || <Navbar />}
         <Outlet />
       </div>
       {/* footer  */}

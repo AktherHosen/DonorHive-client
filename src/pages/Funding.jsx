@@ -36,7 +36,9 @@ const Funding = () => {
       </Helmet>
 
       <div className="flex justify-between items-center">
-        <SectionTitle title="Funding" subTitle="All funding history" />
+        <div className="flex-1">
+          <SectionTitle title="Funding" subTitle="All funding history" />
+        </div>
         <Link
           to="/payment"
           className="px-4 py-2 text-md rounded-md bg-primary text-white font-bebas tracking-wider"

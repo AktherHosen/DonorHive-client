@@ -5,7 +5,7 @@ const Featured = () => {
   return (
     <Container>
       <div className="my-10">
-        <h1 className="font-bold font-bebas uppercase mb-4 text-2xl  tracking-wider">
+        <h1 className="font-normal font-bebas uppercase mb-4 text-2xl  tracking-wider">
           SERVICES
         </h1>
         <hr />

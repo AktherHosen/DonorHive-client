@@ -15,7 +15,7 @@ const Footer = () => {
       <footer className="px-4 lg:px-16 text-white py-10  ">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           <div className="col-span-2 mb-8 lg:mb-0 space-y-3">
-            <h1 className="text-3xl font-semibold">
+            <h1 className="text-3xl font-normal font-bebas tracking-wider">
               Donor Hive{" "}
               <span className="text-primary font-bold text-4xl">.</span>
             </h1>
